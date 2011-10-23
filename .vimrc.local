@@ -1,0 +1,47 @@
+function! StripWhitespace ()
+    exec ':%s/ \+$//gc'
+endfunction
+map ,s :call StripWhitespace ()<CR>
+let mapleader = ","
+color mustang
+set t_Co=256
+
+function! ToggleNuMode()
+  if(&rnu == 1)
+    set nu
+  else
+    set rnu
+  endif
+endfunction
+nnoremap ,n :call ToggleNuMode()<cr>
+au BufReadPost * set relativenumber
+
+au BufNewFile,BufRead *.handlebars set filetype=mustache
+
+set notimeout
+set ttimeout
+set timeoutlen=20
+set clipboard=unnamed
+
+if has("mouse")
+  set mouse=a
+endif
+set clipboard=unnamed
+
+" Save on Undo
+au FocusLost * :wa
+
+
+if &term =~ "xterm.*"
+  let &t_ti = &t_ti . "\e[?2004h"
+  let &t_te = "\e[?2004l" . &t_te
+  function XTermPasteBegin(ret)
+    set pastetoggle=<Esc>[201~
+    set paste
+    return a:ret
+  endfunction
+  map <expr> <Esc>[200~ XTermPasteBegin("i")
+  imap <expr> <Esc>[200~ XTermPasteBegin("")
+endif
+
+
