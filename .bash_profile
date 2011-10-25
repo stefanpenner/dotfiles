@@ -133,7 +133,7 @@ build_ps1
 
 [[ -s $HOME/.ey_config ]]               && source $HOME/.ey_config
 [[ -s $HOME/.amazon_keys ]]             && source $HOME/.amazon_keys
-[[ -s $HOME/.rvm/scripts/rvm ]]         && source /Users/stefan/.rvm/scripts/rvm
-[[ -s $HOME/.rvm/scripts/rvm ]]         && source /Users/stefan/.rvm/scripts/rvm
+[[ -s $HOME/.rvm/scripts/rvm ]]         && source $HOME/.rvm/scripts/rvm
+[[ -s $HOME/.rvm/scripts/rvm ]]         && source $HOME/.rvm/scripts/rvm
 [[ -r $rvm_path/scripts/completion ]]   && source $rvm_path/scripts/completion
 
