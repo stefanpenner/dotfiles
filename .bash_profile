@@ -23,6 +23,7 @@ alias L='less'
 
 alias cl="clear;ls"
 alias cls="clear;ls"
+alias vg='valgrind --leak-check=full --show-possibly-lost=no --dsymutil=yes'
 
 function ssid(){
  /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s
