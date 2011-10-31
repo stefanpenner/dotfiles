@@ -5,7 +5,10 @@ export PATH=/Applications/MacVim.app/Contents/MacOS:/opt/local/bin:/opt/local/sb
 export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR=vim
 
-#source `brew --prefix git`/etc/bash_completion.d/git-completion.bash
+#git completion if brew
+command -v brew >/dev/null &&  source `brew --prefix git`/etc/bash_completion.d/git-completion.bash
+
+alias ls="ls -G"
 
 alias b="bundle exec"
 alias eclimd='/Applications/Eclipse/eclimd'
