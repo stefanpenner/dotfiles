@@ -1,10 +1,13 @@
+
+let mapleader = ","
+color mustang
+
+nnoremap <leader><space> :noh<cr>
+
 function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
-let mapleader = ","
-color mustang
-set t_Co=256
 
 function! ToggleNuMode()
   if(&rnu == 1)
@@ -14,24 +17,28 @@ function! ToggleNuMode()
   endif
 endfunction
 nnoremap ,n :call ToggleNuMode()<cr>
+
 au BufReadPost * set relativenumber
-
 au BufNewFile,BufRead *.handlebars set filetype=mustache
+" Save on Undo
+au FocusLost * :wa
 
+set t_Co=256
 set notimeout
 set ttimeout
 set timeoutlen=20
 set clipboard=unnamed
+set winwidth=84
+" We have to have a winheight bigger than we want to set winminheight. But if
+" we set winheight to be huge before winminheight, the winminheight set will
+" fail.
+set winheight=5
+set winminheight=5
+set winheight=999
 
 if has("mouse")
   set mouse=a
 endif
-set clipboard=unnamed
-
-" Save on Undo
-au FocusLost * :wa
-
-nnoremap <leader><space> :noh<cr>
 
 if &term =~ "xterm.*"
   let &t_ti = &t_ti . "\e[?2004h"
@@ -45,14 +52,3 @@ if &term =~ "xterm.*"
   imap <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-set winwidth=84
-" We have to have a winheight bigger than we want to set winminheight. But if
-" we set winheight to be huge before winminheight, the winminheight set will
-" fail.
-set winheight=5
-set winminheight=5
-set winheight=999
-
-set ttimeout
-set ttimeoutlen=20
-set notimeout
