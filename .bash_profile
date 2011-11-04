@@ -1,5 +1,5 @@
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-set -o vi 
+set -o vi
 export MANPATH=/usr/local/git/man:$MANPAT
 export PATH=/Applications/MacVim.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
@@ -7,6 +7,8 @@ export EDITOR=vim
 
 #git completion if brew
 command -v brew >/dev/null &&  source `brew --prefix git`/etc/bash_completion.d/git-completion.bash
+
+JRUBY_OPTS=" --1.9 "
 
 alias ls="ls -G"
 
