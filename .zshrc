@@ -2,6 +2,8 @@
 [[ -s $HOME/.ey_config ]]               && source $HOME/.ey_config
 [[ -s $HOME/.amazon_keys ]]             && source $HOME/.amazon_keys
 
+
+export PATH=/Users/stefan/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/bin
 export EDITOR=vim
 
 alias ls="ls -G"
