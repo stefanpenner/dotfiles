@@ -6,4 +6,5 @@ do
   mv ~/$file $backup 2>/dev/null
   echo " $file"
   ln -s $(pwd)/$file ~
+  rm -rf ~/.git
 done
