@@ -3,7 +3,7 @@
 [[ -s $HOME/.amazon_keys ]]             && source $HOME/.amazon_keys
 
 
-export PATH=/Users/stefan/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/bin
+export PATH=/Users/stefan/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export EDITOR=vim
 
 alias ls="ls -G"
@@ -43,7 +43,7 @@ function pwdc {
 }
 
 function git-ps1 {
-echo $(git-ref-and-time 2>/dev/null)
+  echo $(git-ref-and-time 2>/dev/null)
 }
 
 function build-prompt {
@@ -52,18 +52,10 @@ function build-prompt {
 
 function define_vim_wrappers()
 {
-  vim_commands=(
-    eview evim gview gvim gvimdiff gvimtutor rgview
-    rgvim rview rvim vim vimdiff vimtutor xxd mvim
-  )
-
-  for cmd in ${vim_commands[@]}; do
-    cmd_path=`/usr/bin/env which -a "${cmd}" 2>/dev/null | grep '^/'`
-    if [ -x "${cmd_path}" ]; then
-      eval "function ${cmd} () { (unset GEM_HOME; unset GEM_PATH; $cmd_path \$@) }"
-    fi
-  done
+  eval "function vim () { ( rvm use system && /usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim  \$@) }"
+  eval "function mvim () { ( rvm use system && /usr/local/bin/mvim \$@) }"
 }
+
 
 define_vim_wrappers
 

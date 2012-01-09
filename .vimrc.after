@@ -1,13 +1,12 @@
-
-let mapleader = ","
 color mustang
-
+call janus#disable_plugin('ruby')
 nnoremap <leader><space> :noh<cr>
 
 function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
-map ,s :call StripWhitespace ()<CR>
+
+map <leader>s :call StripWhitespace ()<CR>
 
 function! ToggleNuMode()
   if(&rnu == 1)
@@ -16,10 +15,9 @@ function! ToggleNuMode()
     set rnu
   endif
 endfunction
-nnoremap ,n :call ToggleNuMode()<cr>
+nnoremap <leader>b :call ToggleNuMode()<CR>
 
 au BufReadPost * set relativenumber
-au BufNewFile,BufRead *.handlebars set filetype=mustache
 " Save on Undo
 au FocusLost * :wa
 
@@ -51,4 +49,21 @@ if &term =~ "xterm.*"
   map <expr> <Esc>[200~ XTermPasteBegin("i")
   imap <expr> <Esc>[200~ XTermPasteBegin("")
 endif
+
+nnoremap <leader>4 Orequire'pry';binding.pry<esc>
+nnoremap <leader>5 Orequire'ruby-debug';debugger<esc>
+nnoremap <leader>6 <C-w>v<C-w>l:A<cr>
+
+nnoremap <leader>gg :CommandTFlush<cr>\|:CommandT<cr>
+nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+nnoremap <leader>gb :CommandTFlush<cr>\|:CommandT app/behaviours<cr>
+nnoremap <leader>gd :CommandTFlush<cr>\|:CommandT app/decorators<cr>
+nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT app/presenters<cr>
+nnoremap <leader>gP :CommandTFlush<cr>\|:CommandT public<cr>
+nnoremap <leader>gr :topleft 100 :split config/routes.rb<cr>
+nnoremap <leader>gG :topleft 100 :split Gemfile<cr>
 
