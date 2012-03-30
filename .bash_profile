@@ -1,12 +1,7 @@
-[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-set -o vi
 export MANPATH=/usr/local/git/man:$MANPAT
 export PATH=/Applications/MacVim.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR=vim
-
-#git completion if brew
-command -v brew >/dev/null &&  source `brew --prefix git`/etc/bash_completion.d/git-completion.bash
 
 JRUBY_OPTS=" --1.9 "
 
@@ -93,22 +88,6 @@ function linux {
                             -nographic -daemonize
 }
 
-function powCycle {
-  echo "*** Stopping the Pow server..."
-  launchctl unload -F "$HOME/Library/LaunchAgents/cx.pow.powd.plist" || true
-  echo "*** Starting the Pow server..."
-  launchctl load -F "$HOME/Library/LaunchAgents/cx.pow.powd.plist"
-}
-
-function powOff {
-  sudo launchctl unload /Library/LaunchDaemons/cx.pow.firewall.plist
-  sudo ipfw flush
-}
-
-function powOn {
-  sudo launchctl load /Library/LaunchDaemons/cx.pow.firewall.plist
-}
-
 function server(){
 ruby -rwebrick -e's = WEBrick::HTTPServer.new(:Port => 9999, :DocumentRoot => Dir.pwd);  Signal.trap("INT"){s.stop}; system("which open && open http://127.0.0.1:9999");s.start'
 }
@@ -139,7 +118,6 @@ build_ps1
 
 [[ -s $HOME/.ey_config ]]               && source $HOME/.ey_config
 [[ -s $HOME/.amazon_keys ]]             && source $HOME/.amazon_keys
-[[ -s $HOME/.rvm/scripts/rvm ]]         && source $HOME/.rvm/scripts/rvm
 [[ -s $HOME/.rvm/scripts/rvm ]]         && source $HOME/.rvm/scripts/rvm
 [[ -r $rvm_path/scripts/completion ]]   && source $rvm_path/scripts/completion
 

@@ -1,12 +1,5 @@
 color mustang
-call janus#disable_plugin('ruby')
 nnoremap <leader><space> :noh<cr>
-
-function! StripWhitespace ()
-    exec ':%s/ \+$//gc'
-endfunction
-
-map <leader>s :call StripWhitespace ()<CR>
 
 function! ToggleNuMode()
   if(&rnu == 1)
@@ -17,7 +10,17 @@ function! ToggleNuMode()
 endfunction
 nnoremap <leader>b :call ToggleNuMode()<CR>
 
+function! StripWhitespace ()
+    exec ':%s/ \+$//gc'
+endfunction
+
+map <leader>s :call StripWhitespace ()<CR>
+
 au BufReadPost * set relativenumber
+
+au BufRead,BufNewFile *.coffee setfiletype javascript
+au BufRead,BufNewFile *.handlebars setfiletype javascript
+
 " Save on Undo
 au FocusLost * :wa
 
@@ -50,9 +53,11 @@ if &term =~ "xterm.*"
   imap <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-nnoremap <leader>4 Orequire'pry';binding.pry<esc>
-nnoremap <leader>5 Orequire'ruby-debug';debugger<esc>
+map <silent> <Leader>rt :!bundle list --paths=true \| xargs ctags --extra=+f --exclude=.git --exclude=log rvm_path/rubies/rbx-head/lib/ -R *<CR><CR> 
+nnoremap <leader>4 Orequire 'pry';binding.pry<esc>
+nnoremap <leader>5 Orequire 'ruby-debug';debugger<esc>
 nnoremap <leader>6 <C-w>v<C-w>l:A<cr>
+nnoremap <leader>7 Orequire 'ruby-prof';result = RubyProf.profile {}; printer = RubyProf::CallStackPrinter.new(result); printer.print(open('stack.html','w')) <esc>
 
 nnoremap <leader>gg :CommandTFlush<cr>\|:CommandT<cr>
 nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
