@@ -53,7 +53,7 @@ if &term =~ "xterm.*"
   imap <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-map <silent> <Leader>rt :!bundle list --paths=true \| xargs ctags --extra=+f --exclude=.git --exclude=log rvm_path/rubies/rbx-head/lib/ -R *<CR><CR> 
+map <silent> <Leader>rt :!bundle list --paths \| xargs /usr/local/bin/ctags -R * <CR><CR>
 nnoremap <leader>4 Orequire 'pry';binding.pry<esc>
 nnoremap <leader>5 Orequire 'ruby-debug';debugger<esc>
 nnoremap <leader>6 <C-w>v<C-w>l:A<cr>
