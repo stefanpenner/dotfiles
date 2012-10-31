@@ -39,6 +39,7 @@ export EDITOR=vim
 
 # Customize to your needs...
 export PATH=/Users/stefan/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin/:/usr/local/bin:/usr/local/sbin
+[[ $TERM = "screen" ]] && rvm use default
 
 function bct(){
   bundle list --paths | xargs /usr/local/bin/ctags -R *
