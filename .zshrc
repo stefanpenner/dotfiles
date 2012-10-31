@@ -29,17 +29,17 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git ruby autojump brews bundler gem  osx rails3 rvm vim)
+plugins=(git ruby autojump brews bundler gem  osx rails3 vim rvm)
 
 source ~/.rvm/scripts/rvm
-source ~/.private
 
 source $ZSH/oh-my-zsh.sh
-export EDITOR=vim
 
 # Customize to your needs...
-export PATH=/Users/stefan/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin/:/usr/local/bin:/usr/local/sbin
 [[ $TERM = "screen" ]] && rvm use default
+source ~/.private
+export EDITOR=vim
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin/:/usr/local/bin:/usr/local/sbin
 
 function bct(){
   bundle list --paths | xargs /usr/local/bin/ctags -R *
