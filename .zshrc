@@ -29,18 +29,50 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git ruby autojump brews bundler gem  osx rails3 vim rvm)
-
-source ~/.rvm/scripts/rvm
+plugins=(git ruby autojump brews bundler gem  osx vim dircycle per-directory-history)
 
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-[[ $TERM = "screen" ]] && rvm use default
 source ~/.private
 export EDITOR=vim
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin/:/usr/local/bin:/usr/local/sbin
+export PATH="/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
 
 function bct(){
   bundle list --paths | xargs /usr/local/bin/ctags -R *
+}
+
+function gitPromptOff(){
+function git_prompt_info(){}
+}
+
+function def() {
+  ack "def $argv"
+}
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+rvm reload
+
+alias rd="rvm use default"
+alias rdf="rvm use default && foreman start"
+alias ls='gls --color=auto'
+alias gg='git grep'
+alias rvmd='rvm use default'
+
+eval $( gdircolors -b $HOME/.LS_COLORS)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+function http(){
+  ruby -run -e httpd -- --port 9999 .
+}
+
+alias git="hub"
+
+function asdf() {
+  if [ ! -p asdf ]; then
+    mkfifo asdf;
+  fi
+
+  while true; do
+    zsh -c "$(cat asdf)"
+  done
 }

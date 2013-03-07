@@ -1,11 +1,17 @@
 nnoremap <leader><space> :noh<cr>
+set t_Co=256
 colorscheme solarized
+colorscheme desert
+
+let g:gitgutter_enabled = 0
 
 if has("gui_running")
   set guioptions=egmrt
   set guioptions-=r
   set guioptions-=l
+  au FocusLost * :wa
 endif
+
 
 function! ToggleNuMode()
   if(&rnu == 1)
@@ -28,12 +34,11 @@ au BufReadPost * set relativenumber
 au BufRead,BufNewFile *.coffee setfiletype javascript
 au BufRead,BufNewFile *.handlebars setfiletype javascript
 au BufRead,BufNewFile *.clj setfiletype lisp
+au BufRead,BufNewFile Assetfile setfiletype ruby
 
 set statusline=%f\ %m\ %r
 " Save on Undo
-au FocusLost * :wa
 
-set t_Co=256
 set notimeout
 set ttimeout
 set timeoutlen=20
@@ -49,19 +54,28 @@ if has("mouse")
   set mouse=a
 endif
 
-if &term =~ "xterm.*"
-  let &t_ti = &t_ti . "\e[?2004h"
-  let &t_te = "\e[?2004l" . &t_te
-  function XTermPasteBegin(ret)
-    set pastetoggle=<Esc>[201~
-    set paste
-    return a:ret
-  endfunction
-  map <expr> <Esc>[200~ XTermPasteBegin("i")
-  imap <expr> <Esc>[200~ XTermPasteBegin("")
-endif
-
 map <silent> <Leader>rt :!bundle list --paths \| xargs /usr/local/bin/ctags -R * <CR><CR>
+let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+let Tlist_WinWidth=50
+map <leader>t :TlistOpen<cr>
+let g:tagbar_type_javascript = {
+    \ 'ctagsbin' : '/usr/local/bin/jsctags'
+    \ }
+
+" let g:tagbar_type_coffee = {
+"       \ 'ctagsbin' : 'coffeetags',
+"       \ 'ctagsargs' : '',
+"       \ 'kinds' : [
+"       \ 'f:functions',
+"       \ 'o:object',
+"       \ ],
+"       \ 'sro' : ".",
+"       \ 'kind2scope' : {
+"       \ 'f' : 'object',
+"       \ 'o' : 'object',
+"       \ }
+"       \ }
+
 nnoremap <leader>4 Orequire 'pry';binding.pry<esc>
 nnoremap <leader>5 Orequire 'ruby-debug';debugger<esc>
 nnoremap <leader>6 <C-w>v<C-w>l:A<cr>
@@ -139,11 +153,11 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " UNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
 map <leader>a :call RunTests('')<cr>
 map <leader>c :w\|:!script/features<cr>
 map <leader>w :w\|:!script/features --profile wip<cr>
+map ,t :w\|:! echo "ruby &" > asdf\<cr>  
 
 function! RunTestFile(...)
     if a:0
@@ -186,17 +200,3 @@ function! RunTests(filename)
         end
     end
 endfunction
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RENAME CURRENT FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
-endfunction
-
