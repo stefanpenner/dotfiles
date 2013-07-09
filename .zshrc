@@ -29,13 +29,13 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git ruby autojump brews bundler gem  osx vim dircycle per-directory-history)
+plugins=(git ruby autojump brew bundler gem  osx vim dircycle per-directory-history)
 
 source $ZSH/oh-my-zsh.sh
 
 source ~/.private
 export EDITOR=vim
-export PATH="/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH="/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
 
 function bct(){
   bundle list --paths | xargs /usr/local/bin/ctags -R *
@@ -75,4 +75,17 @@ function asdf() {
   while true; do
     zsh -c "$(cat asdf)"
   done
+}
+
+function qunit(){
+  phantomjs tests/qunit/run-qunit.js 'http://localhost:9999/tests/test.html'
+}
+
+export YAPP_PROJECTS_DIR='/Users/stefan/src/yapp/projects/'
+export DYLD_FALLBACK_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib:$DYLD_LIBRARY_PATH
+
+echo "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win."
+
+function nus {
+  nave.sh use stable;
 }
