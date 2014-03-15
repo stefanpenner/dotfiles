@@ -1,0 +1,8 @@
+--ignore-dir=tmp
+--ignore-dir=vendor
+--ignore-dir=node_modules
+--ignore-dir=dist
+--ignore-dir=bower_components
+--type-set=coffee=.coffee
+--type-set=emblem=.emblem
+--type-set=hbs=.hbs,.handlebars

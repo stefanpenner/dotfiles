@@ -35,7 +35,8 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.private
 export EDITOR=vim
-export PATH="/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH="./node_modules/.bin/:/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 function bct(){
   bundle list --paths | xargs /usr/local/bin/ctags -R *
@@ -54,12 +55,8 @@ rvm reload
 
 alias rd="rvm use default"
 alias rdf="rvm use default && foreman start"
-alias ls='gls --color=auto'
 alias gg='git grep'
 alias rvmd='rvm use default'
-
-eval $( gdircolors -b $HOME/.LS_COLORS)
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 function http(){
   ruby -run -e httpd -- --port 9999 .
