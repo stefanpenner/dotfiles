@@ -29,13 +29,13 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git  ruby autojump brew bundler gem  osx vim dircycle per-directory-history)
+plugins=(git ruby brew gem gitfast git-extras osx vim)
 
 source $ZSH/oh-my-zsh.sh
 
 source ~/.private
 export EDITOR=vim
-export PATH="./node_modules/.bin/:/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH=":/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
 export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 function bct(){
@@ -53,16 +53,15 @@ function def() {
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 rvm reload
 
-alias rd="rvm use default"
-alias rdf="rvm use default && foreman start"
+alias rd='rvm use default'
+alias rdf='rvm use default && foreman start'
 alias gg='git grep'
 alias rvmd='rvm use default'
+alias be='bundle exec'
 
 function http(){
   ruby -run -e httpd -- --port 9999 .
 }
-
-alias git="hub"
 
 function asdf() {
   if [ ! -p asdf ]; then
