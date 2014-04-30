@@ -58,6 +58,7 @@ alias rdf='rvm use default && foreman start'
 alias gg='git grep'
 alias rvmd='rvm use default'
 alias be='bundle exec'
+alias nom="rm -rf node_modules && npm cache clear && npm i"
 
 function http(){
   ruby -run -e httpd -- --port 9999 .
