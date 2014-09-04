@@ -71,3 +71,4 @@ let g:tagbar_type_javascript = {
     \ }
 
 nnoremap <leader>4 Orequire 'pry';binding.pry<esc>
+let g:mustache_abbreviations = 1

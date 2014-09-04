@@ -86,3 +86,6 @@ echo "Victorious warriors win first and then go to war, while defeated warriors 
 function nus {
   nave.sh use stable;
 }
+source /Users/stefan/.iterm2_shell_integration.zsh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
