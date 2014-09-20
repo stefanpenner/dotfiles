@@ -79,7 +79,7 @@ function qunit(){
 }
 
 export YAPP_PROJECTS_DIR='/Users/stefan/src/yapp/projects/'
-export DYLD_FALLBACK_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib:$DYLD_LIBRARY_PATH
+export DYLD_FALLBACK_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib:/usr/local/lib:$DYLD_LIBRARY_PATH
 
 echo "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win."
 
@@ -87,5 +87,8 @@ function nus {
   nave.sh use stable;
 }
 source /Users/stefan/.iterm2_shell_integration.zsh
+
+# OPAM configuration
+. /Users/stefan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
