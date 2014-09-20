@@ -149,5 +149,7 @@ set background=dark
 colorscheme solarized
 
 set clipboard=unnamed
-
+if has('mouse')
+  set mouse=a
+endif
 command RemoveMultipleBlankLines %s/^\(\s*\n\)\+/\r
