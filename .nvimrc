@@ -52,6 +52,7 @@ Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-markdown'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'mustache/vim-mustache-handlebars'
+Bundle 'wting/rust.vim'
 
 " Theams
 Bundle 'altercation/solarized'
