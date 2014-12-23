@@ -154,3 +154,7 @@ if has('mouse')
   set mouse=a
 endif
 command RemoveMultipleBlankLines %s/^\(\s*\n\)\+/\r
+
+
+set listchars=tab:▸\ ,eol:¬,trail:.,nbsp:%
+set list
