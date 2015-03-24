@@ -53,7 +53,9 @@ Bundle 'tpope/vim-markdown'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'mustache/vim-mustache-handlebars'
 Bundle 'wting/rust.vim'
-
+Bundle 'elixir-lang/vim-elixir'
+Bundle 'jpalardy/vim-slime'
+let g:slime_target = "tmux"
 " Theams
 Bundle 'altercation/solarized'
 Bundle 'jpo/vim-railscasts-theme'
@@ -158,3 +160,6 @@ command RemoveMultipleBlankLines %s/^\(\s*\n\)\+/\r
 
 set listchars=tab:▸\ ,eol:¬,trail:.,nbsp:%
 set list
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme  base16-default
+set background=dark
