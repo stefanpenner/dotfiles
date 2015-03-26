@@ -55,6 +55,7 @@ Bundle 'mustache/vim-mustache-handlebars'
 Bundle 'wting/rust.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'jpalardy/vim-slime'
+Bundle 'editorconfig/editorconfig-vim'
 let g:slime_target = "tmux"
 " Theams
 Bundle 'altercation/solarized'
