@@ -11,6 +11,7 @@ ZSH_THEME="blinks"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gm="git merge"
+alias n="nvim"
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -89,12 +90,17 @@ echo "Victorious warriors win first and then go to war, while defeated warriors 
 function nus {
   nave.sh use stable;
 }
-source /Users/stefan/.iterm2_shell_integration.zsh
+#source /Users/stefan/.iterm2_shell_integration.zsh
 
 # OPAM configuration
 . /Users/stefan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh

@@ -55,10 +55,13 @@ Bundle 'mustache/vim-mustache-handlebars'
 Bundle 'wting/rust.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'jpalardy/vim-slime'
+Bundle 'scrooloose/syntastic'
 Bundle 'editorconfig/editorconfig-vim'
+Bundle 'andreimaxim/vim-io'
+Bundle 'moll/vim-node'
+
 let g:slime_target = "tmux"
 " Theams
-Bundle 'altercation/solarized'
 Bundle 'jpo/vim-railscasts-theme'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -86,11 +89,8 @@ set showcmd
 set wrap
 " set cryptmethod=blowfish
 set wildignore+=*.png,*.jpg,*.gif,*.ai,*.jpeg,*.psd,*.swp,*.jar,*.zip,*.gem,.DS_Store,log/**,tmp/**,coverage/**,rdoc/**,output_*,*.xpi,doc/**
-set wildmode=longest,list:longest
+set wildmode=longest:full,list:full
 set completeopt=menu,preview
-
-nnoremap gr :B ack <C-r><C-w><CR>
-nnoremap gt :B ack -Q "def <C-r><C-w>"<CR>
 
 map <silent><F8> :NERDTree<CR>
 map <tab> :tabn<CR>
@@ -118,7 +118,8 @@ function! s:RunShellCommand(cmdline)
   1
 endfunction
 nnoremap Q <nop>
-let g:ackprg = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+"let g:ackprg = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+let g:ackprg = 'ag --vimgrep'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*/dist/*,*/node_modules/*,*/vendor/*
 
 let g:mustache_abbreviations = 1
@@ -128,6 +129,7 @@ set noswapfile
 iabbrev function function
 
 nnoremap <leader><space> :noh<cr>
+nnoremap <leader>d :REPLSendLine<cr>
 set t_Co=256
 
 function! ToggleNuMode()
@@ -149,8 +151,6 @@ map <leader>n :NERDTreeToggle<CR>
 
 au BufReadPost * set relativenumber
 syntax enable
-set background=dark
-colorscheme solarized
 
 set clipboard=unnamed
 if has('mouse')
@@ -163,4 +163,27 @@ set listchars=tab:▸\ ,eol:¬,trail:.,nbsp:%
 set list
 let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme  base16-default
+tnoremap <c-t> <c-\><c-n>
+tnoremap <c-a><c-a> REPLSendLine
 set background=dark
+
+nnoremap <silent> <f6> :REPLSendLine<cr>
+vnoremap <silent> <f6> :REPLSendSelection<cr>
+
+command! -range=% REPLSendSelection call REPLSend(s:GetVisual())
+command! REPLSendLine call REPLSend([getline('.')])
+
+function! REPLSend(lines)
+  call jobsend(g:last_term_job_id, add(a:lines, ''))
+endfunction
+
+function! s:GetVisual()
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][:col2 - 2]
+  let lines[0] = lines[0][col1 - 1:]
+  return lines
+endfunction
+
+au TermOpen * let g:last_term_job_id = b:terminal_job_id
