@@ -1,7 +1,10 @@
+" :args ~/src/myproject/**/*.ttl | argdo execute "normal gg=G" | update
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let mapleader = ','
-
+set ttimeout
+set ttimeoutlen=0
+let g:ycm_seed_identifiers_with_syntax = 1
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.nvim/bundle/Vundle.vim
 call vundle#begin()
@@ -59,8 +62,18 @@ Bundle 'scrooloose/syntastic'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'andreimaxim/vim-io'
 Bundle 'moll/vim-node'
+Bundle 'godlygeek/tabular'
+"Bundle 'Valloric/YouCompleteMe'
+Bundle 'benekastah/neomake'
+"Bundle 'Raimondi/delimitMate'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'rking/ag.vim'
+" Bundle 'luochen1990/rainbow'
+Bundle 'majutsushi/tagbar'
+Bundle 'cespare/vim-toml'
+Bundle 'terryma/vim-expand-region'
 
-let g:slime_target = "tmux"
 " Theams
 Bundle 'jpo/vim-railscasts-theme'
 " All of your Plugins must be added before the following line
@@ -84,7 +97,6 @@ set incsearch " Do incremental searching
 set expandtab
 set tabstop=2 shiftwidth=2 softtabstop=2
 set autoindent
-set history=200000
 set showcmd
 set wrap
 " set cryptmethod=blowfish
@@ -187,3 +199,13 @@ function! s:GetVisual()
 endfunction
 
 au TermOpen * let g:last_term_job_id = b:terminal_job_id
+
+let g:rainbow_active = 1
+
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+let g:tagbar_type_javascript = {
+    \ 'ctagsbin' : '/usr/local/bin/jsctags'
+\ }
+
+let g:gitgutter_max_signs = 5000
