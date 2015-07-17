@@ -36,7 +36,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.private
 export EDITOR=nvim
-export PATH=":/usr/local/share/npm/bin/:/Users/stefan/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH="/usr/local/share/npm/bin/:$HOME/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
 export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 function bct(){
