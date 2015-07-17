@@ -105,3 +105,8 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
+export NODE_PATH='/usr/local/lib/jsctags:${NODE_PATH}'¬
+
+export HISTSIZE=1000000000
+export SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY
