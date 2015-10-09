@@ -121,3 +121,6 @@ build_ps1
 [[ -s $HOME/.rvm/scripts/rvm ]]         && source $HOME/.rvm/scripts/rvm
 [[ -r $rvm_path/scripts/completion ]]   && source $rvm_path/scripts/completion
 
+
+export NVM_DIR="/Users/stefanpenner/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

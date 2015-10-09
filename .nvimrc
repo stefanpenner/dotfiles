@@ -1,9 +1,18 @@
-" :args ~/src/myproject/**/*.ttl | argdo execute "normal gg=G" | update
+"e :args ~/src/myproject/**/*.ttl | argdo execute "normal gg=G" | update
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let mapleader = ','
 set ttimeout
 set ttimeoutlen=0
+
+" tell vim to keep a backup file
+set backup
+" tell vim where to put its backup files
+set backupdir=/private/tmp
+" tell vim where to put swap files
+set dir=/private/tmp
+
 let g:ycm_seed_identifiers_with_syntax = 1
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.nvim/bundle/Vundle.vim
@@ -24,22 +33,15 @@ Plugin 'gmarik/Vundle.vim'
 
 Bundle 'gmarik/vundle'
 Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'tomtom/tlib_vim'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 " janus
 Bundle 'kana/vim-textobj-user'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'garbas/vim-snipmate'
 Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'honza/vim-snippets'
 Bundle 'ervandew/supertab'
-Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'terryma/vim-multiple-cursors'
-Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rake'
 Bundle 'tpope/vim-repeat'
@@ -63,19 +65,28 @@ Bundle 'editorconfig/editorconfig-vim'
 Bundle 'andreimaxim/vim-io'
 Bundle 'moll/vim-node'
 Bundle 'godlygeek/tabular'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'benekastah/neomake'
 "Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'rking/ag.vim'
 " Bundle 'luochen1990/rainbow'
-Bundle 'majutsushi/tagbar'
 Bundle 'cespare/vim-toml'
 Bundle 'terryma/vim-expand-region'
+Bundle 'dag/vim-fish'
+Bundle 'leafgarland/typescript-vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'Shougo/vimproc.vim'
 
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+
+" Optional:
+Plugin 'honza/vim-snippets'
 " Theams
-Bundle 'jpo/vim-railscasts-theme'
+" Bundle 'jpo/vim-railscasts-theme'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -132,7 +143,7 @@ endfunction
 nnoremap Q <nop>
 "let g:ackprg = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 let g:ackprg = 'ag --vimgrep'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*/dist/*,*/node_modules/*,*/vendor/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*/dist/*,*/vendor/*
 
 let g:mustache_abbreviations = 1
 let mapleader = ','
@@ -175,7 +186,7 @@ set listchars=tab:▸\ ,eol:¬,trail:.,nbsp:%
 set list
 let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme  base16-default
-tnoremap <c-t> <c-\><c-n>
+tnoremap <c-g> <c-\><c-n>
 tnoremap <c-a><c-a> REPLSendLine
 set background=dark
 
@@ -188,6 +199,12 @@ command! REPLSendLine call REPLSend([getline('.')])
 function! REPLSend(lines)
   call jobsend(g:last_term_job_id, add(a:lines, ''))
 endfunction
+
+" :map ,r :w \| call R("rustc -o out " . @% . " ;and ./out")
+function! R(command)
+  call jobsend(g:last_term_job_id, a:command . "\n")
+endfunction
+
 
 function! s:GetVisual()
   let [lnum1, col1] = getpos("'<")[1:2]
@@ -209,3 +226,54 @@ let g:tagbar_type_javascript = {
 \ }
 
 let g:gitgutter_max_signs = 5000
+set iskeyword +=-
+set binary
+nmap <Leader>ca <Plug>GitGutterStageHunk
+nmap <Leader>cu <Plug>GitGutterRevertHunk
+"let g:SuperTabDefaultCompletionType = "context"
+
+
+autocmd FileType typescript nmap <buffer> <Leader>e <Plug>(TsuquyomiRenameSymbol)
+autocmd FileType typescript nmap <buffer> <Leader>E <Plug>(TsuquyomiRenameSymbolC)
+
+autocmd FileType typescript nmap <buffer> <Leader>a : <C-u>echo tsuquyomi#hint()<CR>
+
+"let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_filepath_completion_use_working_dir = 1
+
+let g:typescript_compiler_options = "--target es5"
+let g:syntastic_typescript_tsc_args = '--target ES5'
+
+autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+
+" ensure truecolor on doesn't tricky nerdtree into always openning
+let g:nerdtree_tabs_open_on_gui_startup =0
+set rtp+=/usr/local/Cellar/fzf/HEAD
+
+nnoremap <c-p> :FZF -m -x <cr>
+nnoremap <c-l> :FZFLines<cr>
+
+function! s:line_handler(l)
+  let keys = split(a:l, ':\t')
+  exec 'buf' keys[0]
+  exec keys[1]
+  normal! ^zz
+endfunction
+
+function! s:buffer_lines()
+  let res = []
+  for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
+  endfor
+  return res
+endfunction
+
+command! FZFLines call fzf#run({
+\   'source':  <sid>buffer_lines(),
+\   'sink':    function('<sid>line_handler'),
+\   'options': '--extended --nth=3..',
+\   'down':    '60%'
+\})

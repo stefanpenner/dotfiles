@@ -37,7 +37,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.private
 export EDITOR=nvim
-export PATH="/usr/local/share/npm/bin/:$HOME/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
+export PATH="/usr/local/share/npm/bin:$HOME/src/depot_tools:/usr/local/git/bin:/usr/local/sbin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH"
 export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 function bct(){
@@ -84,7 +84,7 @@ function qunit(){
 }
 
 export YAPP_PROJECTS_DIR='/Users/stefan/src/yapp/projects/'
-export DYLD_FALLBACK_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib:/usr/local/lib:$DYLD_LIBRARY_PATH
+# export DYLD_FALLBACK_LIBRARY_PATH=/Applications/Postgres.app/Contents/MacOS/lib:/usr/local/lib:$DYLD_LIBRARY_PATH
 
 echo "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win."
 
@@ -104,9 +104,10 @@ export PATH="/usr/local/heroku/bin:$PATH"
 BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
 export NODE_PATH='/usr/local/lib/jsctags:${NODE_PATH}'¬
 
 export HISTSIZE=1000000000
 export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
