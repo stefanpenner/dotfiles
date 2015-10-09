@@ -197,12 +197,12 @@ command! -range=% REPLSendSelection call REPLSend(s:GetVisual())
 command! REPLSendLine call REPLSend([getline('.')])
 
 function! REPLSend(lines)
-  call jobsend(g:last_term_job_id, add(a:lines, ''))
+  call jobsend(g:repl_terminal_job, add(a:lines, ''))
 endfunction
 
 " :map ,r :w \| call R("rustc -o out " . @% . " ;and ./out")
 function! R(command)
-  call jobsend(g:last_term_job_id, a:command . "\n")
+  call jobsend(g:repl_terminal_job, a:command . "\n")
 endfunction
 
 
@@ -214,8 +214,6 @@ function! s:GetVisual()
   let lines[0] = lines[0][col1 - 1:]
   return lines
 endfunction
-
-au TermOpen * let g:last_term_job_id = b:terminal_job_id
 
 let g:rainbow_active = 1
 
@@ -269,6 +267,11 @@ function! s:buffer_lines()
     call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
   endfor
   return res
+endfunction
+
+function! Repl()
+  term
+  let g:repl_terminal_job = b:terminal_job_id
 endfunction
 
 command! FZFLines call fzf#run({
