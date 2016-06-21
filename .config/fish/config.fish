@@ -1,22 +1,11 @@
-# Path to your oh-my-fish.
-set fish_path $HOME/.oh-my-fish
+# Path to Oh My Fish install.
+set -q XDG_DATA_HOME
+  and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
+  or set -gx OMF_PATH "$HOME/.local/share/omf"
 
-# Path to your custom folder (default path is ~/.oh-my-fish/custom)
-set fish_custom $HOME/dotfiles/oh-my-fish
-set FZF_DEFAULT_OPTS -e
+# Customize Oh My Fish configuration path.
+#set -gx OMF_CONFIG "/Users/stefanepenner/.config/omf"
 
-# Load oh-my-fish configuration.
-. $fish_path/oh-my-fish.fish
-
-# Custom plugins and themes may be added to ~/.oh-my-fish/custom
-# Plugins and themes can be found at https://github.com/oh-my-fish/
-Theme 'robbyrussell'
-# Base16 Shell
-eval sh $HOME/.config/base16-shell/base16-default.dark.sh
-
-set -x GOPATH $HOME/src/go
-
-set -x PATH $HOME/src/depot_tools:$PATH
 set -x EDITOR nvim
 
 fundle plugin 'edc/bass'

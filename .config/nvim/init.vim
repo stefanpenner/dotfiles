@@ -12,7 +12,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'moll/vim-node'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
@@ -32,13 +32,13 @@ Plug 'lukerandall/haskellmode-vim'
 Plug 'tpope/vim-repeat'
 Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
-Plug 'vim-scripts/javacomplete'
-Plug 'SirVer/ultisnips'
+" Plug 'vim-scripts/javacomplete'
+" Plug 'SirVer/ultisnips'
 Plug 'elixir-lang/vim-elixir'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 let g:mustache_abbreviations = 1
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme  base16-default
+colorscheme base16-default
 set background=dark
 
 " groups of letters with dashes as words
