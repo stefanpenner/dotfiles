@@ -1,7 +1,0 @@
-let mapleader = ","
-set viminfo=
-call janus#disable_plugin('ruby')
-set synmaxcol=150
-set ttyfast
-set ttyscroll=3
-set lazyredraw
