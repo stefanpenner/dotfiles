@@ -35,4 +35,5 @@ SET fish_pager_color_description:555\x1eyellow
 SET fish_pager_color_prefix:cyan
 SET fish_pager_color_progress:cyan
 SET fish_user_paths:/usr/local/opt/fzf/bin\x1e/Users/stefanepenner/\x2efzf/bin
-SET fisher_dependency_count:last_job_id\x1egetopts\x1eawait\x1ez\x1efzf\x1ebass\x1ethefuck\x1ebass\x1envm
+SET fisher_active_prompt:sol
+SET fisher_dependency_count:getopts\x1eawait\x1ez\x1efzf\x1ebass\x1ethefuck\x1ebass\x1envm\x1elast_job_id\x1egit_util\x1epwd_is_home\x1epwd_info\x1ehost_info\x1ehumanize_duration\x1elast_job_id\x1esol
