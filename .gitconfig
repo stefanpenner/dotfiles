@@ -3,6 +3,7 @@
   email = stefan.penner@gmail.com
 [alias]
   last = log -1 HEAD
+  p = push
   l = log
   c = commit -v
   s = status
