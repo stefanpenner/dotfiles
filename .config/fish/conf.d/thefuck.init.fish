@@ -1,1 +1,1 @@
-/Users/stefanepenner/.config/fisherman/thefuck/init.fish
+/Users/stefanpenner/.config/fisherman/thefuck/init.fish
