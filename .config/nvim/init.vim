@@ -38,6 +38,8 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 call plug#end()
 let g:mustache_abbreviations = 1
+
+let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme base16-default
 set background=dark
 
