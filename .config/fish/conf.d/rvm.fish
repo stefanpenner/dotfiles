@@ -1,0 +1,1 @@
+/Users/stefanepenner/.config/fisherman/rvm/conf.d/rvm.fish
