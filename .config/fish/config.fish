@@ -61,4 +61,4 @@ function test262
   tools/run-tests.py --arch-and-mode=x64.release test262-es6 --download-data
 end
 
-sh ~/.config/fish/base16-3024.dark.sh
+eval sh $HOME/.config/fish/base16-3024.dark.sh
