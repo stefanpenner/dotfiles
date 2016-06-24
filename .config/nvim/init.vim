@@ -36,6 +36,7 @@ Plug 'Yggdroot/indentLine'
 " Plug 'SirVer/ultisnips'
 Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
+Plug 'dag/vim-fish'
 call plug#end()
 let g:mustache_abbreviations = 1
 
