@@ -62,3 +62,14 @@ function test262
 end
 
 eval sh $HOME/.config/fish/base16-3024.dark.sh
+
+function gh
+  set org $argv[1]
+  set repo $argv[2]
+  set git git@github.com:$org/$repo
+  set dest $HOME/src/$org/$repo
+  mkdir -p $org 2> /dev/null
+  echo "$git -> $dest"
+  git clone $git $dest
+  cd $HOME/src/$org/$repo
+end
