@@ -2,7 +2,7 @@
 # Use 'command git' to avoid interactions for aliases from git to (e.g.) hub
 
 function __fish_git_branches
-  command git branch --no-color -a ^/dev/null | sgrep -v ' -> ' | sed -e 's/^..//' -e 's/^remotes\///'
+  command git branch --no-color -a ^/dev/null | sed 's/.* -> //' | sed -e 's/^..//' -e 's/^remotes\///'
 end
 
 function __fish_git_tags
