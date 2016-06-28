@@ -75,8 +75,8 @@ function gh
   set repo $argv[2]
   set git git@github.com:$org/$repo
   set dest $HOME/src/$org/$repo
-  mkdir -p $org 2> /dev/null
+  mkdir -p $HOME/src/$org 2> /dev/null
   echo "$git -> $dest"
   git clone $git $dest
-  cd $HOME/src/$org/$repo
+  cd $dest
 end
