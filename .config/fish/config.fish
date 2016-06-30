@@ -1,3 +1,10 @@
+# Ensure fisherman and plugins are installed
+if not test -f $HOME/.config/fish/functions/fisher.fish
+  echo "==> Fisherman not found.  Installing."
+  curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+  fisher
+end
+
 # Path to Oh My Fish install.
 set -q XDG_DATA_HOME
   and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
