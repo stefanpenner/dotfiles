@@ -49,6 +49,11 @@ set background=dark
 set iskeyword +=-
 set binary
 
+set tabstop     =2
+set softtabstop =2
+set shiftwidth  =2
+set expandtab
+
 au BufReadPost * set relativenumber
 
 " ensure truecolor on doesn't tricky nerdtree into always openning
