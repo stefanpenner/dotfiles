@@ -37,6 +37,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
+Plug 'zerowidth/vim-copy-as-rtf'
 call plug#end()
 let g:mustache_abbreviations = 1
 
