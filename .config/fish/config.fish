@@ -80,3 +80,14 @@ function gh
   git clone $git $dest
   cd $dest
 end
+
+function npm-latest
+  npm version > /dev/null
+  npm info --json "$argv[1]" | jq '.version'
+end
+
+function rb-diff
+  set path = $TMPDIR/$argv[1].diff
+  wget -O $path https://rb.corp.linkedin.com/r/$argv[1]/diff/raw
+  nvim $path
+end

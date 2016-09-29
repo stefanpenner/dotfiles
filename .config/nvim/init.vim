@@ -8,10 +8,10 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-endwise'
+
 Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 " Plug 'Valloric/YouCompleteMe'
 Plug 'moll/vim-node'
 Plug 'editorconfig/editorconfig-vim'
@@ -21,7 +21,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'bogado/file-line'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'mustache/vim-mustache-handlebars'
@@ -38,11 +38,18 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
 Plug 'zerowidth/vim-copy-as-rtf'
+Plug 'dharanasoft/rtf-highlight'
+Plug 'Quramy/tsuquyomi'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neopairs.vim'
+Plug 'mhartington/deoplete-typescript'
+
 call plug#end()
 let g:mustache_abbreviations = 1
 
 let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-default
+colorscheme base16-default-dark
 set background=dark
 
 " groups of letters with dashes as words
@@ -59,7 +66,10 @@ au BufReadPost * set relativenumber
 " ensure truecolor on doesn't tricky nerdtree into always openning
 let g:nerdtree_tabs_open_on_gui_startup =0
 set rtp+=/usr/local/Cellar/fzf/HEAD
-
+set tabstop     =2
+set softtabstop =2
+set shiftwidth  =2
+set expandtab
 function! StripWhitespace ()
   exec ':%s/ \+$//gc'
 endfunction
@@ -98,13 +108,13 @@ autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 map <C-P> :Ag<cr>
 map <C-F> :FZF +c -m -x<cr>
+map <C-B> :Buffers <cr>
 
-autocmd FileType typescript nmap <buffer> <Leader>e <Plug>(TsuquyomiRenameSymbol)
-autocmd FileType typescript nmap <buffer> <Leader>E <Plug>(TsuquyomiRenameSymbolC)
+autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
-autocmd FileType typescript nmap <buffer> <Leader>a : <C-u>echo tsuquyomi#hint()<CR>
+" autocmd FileType typescript nmap <buffer> <Leader>e <Plug>(TsuquyomiRenameSymbol)
+" autocmd FileType typescript nmap <buffer> <Leader>E <Plug>(TsuquyomiRenameSymbolC)
 
-let g:typescript_compiler_options = "--target es5"
 " let g:syntastic_typescript_tsc_args = '--target ES5'
 
 " set statusline+=%#warningmsg#
@@ -117,7 +127,7 @@ let g:typescript_compiler_options = "--target es5"
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 
-autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+" autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 set foldlevelstart=0
 set foldnestmax=5
@@ -143,8 +153,21 @@ let g:haddock_browser="/Applications/Google Chrome Canary.app"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:terminal_scrollback_buffer_size=100000
 
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
+let g:gitgutter_async = 1
+let g:tsuquyomi_tsserver_debug = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#tss#javascript_support = 1
+
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#auto_complete_start_length = 0
+let g:auto_complete_start_length = 0
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#enable_debug = 0
+let g:deoplete#enable_profile = 0

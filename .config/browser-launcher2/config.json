@@ -1,0 +1,36 @@
+{
+  "browsers": [
+    {
+      "name": "chrome",
+      "re": {},
+      "type": "chrome",
+      "profile": "/Users/spenner/.config/browser-launcher2/chrome-51.0.2704.63_e62c590f031f4",
+      "command": "/Applications/Google Chrome.app",
+      "version": "51.0.2704.63"
+    },
+    {
+      "name": "firefox",
+      "re": {},
+      "type": "firefox",
+      "profile": true,
+      "command": "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+      "version": "47.0.1"
+    },
+    {
+      "name": "phantomjs",
+      "re": {},
+      "type": "phantom",
+      "headless": true,
+      "profile": false,
+      "command": "phantomjs",
+      "version": "2.1.1"
+    },
+    {
+      "name": "safari",
+      "type": "safari",
+      "profile": false,
+      "command": "/Applications/Safari.app",
+      "version": "9.1.2"
+    }
+  ]
+}
