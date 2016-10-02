@@ -134,8 +134,8 @@ setlocal foldlevel=5
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=233
 
-    highlight clear SignColumn      " SignColumn should match background
-    highlight clear LineNr          " Current line number row will have same background color in relative mode
+highlight clear SignColumn      " SignColumn should match background
+highlight clear LineNr          " Current line number row will have same background color in relative mode
 set virtualedit=onemore
 
 let javaScript_fold=1         " JavaScript
