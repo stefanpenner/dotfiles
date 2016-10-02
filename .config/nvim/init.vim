@@ -182,6 +182,9 @@ let g:deoplete#sources#tss#javascript_support = 1
 
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#auto_complete_start_length = 0
+
+set completeopt+=preview, 
+
 let g:auto_complete_start_length = 0
 let g:deoplete#enable_refresh_always = 1
 let g:deoplete#enable_debug = 0
