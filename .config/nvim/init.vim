@@ -1,4 +1,5 @@
 let mapleader = ','
+
 set backupdir=/private/tmp
 set dir=/private/tmp
 set clipboard=unnamed
@@ -11,11 +12,8 @@ Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
-" Plug 'scrooloose/syntastic'
-" Plug 'Valloric/YouCompleteMe'
 Plug 'moll/vim-node'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'ervandew/supertab'
 Plug 'Lokaltog/vim-powerline'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'bogado/file-line'
@@ -32,7 +30,6 @@ Plug 'lukerandall/haskellmode-vim'
 Plug 'tpope/vim-repeat'
 Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
-" Plug 'vim-scripts/javacomplete'
 " Plug 'SirVer/ultisnips'
 Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
@@ -134,6 +131,11 @@ set foldnestmax=5
 
 setlocal foldmethod=syntax
 setlocal foldlevel=5
+set cursorline
+
+    highlight clear SignColumn      " SignColumn should match background
+    highlight clear LineNr          " Current line number row will have same background color in relative mode
+set virtualedit=onemore
 
 let javaScript_fold=1         " JavaScript
 let perl_fold=1               " Perl
@@ -144,9 +146,22 @@ let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
 
-let g:indent_guides_auto_colors = 1
+set wildmenu                    " Show list instead of just completing
+set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set scrolljump=5                " Lines to scroll when cursor leaves screen
+set scrolloff=3                 " Minimum lines to keep above and below cursor
+set foldenable                  " Auto fold code
+set foldmarker={,}
+set foldlevel=0
+set foldmethod=marker
+set list
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set smartindent
 set autoindent
+set nojoinspaces
+
+let g:indent_guides_auto_colors = 1
 
 let g:haddock_browser="/Applications/Google Chrome Canary.app"
 
@@ -171,3 +186,7 @@ let g:auto_complete_start_length = 0
 let g:deoplete#enable_refresh_always = 1
 let g:deoplete#enable_debug = 0
 let g:deoplete#enable_profile = 0
+
+" Find merge conflict markers
+map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+nnoremap <silent> <leader>q gwip
