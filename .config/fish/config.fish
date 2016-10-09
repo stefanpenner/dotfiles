@@ -84,7 +84,7 @@ end
 
 function npm-latest
   npm version > /dev/null
-  npm info --json "$argv[1]" | jq '.version'
+  npm info --json "$argv[1]" | jq -r '.version'
 end
 
 function rb-diff
