@@ -92,3 +92,5 @@ function rb-diff
   wget -O $path https://rb.corp.linkedin.com/r/$argv[1]/diff/raw
   nvim $path
 end
+
+source $HOME/.config/node/main.fish
