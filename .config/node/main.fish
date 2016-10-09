@@ -15,7 +15,14 @@ function clean_node_version
 end
 
 function node_install
-  set version $argv[1]
+  set input_version $argv[1]
+  set version (node_version_best_match $input_version)
+
+  if test -s $version
+    echo "no such version: $input_version"
+    return
+  end
+
   set filename "node-$version-darwin-x64.tar.gz"
   set tarball "$root/tarballs/$filename"
   set target "$root/versions/node-$version-darwin-x64/"
@@ -36,18 +43,27 @@ function node_set_version
   set filename "node-$version-darwin-x64/bin"
   set target  "$root/current/bin"
 
+  echo $version
+
   rm -rf $target
   ln -s "$root/versions/$filename" $target
 end
 
 function node_ls
-  for node in (ls "$root/versions")
+  set version "$argv[1]"
+  for node in (ls "$root/versions" | grep $version)
     echo $node | cut -d '-' -f 2
   end
 end
 
+function node_version_best_match
+  set version "$argv[1]"
+  node_ls_remote | grep $version | sort | tail -n 1
+end
+
 function node_ls_remote
-  curl https://nodejs.org/download/release/index.json | jq -r '.[].version'
+  set version "$argv[1]"
+  curl https://nodejs.org/download/release/index.json 2> /dev/null | jq -r '.[].version' | grep $version
 end
 
 setup
