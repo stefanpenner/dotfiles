@@ -42,6 +42,9 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neopairs.vim'
 Plug 'mhartington/deoplete-typescript'
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 call plug#end()
 let g:mustache_abbreviations = 1
 
