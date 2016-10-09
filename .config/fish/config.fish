@@ -93,4 +93,8 @@ function rb-diff
   nvim $path
 end
 
+function n
+  command nvim $argv
+end
+
 source $HOME/.config/node/main.fish
