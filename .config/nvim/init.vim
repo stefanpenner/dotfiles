@@ -200,3 +200,18 @@ let g:deoplete#enable_profile = 0
 " Find merge conflict markers
 map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 nnoremap <silent> <leader>q gwip
+
+
+let g:airline#extensions#tabline#enabled = 1
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✗",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "y",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
