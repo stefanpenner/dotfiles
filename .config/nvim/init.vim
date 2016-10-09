@@ -12,6 +12,7 @@ Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'moll/vim-node'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Lokaltog/vim-powerline'
@@ -44,6 +45,8 @@ Plug 'mhartington/deoplete-typescript'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+set shell=sh
 
 call plug#end()
 let g:mustache_abbreviations = 1
