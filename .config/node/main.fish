@@ -6,64 +6,63 @@ function setup
 end
 
 function clean_node_version
-  set version $argv[1]
-  set filename node-$version-darwin-x64.tar.gz
+  set _version $argv[1]
+  set filename node-$_version-darwin-x64.tar.gz
   set tarball $root/tarballs/$filename
-  set target $root/versions/node-$version-darwin-x64/
+  set target $root/versions/node-$_version-darwin-x64/
 
   rm -rf $tarball $target
 end
 
 function node_install
   set input_version $argv[1]
-  set version (node_version_best_match $input_version)
+  set _version (node_version_best_match $input_version)
 
-  if test -s $version
+  if test -s $_version
     echo "no such version: $input_version"
     return
   end
 
-  set filename "node-$version-darwin-x64.tar.gz"
+  set filename "node-$_version-darwin-x64.tar.gz"
   set tarball "$root/tarballs/$filename"
-  set target "$root/versions/node-$version-darwin-x64/"
-
+  set target "$root/versions/node-$_version-darwin-x64/"
   if not test -e $tarball
-    curl --progress "$remote/$version/$filename" > "$tarball"
+    curl --fail --progress "$remote/$_version/$filename" > "$tarball"
   end
 
   if not test -e $target
     tar -C "$root/versions"/ -zxf "$root/tarballs/$filename"
   end
 
-  node_set_version $version
+  node_set_version $_version
 end
 
 function node_set_version
-  set version "$argv[1]"
-  set filename "node-$version-darwin-x64/bin"
+  set _version "$argv[1]"
+  set filename "node-$_version-darwin-x64/bin"
   set target  "$root/current/bin"
 
-  echo $version
+  echo $_version
 
   rm -rf $target
   ln -s "$root/versions/$filename" $target
 end
 
 function node_ls
-  set version "$argv[1]"
-  for node in (ls "$root/versions" | grep $version)
+  set _version "$argv[1]"
+  for node in (ls "$root/versions" | grep $_________version)
     echo $node | cut -d '-' -f 2
   end
 end
 
 function node_version_best_match
-  set version "$argv[1]"
-  node_ls_remote | grep $version | sort | tail -n 1
+  set _version "$argv[1]"
+  node_ls_remote | grep $_version | sort | tail -n 1
 end
 
 function node_ls_remote
-  set version "$argv[1]"
-  curl https://nodejs.org/download/release/index.json 2> /dev/null | jq -r '.[].version' | grep $version
+  set _version "$argv[1]"
+  curl https://nodejs.org/download/release/index.json 2> /dev/null | jq -r '.[].version' | grep $_version
 end
 
 setup
