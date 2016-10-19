@@ -109,4 +109,8 @@ function nzf
   fzf > $TMPDIR/fzf.result; and n (cat $TMPDIR/fzf.result)
 end
 
+function d8
+  ~/src/chromium/v8/out/native/d8 $argv
+end
+
 source $HOME/.config/node/main.fish
