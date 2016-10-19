@@ -110,8 +110,9 @@ endfunction
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 map <C-P> :Ag<cr>
-map <C-F> :FZF +c -m -x<cr>
 map <C-B> :Buffers <cr>
+
+map <C-F>  :call fzf#run({'source': 'git ls-files', 'sink': 'e'}) <cr>
 
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
@@ -215,3 +216,4 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
+
