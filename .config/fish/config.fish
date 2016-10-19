@@ -97,4 +97,8 @@ function n
   command nvim $argv
 end
 
+function nzf
+  fzf > $TMPDIR/fzf.result; and n (cat $TMPDIR/fzf.result)
+end
+
 source $HOME/.config/node/main.fish
