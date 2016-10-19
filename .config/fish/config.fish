@@ -1,3 +1,11 @@
+
+function reload
+  set -l config (status -f)
+  echo "reloading: $config"
+  source $config
+end
+
+
 # Ensure fisherman and plugins are installed
 if not test -f $HOME/.config/fish/functions/fisher.fish
   echo "==> Fisherman not found.  Installing."
