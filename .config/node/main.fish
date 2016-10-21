@@ -23,6 +23,7 @@ function node_install
     return
   end
 
+  set arch (uname -sm)
   set filename "node-$_version-darwin-x64.tar.gz"
   set tarball "$root/tarballs/$filename"
   set target "$root/versions/node-$_version-darwin-x64/"

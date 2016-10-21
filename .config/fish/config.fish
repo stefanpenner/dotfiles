@@ -114,3 +114,7 @@ function d8
 end
 
 source $HOME/.config/node/main.fish
+
+function d8_debug
+  eval $HOME/src/google/v8/out/x64.debug/d8 $argv
+end
