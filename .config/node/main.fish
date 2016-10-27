@@ -51,7 +51,7 @@ end
 
 function node_ls
   set _version "$argv[1]"
-  for node in (ls "$root/versions" | grep $_________version)
+  for node in (ls "$root/versions" | grep $_version)
     echo $node | cut -d '-' -f 2
   end
 end
