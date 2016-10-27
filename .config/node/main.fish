@@ -14,9 +14,9 @@ function clean_node_version
   rm -rf $tarball $target
 end
 
-function node_install
+function node-install
   set input_version $argv[1]
-  set _version (node_version_best_match $input_version)
+  set _version (node-version-match $input_version)
 
   if test -s $_version
     echo "no such version: $input_version"
@@ -35,10 +35,10 @@ function node_install
     tar -C "$root/versions"/ -zxf "$root/tarballs/$filename"
   end
 
-  node_set_version $_version
+  node-set-default-version $_version
 end
 
-function node_set_version
+function node-set-default-version
   set _version "$argv[1]"
   set filename "node-$_version-darwin-x64/bin"
   set target  "$root/current/bin"
@@ -49,28 +49,28 @@ function node_set_version
   ln -s "$root/versions/$filename" $target
 end
 
-function node_ls
+function node-ls
   set _version "$argv[1]"
   for node in (ls "$root/versions" | grep $_version)
     echo $node | cut -d '-' -f 2
   end
 end
 
-function node_version_best_match
+function node-version-match
   set _version "$argv[1]"
-  node_ls_remote | grep $_version | sort | tail -n 1
+  node-ls-remote | grep $_version | sort | tail -n 1
 end
 
-function node_ls_remote
+function node-ls-remote
   set _version "$argv[1]"
   curl https://nodejs.org/download/release/index.json 2> /dev/null | jq -r '.[].version' | grep $_version
 end
 
 setup
 # clean_node_version v6.7.0
-# node_install v6.7.0
-# node_install v4.7.0
-# node_ls
-# node_ls_remote
+# node-isntall v6.7.0
+# node-isntall v4.7.0
+# node-ls
+# node-ls-remote
 
 set -gx PATH $HOME/.config/node/current/bin $PATH
