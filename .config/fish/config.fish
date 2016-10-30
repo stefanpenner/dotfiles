@@ -110,7 +110,7 @@ function nzf
 end
 
 function d8
-  ~/src/chromium/v8/out/native/d8 $argv
+  eval $HOME/src/google/v8/out/native/d8 $argv
 end
 
 source $HOME/.config/node/main.fish
