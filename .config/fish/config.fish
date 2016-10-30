@@ -118,3 +118,12 @@ source $HOME/.config/node/main.fish
 function d8_debug
   eval $HOME/src/google/v8/out/x64.debug/d8 $argv
 end
+
+function dot-open
+  set -l input $argv[1]
+  set -l tmp $TMPDIR/dot-open.out.png
+  echo $input
+  echo $tmp
+  dot $input -Tpng > $tmp
+  open $tmp
+end
