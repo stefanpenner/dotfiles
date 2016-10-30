@@ -46,7 +46,7 @@ function node-set
   set -gx PATH "$root/versions/$filename" $PATH
 end
 
-function node-set-default
+function node-set-global
   set -l input_version $argv[1]
   set -l version (node-version-match $input_version)
   set -l filename "node-$version-darwin-x64/bin"
