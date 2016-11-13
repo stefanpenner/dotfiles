@@ -1,8 +1,13 @@
 set root $HOME/.config/node
 set remote "https://nodejs.org/download/release"
 
-function setup
-  mkdir -p $root/{versions,default,tarballs,checksums}
+function node-setup
+  mkdir -p $root/{versions,default,tarballs,checksums,cache}
+end
+
+function node-start-again
+  rm -rf $root/{versions,default,tarballs,checksums,cache}
+  node-setup
 end
 
 function node-uninstall
@@ -104,12 +109,22 @@ function node-version-match
   node-ls-remote | grep $version | sort | tail -n 1
 end
 
-function node-ls-remote
-  set -l version "$argv[1]"
-  curl https://nodejs.org/download/release/index.json 2> /dev/null | jq -r '.[].version' | grep $version
+function node-ls-remote-refresh
+  rm $root/cache/versions.json
 end
 
-setup
+function node-ls-remote
+  set -l version "$argv[1]"
+  if not test -e $root/cache/versions.json
+    curl https://nodejs.org/download/release/index.json 2> /dev/null > $root/cache/versions.json
+  else
+
+  end
+
+  cat $root/cache/versions.json | jq -r '.[].version' | grep $version
+end
+
+node-setup
 # clean_node_version v6.7.0
 # node-isntall v6.7.0
 # node-isntall v4.7.0
