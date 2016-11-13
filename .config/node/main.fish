@@ -2,16 +2,17 @@ set root $HOME/.config/node
 set remote "https://nodejs.org/download/release"
 
 function setup
-  mkdir -p $root/{versions,default,tarballs}
+  mkdir -p $root/{versions,default,tarballs,checksums}
 end
 
-function clean_node_version
+function node-uninstall
   set -l version $argv[1]
   set -l filename node-$version-darwin-x64.tar.gz
   set -l tarball $root/tarballs/$filename
   set -l target $root/versions/node-$version-darwin-x64/
+  set -l checksum "$root/checksums/$version-SHASUMS256.txt"
 
-  rm -rf $tarball $target
+  rm -rf $tarball $target $checksum
 end
 
 function node-install
@@ -27,9 +28,18 @@ function node-install
   set -l filename "node-$version-darwin-x64.tar.gz"
   set -l tarball "$root/tarballs/$filename"
   set -l target "$root/versions/node-$version-darwin-x64/"
+  set -l shasumText "$root/checksums/$version-SHASUMS256.txt"
+
   if not test -e $tarball
     curl --fail --progress "$remote/$version/$filename" > "$tarball"
   end
+
+  if not test -e $shasumText
+    curl --fail "$remote/$version/SHASUMS256.txt" > "$shasumText"
+  end
+
+  # run shasum in a "subshell" so we don't accidentally change cwd
+  fish -c "cd $root/tarballs/; and cat $shasumText | grep $filename | shasum -c -"
 
   if not test -e $target
     tar -C "$root/versions"/ -zxf "$root/tarballs/$filename"
