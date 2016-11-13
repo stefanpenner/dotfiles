@@ -84,3 +84,6 @@ setup
 # node-ls-remote
 
 set -gx PATH $HOME/.config/node/default/bin $PATH
+
+# enable global yarn bins
+set -gx PATH $HOME/.yarn-config/global/node_modules/.bin $PATH
