@@ -3,3 +3,4 @@
 .config/fish/config.*
 !.config/fish/config.fish
 .config/fish/fishd.*
+.config/node/cache/
