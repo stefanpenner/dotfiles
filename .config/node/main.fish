@@ -20,9 +20,11 @@ function node-install
   set -l version (node-version-match $input_version)
 
   if test -s $version
-    echo "no such version: $input_version"
-    return
+    echo-failure "no such version: $input_version"
+    return 1
   end
+
+  echo " installing: node.version = $version"
 
   set -l arch (uname -sm)
   set -l filename "node-$version-darwin-x64.tar.gz"
@@ -34,16 +36,35 @@ function node-install
     curl --fail --progress "$remote/$version/$filename" > "$tarball"
   end
 
+  echo-success "downloaded"
+
   if not test -e $shasumText
     curl --fail "$remote/$version/SHASUMS256.txt" > "$shasumText"
   end
 
-  # run shasum in a "subshell" so we don't accidentally change cwd
-  fish -c "cd $root/tarballs/; and cat $shasumText | grep $filename | shasum -c -"
+  fish -c "cd $root/tarballs/; and cat $shasumText | grep $filename | shasum -c - > /dev/null"
 
+  echo-success "verified"
   if not test -e $target
     tar -C "$root/versions"/ -zxf "$root/tarballs/$filename"
   end
+  echo-success "installed"
+end
+
+function echo-success
+  set -l message $argv[1]
+
+  set_color green;
+  echo "  ✓ $message";
+  set_color normal;
+end
+
+function echo-failure
+  set -l message $argv[1]
+
+  set_color red;
+  echo "  ✗ $message";
+  set_color normal;
 end
 
 function node-set
@@ -51,9 +72,9 @@ function node-set
   set -l version (node-version-match $input_version)
   set -l filename "node-$version-darwin-x64/bin"
 
-  echo $version
-
   set -gx PATH "$root/versions/$filename" $PATH
+
+  echo-success "node.current = $version"
 end
 
 function node-set-global
@@ -62,11 +83,11 @@ function node-set-global
   set -l filename "node-$version-darwin-x64/bin"
   set -l target  "$root/default/bin"
 
-  echo $version
-
   rm -rf $target
   ln -s "$root/versions/$filename" $target
   set -gx PATH "$root/versions/$filename" $PATH
+
+  echo-success "node.global = $version"
 end
 
 function node-ls
