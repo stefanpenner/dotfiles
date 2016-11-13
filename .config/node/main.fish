@@ -28,7 +28,7 @@ function node-install
   set -l tarball "$root/tarballs/$filename"
   set -l target "$root/versions/node-$version-darwin-x64/"
   if not test -e $tarball
-    curl --fail --progress "$remote/$_ersion/$filename" > "$tarball"
+    curl --fail --progress "$remote/$version/$filename" > "$tarball"
   end
 
   if not test -e $target
