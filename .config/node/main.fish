@@ -55,16 +55,18 @@ function echo-success
   set -l message $argv[1]
 
   set_color green;
-  echo "  ✓ $message";
+  printf "  ✓ ";
   set_color normal;
+  echo "$message";
 end
 
 function echo-failure
   set -l message $argv[1]
 
   set_color red;
-  echo "  ✗ $message";
+  printf "  ✗ ";
   set_color normal;
+  echo "$message"
 end
 
 function node-set
