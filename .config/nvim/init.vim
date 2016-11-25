@@ -1,5 +1,6 @@
 let mapleader = ','
 
+set noswapfile
 set backupdir=/private/tmp
 set dir=/private/tmp
 set clipboard=unnamed
