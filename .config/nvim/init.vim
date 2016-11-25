@@ -35,7 +35,12 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
 Plug 'zerowidth/vim-copy-as-rtf'
-Plug 'dharanasoft/rtf-highlight'
+if has("unix")
+  let s:uname = system("uname")
+  if s:uname == "Darwin\n"
+    Plug 'dharanasoft/rtf-highlight'
+  endif
+endif
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim'
 " Plug 'Shougo/deoplete.nvim'
