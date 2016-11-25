@@ -11,8 +11,10 @@ function node-start-again
 end
 
 function _get_node_current_platform
-  set -l x (uname -s | tr '[A-Z]' '[a-z]')
-  set -l y (uname -m | sed s/86_//)
+  set -l os (uname -s)
+  set -l arch (uname -m)
+  set -l x (echo $os | tr '[A-Z]' '[a-z]')
+  set -l y (echo $arch | sed s/86_//)
 
   echo "$x-$y"
 end
