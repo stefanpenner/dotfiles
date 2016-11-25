@@ -10,11 +10,20 @@ function node-start-again
   node-setup
 end
 
+function _get_node_current_platform
+  set -l x (uname -s | tr '[A-Z]' '[a-z]')
+  set -l y (uname -m | sed s/86_//)
+
+  echo "$x-$y"
+end
+
+set _node_current_platform (_get_node_current_platform)
+
 function node-uninstall
   set -l version $argv[1]
-  set -l filename node-$version-darwin-x64.tar.gz
+  set -l filename node-$version-$_node_current_platform.tar.gz
   set -l tarball $root/tarballs/$filename
-  set -l target $root/versions/node-$version-darwin-x64/
+  set -l target $root/versions/node-$version-$_get_node_current_platform/
   set -l checksum "$root/checksums/$version-SHASUMS256.txt"
 
   rm -rf $tarball $target $checksum
@@ -32,9 +41,9 @@ function node-install
   echo " installing: node.version = $version"
 
   set -l arch (uname -sm)
-  set -l filename "node-$version-darwin-x64.tar.gz"
+  set -l filename "node-$version-$_node_current_platform.tar.gz"
   set -l tarball "$root/tarballs/$filename"
-  set -l target "$root/versions/node-$version-darwin-x64/"
+  set -l target "$root/versions/node-$version-$_node_current_platform/"
   set -l shasumText "$root/checksums/$version-SHASUMS256.txt"
 
   if not test -e $tarball
@@ -79,7 +88,7 @@ end
 function node-set
   set -l input_version $argv[1]
   set -l version (node-version-match $input_version)
-  set -l filename "node-$version-darwin-x64/bin"
+  set -l filename "node-$version-$_node_current_platform/bin"
 
   set -gx PATH "$root/versions/$filename" $PATH
 
@@ -89,7 +98,7 @@ end
 function node-set-global
   set -l input_version $argv[1]
   set -l version (node-version-match $input_version)
-  set -l filename "node-$version-darwin-x64/bin"
+  set -l filename "node-$version-$_node_current_platform/bin"
   set -l target  "$root/default/bin"
 
   rm -rf $target
