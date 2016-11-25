@@ -34,10 +34,10 @@ Plug 'Yggdroot/indentLine'
 Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
-Plug 'zerowidth/vim-copy-as-rtf'
 if has("unix")
   let s:uname = system("uname")
   if s:uname == "Darwin\n"
+    Plug 'zerowidth/vim-copy-as-rtf'
     Plug 'dharanasoft/rtf-highlight'
   endif
 endif
