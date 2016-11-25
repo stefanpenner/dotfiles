@@ -5,7 +5,6 @@ set dir=/private/tmp
 set clipboard=unnamed
 
 call plug#begin()
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -39,9 +38,9 @@ Plug 'zerowidth/vim-copy-as-rtf'
 Plug 'dharanasoft/rtf-highlight'
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim'
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/neopairs.vim'
-Plug 'mhartington/deoplete-typescript'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/neopairs.vim'
+" Plug 'mhartington/deoplete-typescript'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
