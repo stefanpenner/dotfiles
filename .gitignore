@@ -4,3 +4,4 @@
 !.config/fish/config.fish
 .config/fish/fishd.*
 .config/node/cache/
+.config/hub

@@ -126,4 +126,6 @@ function dot-open
   echo $tmp
   dot $input -Tpng > $tmp
   open $tmp
+  return $tmp
 end
+
