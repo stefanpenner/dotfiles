@@ -50,9 +50,11 @@ function node-install
   fish -c "cd $root/tarballs/; and cat $shasumText | grep $filename | shasum -c - > /dev/null"
 
   echo-success "verified"
+
   if not test -e $target
     tar -C "$root/versions"/ -zxf "$root/tarballs/$filename"
   end
+
   echo-success "installed"
 end
 
@@ -111,6 +113,7 @@ end
 
 function node-ls-remote-refresh
   rm $root/cache/versions.json
+  node-ls-remote
 end
 
 function node-ls-remote
