@@ -92,9 +92,12 @@ function node-set
   set -l version (node-version-match $input_version)
   set -l filename "node-$version-$_node_current_platform/bin"
 
-  set -gx PATH "$root/versions/$filename" $PATH
-
-  echo-success "node.current = $version"
+  if test -e "$root/versions/$filename"
+    set -gx PATH "$root/versions/$filename" $PATH
+    echo-success "node.current = $version"
+  else
+    echo-failure  "node.current = $version; not installed"
+  end
 end
 
 function node-set-global
@@ -103,11 +106,15 @@ function node-set-global
   set -l filename "node-$version-$_node_current_platform/bin"
   set -l target  "$root/default/bin"
 
-  rm -rf $target
-  ln -s "$root/versions/$filename" $target
-  set -gx PATH "$root/versions/$filename" $PATH
+  if test -e "$root/versions/$filename"
+    rm -rf $target
+    ln -s "$root/versions/$filename" $target
+    set -gx PATH "$root/versions/$filename" $PATH
 
-  echo-success "node.global = $version"
+    echo-success "node.global = $version"
+  else
+    echo-failure  "node.current = $version; not installed"
+  end
 end
 
 function node-ls
