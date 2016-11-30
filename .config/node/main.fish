@@ -22,40 +22,40 @@ end
 set _node_current_platform (_get_node_current_platform)
 
 function node-uninstall
-  set -l version $argv[1]
-  set -l filename node-$version-$_node_current_platform.tar.gz
+  set -l _version $argv[1]
+  set -l filename node-$_version-$_node_current_platform.tar.gz
   set -l tarball $root/tarballs/$filename
-  set -l target $root/versions/node-$version-$_get_node_current_platform/
-  set -l checksum "$root/checksums/$version-SHASUMS256.txt"
+  set -l target $root/versions/node-$_version-$_get_node_current_platform/
+  set -l checksum "$root/checksums/$_version-SHASUMS256.txt"
 
   rm -rf $tarball $target $checksum
 end
 
 function node-install
   set -l input_version $argv[1]
-  set -l version (node-version-match $input_version)
+  set -l _version (node-version-match $input_version)
 
-  if test -s $version
+  if test -s $_version
     echo-failure "no such version: $input_version"
     return 1
   end
 
-  echo " installing: node.version = $version"
+  echo " installing: node.version = $_version"
 
   set -l arch (uname -sm)
-  set -l filename "node-$version-$_node_current_platform.tar.gz"
+  set -l filename "node-$_version-$_node_current_platform.tar.gz"
   set -l tarball "$root/tarballs/$filename"
-  set -l target "$root/versions/node-$version-$_node_current_platform/"
-  set -l shasumText "$root/checksums/$version-SHASUMS256.txt"
+  set -l target "$root/versions/node-$_version-$_node_current_platform/"
+  set -l shasumText "$root/checksums/$_version-SHASUMS256.txt"
 
   if not test -e $tarball
-    curl --fail --progress "$remote/$version/$filename" > "$tarball"
+    curl --fail --progress "$remote/$_version/$filename" > "$tarball"
   end
 
   echo-success "downloaded"
 
   if not test -e $shasumText
-    curl --fail "$remote/$version/SHASUMS256.txt" > "$shasumText"
+    curl --fail "$remote/$_version/SHASUMS256.txt" > "$shasumText"
   end
 
   fish -c "cd $root/tarballs/; and cat $shasumText | grep $filename | shasum -c - > /dev/null"
@@ -89,21 +89,21 @@ end
 
 function node-set
   set -l input_version $argv[1]
-  set -l version (node-version-match $input_version)
-  set -l filename "node-$version-$_node_current_platform/bin"
+  set -l _version (node-version-match $input_version)
+  set -l filename "node-$_version-$_node_current_platform/bin"
 
   if test -e "$root/versions/$filename"
     set -gx PATH "$root/versions/$filename" $PATH
-    echo-success "node.current = $version"
+    echo-success "node.current = $_version"
   else
-    echo-failure  "node.current = $version; not installed"
+    echo-failure  "node.current = $_version; not installed"
   end
 end
 
 function node-set-global
   set -l input_version $argv[1]
-  set -l version (node-version-match $input_version)
-  set -l filename "node-$version-$_node_current_platform/bin"
+  set -l _version (node-version-match $input_version)
+  set -l filename "node-$_version-$_node_current_platform/bin"
   set -l target  "$root/default/bin"
 
   if test -e "$root/versions/$filename"
@@ -111,22 +111,22 @@ function node-set-global
     ln -s "$root/versions/$filename" $target
     set -gx PATH "$root/versions/$filename" $PATH
 
-    echo-success "node.global = $version"
+    echo-success "node.global = $_version"
   else
-    echo-failure  "node.current = $version; not installed"
+    echo-failure  "node.current = $_version; not installed"
   end
 end
 
 function node-ls
-  set -l version "$argv[1]"
-  for node in (ls "$root/versions" | grep $version)
+  set -l _version "$argv[1]"
+  for node in (ls "$root/versions" | grep $_version)
     echo $node | cut -d '-' -f 2
   end
 end
 
 function node-version-match
-  set -l version "$argv[1]"
-  node-ls-remote | grep $version | sort | tail -n 1
+  set -l _version "$argv[1]"
+  node-ls-remote | grep $_version | sort | tail -n 1
 end
 
 function node-ls-remote-refresh
@@ -135,14 +135,14 @@ function node-ls-remote-refresh
 end
 
 function node-ls-remote
-  set -l version "$argv[1]"
+  set -l _version "$argv[1]"
   if not test -e $root/cache/versions.json
     curl https://nodejs.org/download/release/index.json 2> /dev/null > $root/cache/versions.json
   else
 
   end
 
-  cat $root/cache/versions.json | jq -r '.[].version' | grep $version
+  cat $root/cache/versions.json | jq -r '.[].version' | grep $_version
 end
 
 node-setup
