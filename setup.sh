@@ -1,11 +1,15 @@
 # TODO:
 #  * switch for OSX
 #  * add CI
-apt-get update && \
-apt-get -qq install software-properties-common python-software-properties && \
+
+
+/bin/bash -c "$(curl -sL https://git.io/vokNn)" && \
+apt-fast update && \
+apt-fast -qq install software-properties-common python-software-properties && \
 add-apt-repository ppa:neovim-ppa/unstable && \
-apt-get update && \
-apt-get -qq install fish python-software-properties neovim jq htop git curl wget thefuck tmux  build-essential && \
+add-apt-repository ppa:saiarcot895/myppa && \
+apt-fast update && \
+apt-fast -qq install fish python-software-properties neovim jq htop git curl wget thefuck tmux  build-essential && \
 mkdir -p $HOME/src/stefanpenner && \
 git clone https://github.com/stefanpenner/dotfiles $HOME/src/stefanpenner/dotfiles && \
 $HOME/src/stefanpenner/dotfiles/sync.sh && \
