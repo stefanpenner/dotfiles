@@ -8,5 +8,5 @@ do
   mv ~/$file $backup 2>/dev/null
   echo " $basename/$file"
   ln -s $basename/$file ~
-  rm -rf ~/.git
 done
+rm -rf ~/.git
