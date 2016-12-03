@@ -129,3 +129,20 @@ function dot-open
   return $tmp
 end
 
+
+function setup-depot-tools
+  set -l path $HOME/src/google/depot_tools/
+  if test -e $path
+  else
+    git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $path
+  end
+end
+
+function setup-v8
+  setup-depot-tools
+  if test -e $HOME/src/google/v8
+  else
+    cd src/google/
+    fetch v8
+  end
+end
