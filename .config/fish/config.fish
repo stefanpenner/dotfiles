@@ -81,8 +81,9 @@ end
 eval sh $HOME/.config/fish/base16-3024.dark.sh
 
 function gh
-  set org $argv[1]
-  set repo $argv[2]
+  set name (string split '/' $argv[1])
+  set org $name[1]
+  set repo $name[2]
   set git git@github.com:$org/$repo
   set dest $HOME/src/$org/$repo
   mkdir -p $HOME/src/$org 2> /dev/null
@@ -147,3 +148,5 @@ function setup-v8
     fetch v8
   end
 end
+
+
