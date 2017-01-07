@@ -23,6 +23,7 @@ set -q XDG_DATA_HOME
 
 set -x EDITOR nvim
 set -gx PATH $HOME/src/google/depot_tools $PATH
+set -gx PATH $HOME/.cargo/bin $PATH
 
 fundle plugin 'edc/bass'
 
