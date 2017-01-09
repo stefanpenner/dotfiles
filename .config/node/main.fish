@@ -31,6 +31,10 @@ function node-uninstall
   rm -rf $tarball $target $checksum
 end
 
+function node-get
+  node-install $argv
+end
+
 function node-install
   set -l input_version $argv[1]
   set -l _version (node-version-match $input_version)
