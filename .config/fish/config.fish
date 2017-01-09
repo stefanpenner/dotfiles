@@ -22,8 +22,13 @@ set -q XDG_DATA_HOME
 #set -gx OMF_CONFIG "/Users/stefanepenner/.config/omf"
 
 set -x EDITOR nvim
-set -gx PATH $HOME/src/google/depot_tools $PATH
-set -gx PATH $HOME/.cargo/bin $PATH
+if test -f $HOME/.src/google/depot_tools
+  set -gx PATH $HOME/src/google/depot_tools $PATH
+end
+
+if test -f $HOME/.cargo/bin/
+  set -gx PATH $HOME/.cargo/bin $PATH
+end
 
 fundle plugin 'edc/bass'
 

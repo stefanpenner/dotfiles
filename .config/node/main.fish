@@ -152,7 +152,9 @@ node-setup
 # node-ls
 # node-ls-remote
 
-set -gx PATH $HOME/.config/node/default/bin $PATH
+if test -f $HOME/.config/node/default/bind
+  set -gx PATH $HOME/.config/node/default/bin $PATH
+end
 
 # enable global yarn bins
 set -gx PATH $HOME/.yarn-config/global/node_modules/.bin $PATH
