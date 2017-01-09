@@ -22,11 +22,11 @@ set -q XDG_DATA_HOME
 #set -gx OMF_CONFIG "/Users/stefanepenner/.config/omf"
 
 set -x EDITOR nvim
-if test -f $HOME/.src/google/depot_tools
+if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
 end
 
-if test -f $HOME/.cargo/bin/
+if test -d $HOME/.cargo/bin/
   set -gx PATH $HOME/.cargo/bin $PATH
 end
 
