@@ -14,13 +14,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'moll/vim-node'
-Plug 'editorconfig/editorconfig-vim'
+" Plug 'editorconfig/editorconfig-vim'
 Plug 'Lokaltog/vim-powerline'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'bogado/file-line'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'mustache/vim-mustache-handlebars'
@@ -36,11 +36,12 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
 if has("unix")
-  let s:uname = system("uname")
-  if s:uname == "Darwin\n"
-    Plug 'zerowidth/vim-copy-as-rtf'
-    Plug 'dharanasoft/rtf-highlight'
-  endif
+  " this command seems slow..
+  " let s:uname = system("uname")
+  " if s:uname == "Darwin\n"
+    " Plug 'zerowidth/vim-copy-as-rtf'
+    " Plug 'dharanasoft/rtf-highlight'
+  " endif
 endif
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim'
