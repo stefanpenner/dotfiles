@@ -1,10 +1,8 @@
-
 function reload
   set -l config (status -f)
   echo "reloading: $config"
   source $config
 end
-
 
 # Ensure fisherman and plugins are installed
 if not test -f $HOME/.config/fish/functions/fisher.fish
@@ -22,8 +20,6 @@ if test -d $HOME/.cargo/bin/
   set -gx PATH $HOME/.cargo/bin $PATH
 end
 
-fundle plugin 'edc/bass'
-
 function pwdc
   pwd | pbcopy
   echo (pwd)
@@ -39,36 +35,12 @@ function watchman-reset
   end
 end
 
-function fish_greeting
-end
-
 function conflicts
   git ls-files --unmerged | cut -f2 | uniq
 end
 
-function whatchanged
-  set repo $argv[1]
-  set range $argv[2]
-
-  open https://github.com/$repo/compare/master@\{$range\}...master
-end
-
 function n
   env "NODE_NO_READLINE=1" rlwrap -S "> " node $args
-end
-
-function morning
-  whatchanged emberjs/ember.js 1day
-  whatchanged ember-cli/ember-cli 1day
-  whatchanged emberjs/data 1day
-  whatchanged tildeio/htmlbars 1day
-  whatchanged v8/v8-git-mirror 1day
-  whatchanged rust-lang/rust 1day
-  whatchanged WebKit/webkit 1day
-  whatchanged Microsoft/ChakraCore 1day
-  whatchanged tc39/ecma262 1day
-  whatchanged testem/testem 1day
-  # list new issues / pr from the last day
 end
 
 function test262
@@ -76,18 +48,6 @@ function test262
 end
 
 eval sh $HOME/.config/fish/base16-3024.dark.sh
-
-function gh
-  set name (string split '/' $argv[1])
-  set org $name[1]
-  set repo $name[2]
-  set git git@github.com:$org/$repo
-  set dest $HOME/src/$org/$repo
-  mkdir -p $HOME/src/$org 2> /dev/null
-  echo "$git -> $dest"
-  git clone $git $dest
-  cd $dest
-end
 
 function npm-latest
   npm version > /dev/null
@@ -116,8 +76,6 @@ function d8
   eval $HOME/src/google/v8/out/native/d8 $argv
 end
 
-source $HOME/.config/node/main.fish
-
 function d8_debug
   eval $HOME/src/google/v8/out/x64.debug/d8 $argv
 end
@@ -131,7 +89,6 @@ function dot-open
   open $tmp
   return $tmp
 end
-
 
 function setup-depot-tools
   set -l path $HOME/src/google/depot_tools/
@@ -149,5 +106,3 @@ function setup-v8
     fetch v8
   end
 end
-
-
