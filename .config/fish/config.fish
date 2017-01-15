@@ -13,14 +13,6 @@ if not test -f $HOME/.config/fish/functions/fisher.fish
   fisher
 end
 
-# Path to Oh My Fish install.
-set -q XDG_DATA_HOME
-  and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
-  or set -gx OMF_PATH "$HOME/.local/share/omf"
-
-# Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG "/Users/stefanepenner/.config/omf"
-
 set -x EDITOR nvim
 if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
@@ -106,6 +98,10 @@ function rb-diff
   set path = $TMPDIR/$argv[1].diff
   wget -O $path https://rb.corp.linkedin.com/r/$argv[1]/diff/raw
   nvim $path
+end
+
+function rb-get
+  wget https://rb.corp.linkedin.com/r/$argv[1]/diff/raw
 end
 
 function n
