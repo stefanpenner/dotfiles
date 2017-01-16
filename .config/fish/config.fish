@@ -106,3 +106,8 @@ function setup-v8
     fetch v8
   end
 end
+
+function node-debug
+  kill -9 (lsof -ti tcp:5858) 2> /dev/null
+  node debug $argv
+end
