@@ -2,6 +2,9 @@ fisherman/await
 edc/bass
 fisherman/free
 fisherman/fzf
+fisherman/get
+fisherman/getopts
+stefanpenner/fish-gh
 fisherman/git_util
 fisherman/host_info
 fisherman/humanize_duration
