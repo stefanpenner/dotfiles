@@ -1,3 +1,5 @@
+echo "You can do anything... as long as there's something more important your not doing"
+
 function reload
   set -l config (status -f)
   echo "reloading: $config"
@@ -18,6 +20,10 @@ end
 
 if test -d $HOME/.cargo/bin/
   set -gx PATH $HOME/.cargo/bin $PATH
+end
+
+if test -d $HOME/src/google/depot_tools/
+  set -gx PATH $HOME/src/google/depot_tools/ $PATH
 end
 
 function pwdc
@@ -110,4 +116,8 @@ end
 function node-debug
   kill -9 (lsof -ti tcp:5858) 2> /dev/null
   node debug $argv
+end
+
+function html2rtf
+  textutil -convert rtf -stdin -stdout | pbcopy
 end
