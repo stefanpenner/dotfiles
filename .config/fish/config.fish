@@ -124,6 +124,7 @@ end
 
 function release
   set -l tag $argv[1]
+
   if test -f package.json
     jq ".version=\"$tag\"" < package.json | sponge package.json
     git add -f ./package.json
@@ -133,5 +134,9 @@ function release
     git commit -m "release v$tag 🎉"
     git tag "v$tag"
     git push origin master "v$tag"
+  end
+
+  if test -f package.json
+    npm publish
   end
 end
