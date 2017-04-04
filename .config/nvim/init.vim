@@ -51,7 +51,7 @@ Plug 'Shougo/vimproc.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
+Plug 'rmnv/vim-simple-colors'
 set shell=sh
 
 call plug#end()
@@ -197,7 +197,7 @@ let g:deoplete#sources#tss#javascript_support = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#auto_complete_start_length = 0
 
-set completeopt+=preview, 
+set completeopt+=preview,
 
 let g:auto_complete_start_length = 0
 let g:deoplete#enable_refresh_always = 1
@@ -223,3 +223,17 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
+
+if exists('&inccommand')
+  set inccommand=nosplit
+endif
+
+if has('mouse')
+  set mouse=a
+endif
+
+" :syntime on
+" :syntime report
+syntax sync minlines=256
+" set synmaxcol=128
+set lazyredraw
