@@ -121,3 +121,17 @@ end
 function html2rtf
   textutil -convert rtf -stdin -stdout | pbcopy
 end
+
+function release
+  set -l tag $argv[1]
+  if test -f package.json
+    jq ".version=\"$tag\"" < package.json | sponge package.json
+    git add -f ./package.json
+  end
+
+  if test -d .git
+    git commit -m "release v$tag 🎉"
+    git tag "v$tag"
+    git push origin master "v$tag"
+  end
+end
