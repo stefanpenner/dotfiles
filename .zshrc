@@ -62,7 +62,15 @@ alias rvmd='rvm use default'
 alias be='bundle exec'
 
 # https://www.youtube.com/watch?v=SMWi7CLoZ2Q
-alias nom="rm -rf node_modules && npm cache clear && npm i"
+function nom() {
+  if [ -z "$1" ]; then
+   rm -rf node_modules && npm cache clear && npm i
+   return
+  fi
+
+  `npm $@`
+}
+
 
 alias pyg="pygmentize"
 function http(){
