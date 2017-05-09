@@ -139,4 +139,7 @@ function release
   if test -f package.json
     npm publish
   end
+
+  echo "released as v$tag 🎉" | pbcopy
+end
 end
