@@ -142,4 +142,7 @@ function release
 
   echo "released as v$tag 🎉" | pbcopy
 end
+
+if test -f $HOME/.config/fish/nix.fish
+  source $HOME/.config/fish/nix.fish
 end
