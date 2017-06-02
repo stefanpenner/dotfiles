@@ -86,6 +86,11 @@ function d8_debug
   eval $HOME/src/google/v8/out/x64.debug/d8 $argv
 end
 
+
+function ch
+  eval $HOME/src/MicroSoft/ChakraCore/out/Test/ch $argv
+end
+
 function dot-open
   set -l input $argv[1]
   set -l tmp $TMPDIR/dot-open.out.png
