@@ -146,3 +146,10 @@ end
 if test -f $HOME/.config/fish/nix.fish
   source $HOME/.config/fish/nix.fish
 end
+
+function turn-off-stuff
+  sudo launchctl unload -w /Library/LaunchDaemons/com.crashplan.engine.plist
+  sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+  sudo launchctl unload -w /Library/LaunchDaemons/com.jamfsoftware.task.1.plist
+  sudo launchctl unload -w /Library/LaunchDaemons/com.jamfsoftware.jamf.daemon.plist
+end
