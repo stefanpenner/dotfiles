@@ -35,6 +35,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'elixir-lang/vim-elixir'
 Plug 'chriskempson/base16-vim'
 Plug 'dag/vim-fish'
+Plug 'w0rp/ale'
+Plug 'sbdchd/neoformat'
 if has("unix")
   " this command seems slow..
   " let s:uname = system("uname")
@@ -237,3 +239,9 @@ endif
 syntax sync minlines=256
 " set synmaxcol=128
 set lazyredraw
+
+
+autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5
+let g:neoformat_try_formatprg = 1
+let g:neoformat_basic_format_retab = 1
+let g:neoformat_basic_format_trim = 1
