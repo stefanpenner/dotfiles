@@ -1,1 +1,1 @@
-/Users/stefanpenner/.config/fisherman/rvm/functions/rvm.fish
+/Users/spenner/.config/fisherman/rvm/functions/rvm.fish

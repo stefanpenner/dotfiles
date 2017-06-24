@@ -1,0 +1,1 @@
+/Users/spenner/.config/fisherman/node/conf.d/node.fish

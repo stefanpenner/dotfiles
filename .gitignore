@@ -5,3 +5,5 @@
 .config/fish/fishd.*
 .config/node/cache/
 .config/hub
+.config/yarn/link/*
+.config/yarn/global/*
