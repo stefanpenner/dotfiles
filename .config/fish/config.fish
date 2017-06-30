@@ -138,7 +138,8 @@ function release
   if test -d .git
     git commit -m "release v$tag 🎉"
     git tag "v$tag"
-    git push origin master "v$tag"
+    set -l branch (git branch | grep '^\*' | sed 's/* //')
+    git push origin "$branch" "v$tag"
   end
 
   if test -f package.json
