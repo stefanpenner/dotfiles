@@ -1,0 +1,1 @@
+/Users/spenner/.config/fisherman/get/completions/get.fish
