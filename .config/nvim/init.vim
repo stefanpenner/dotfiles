@@ -24,7 +24,6 @@ Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'mtth/scratch.vim'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'rmnv/vim-simple-colors'
 Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
@@ -171,7 +170,6 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-
 if exists('&inccommand')
   set inccommand=nosplit
 endif
@@ -204,6 +202,8 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \}
 
-if executable('ag')
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
