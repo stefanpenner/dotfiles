@@ -6,57 +6,49 @@ set dir=/private/tmp
 set clipboard=unnamed
 
 call plug#begin()
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
 
-Plug 'tpope/vim-unimpaired'
-Plug 'scrooloose/nerdtree'
+Plug 'Quramy/tsuquyomi'
+Plug 'Raimondi/delimitMate'
+Plug 'Shougo/vimproc.vim'
+Plug 'Valloric/YouCompleteMe'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'moll/vim-node'
-" Plug 'editorconfig/editorconfig-vim'
-Plug 'Lokaltog/vim-powerline'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'bogado/file-line'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'chriskempson/base16-vim'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'leafgarland/typescript-vim'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'mustache/vim-mustache-handlebars'
+Plug 'junegunn/goyo.vim'
+Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
+Plug 'mtth/scratch.vim'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'rust-lang/rust.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'lukerandall/haskellmode-vim'
-Plug 'tpope/vim-repeat'
-Plug 'Raimondi/delimitMate'
-Plug 'Yggdroot/indentLine'
-" Plug 'SirVer/ultisnips'
-Plug 'elixir-lang/vim-elixir'
-Plug 'chriskempson/base16-vim'
-Plug 'dag/vim-fish'
-Plug 'w0rp/ale'
+Plug 'rmnv/vim-simple-colors'
 Plug 'sbdchd/neoformat'
-if has("unix")
-  " this command seems slow..
-  " let s:uname = system("uname")
-  " if s:uname == "Darwin\n"
-    " Plug 'zerowidth/vim-copy-as-rtf'
-    " Plug 'dharanasoft/rtf-highlight'
-  " endif
-endif
-Plug 'Quramy/tsuquyomi'
-Plug 'Shougo/vimproc.vim'
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'Shougo/neopairs.vim'
-" Plug 'mhartington/deoplete-typescript'
-
+Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'rmnv/vim-simple-colors'
-set shell=sh
+Plug 'w0rp/ale'
+if has("unix")
+  " this command seems slow..
+  let s:uname = system("uname")
+  if s:uname == "Darwin\n"
+    Plug 'zerowidth/vim-copy-as-rtf'
+  endif
+endif
 
 call plug#end()
+
 let g:mustache_abbreviations = 1
 
 let base16colorspace=256  " Access colors present in 256 colorspace
@@ -107,39 +99,11 @@ endfunction
 nmap <Leader>ca <Plug>GitGutterStageHunk
 nmap <Leader>cu <Plug>GitGutterRevertHunk
 
-function! s:fzf_statusline()
-  " Override statusline as you like
-  highlight fzf1 ctermfg=161 ctermbg=251
-  highlight fzf2 ctermfg=23 ctermbg=251
-  highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
-endfunction
-
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
-
 map <C-P> :Ag<cr>
+map <C-F> :GFiles<cr>
 map <C-B> :Buffers <cr>
 
-map <C-F>  :call fzf#run({'source': 'git ls-files', 'sink': 'e'}) <cr>
-
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
-
-" autocmd FileType typescript nmap <buffer> <Leader>e <Plug>(TsuquyomiRenameSymbol)
-" autocmd FileType typescript nmap <buffer> <Leader>E <Plug>(TsuquyomiRenameSymbolC)
-
-" let g:syntastic_typescript_tsc_args = '--target ES5'
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_javascript_checkers = [ 'eslint', 'jshint' ]
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
-" autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 set foldlevelstart=0
 set foldnestmax=5
@@ -152,15 +116,6 @@ hi CursorLine   cterm=NONE ctermbg=233
 highlight clear SignColumn      " SignColumn should match background
 highlight clear LineNr          " Current line number row will have same background color in relative mode
 set virtualedit=onemore
-
-let javaScript_fold=1         " JavaScript
-let perl_fold=1               " Perl
-let php_folding=1             " PHP
-let r_syntax_folding=1        " R
-let ruby_fold=1               " Ruby
-let sh_fold_enabled=1         " sh
-let vimsyn_folding='af'       " Vim script
-let xml_syntax_folding=1      " XML
 
 set wildmenu                    " Show list instead of just completing
 set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
@@ -179,12 +134,7 @@ set nojoinspaces
 
 let g:indent_guides_auto_colors = 1
 
-let g:haddock_browser="/Applications/Google Chrome Canary.app"
-
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:terminal_scrollback_buffer_size=100000
+let g:terminal_scrollback_buffer_size=10000
 
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -193,23 +143,19 @@ noremap <Right> <NOP>
 
 let g:gitgutter_async = 1
 let g:tsuquyomi_tsserver_debug = 1
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#tss#javascript_support = 1
 
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#auto_complete_start_length = 0
+let g:tsuquyomi_completion_detail = 1
+set completeopt+=preview
 
-set completeopt+=preview,
+autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 let g:auto_complete_start_length = 0
-let g:deoplete#enable_refresh_always = 1
-let g:deoplete#enable_debug = 0
-let g:deoplete#enable_profile = 0
+let g:goyo_width = "85%"
 
-" Find merge conflict markers
-map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+let g:scratch_persistence_file = ".scratch"
+let g:scratch_autohide = 1
+
 nnoremap <silent> <leader>q gwip
-
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -239,9 +185,25 @@ endif
 syntax sync minlines=256
 " set synmaxcol=128
 set lazyredraw
-
+if has('nvim')
+  au TermOpen * setlocal nonumber norelativenumber
+endif
 
 autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5
 let g:neoformat_try_formatprg = 1
+
+" Enable alignment
+let g:neoformat_basic_format_align = 1
+
+" Enable tab to spaces conversion
 let g:neoformat_basic_format_retab = 1
+
+" Enable trimmming of trailing whitespace
 let g:neoformat_basic_format_trim = 1
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
