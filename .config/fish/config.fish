@@ -1,4 +1,4 @@
-echo "You can do anything... as long as there's something more important your not doing"
+# echo "You can do anything... as long as there's something more important your not doing"
 
 function reload
   set -l config (status -f)
@@ -52,8 +52,6 @@ end
 function test262
   tools/run-tests.py --arch-and-mode=x64.release test262-es6 --download-data
 end
-
-eval sh $HOME/.config/fish/base16-3024.dark.sh
 
 function npm-latest
   npm version > /dev/null
@@ -173,4 +171,23 @@ function das-test
  mint wc-test -d "When you go through hardships and decide not to surrender, that is strength" &
 
  wait
+end
+
+# Base16 Shell
+if status --is-interactive
+    eval sh $HOME/.config/base16-shell/scripts/base16-oceanicnext.sh
+end
+# eval sh $HOME/.config/fish/base16-3024.dark.sh
+
+
+function tar-pipe
+  set -l from_folder $argv[1]
+  set -l to_ssh $argv[2]
+  set -l to_folder $argv[3]
+
+  echo $from_folder
+  echo $to_ssh
+  echo $to_folder
+
+  tar cpf - $from_folder | pv | ssh $to_ssh "tar xpf - -C $to_folder"
 end

@@ -7,6 +7,7 @@ set clipboard=unnamed
 
 call plug#begin()
 
+Plug 'mbbill/undotree'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim'
@@ -51,8 +52,7 @@ call plug#end()
 let g:mustache_abbreviations = 1
 
 let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-default-dark
-set background=dark
+colorscheme base16-oceanicnext
 
 " groups of letters with dashes as words
 set iskeyword +=-
@@ -86,12 +86,20 @@ function! REPLSend(lines)
 endfunction
 
 " :map ,r :w \| call R("rustc -o out " . @% . " ;and ./out")
-function! R(command)
-  call jobsend(g:repl_terminal_job, a:command . "\n")
-endfunction
+if has('nvim')
+  function! R(command)
+    call jobsend(g:repl_terminal_job, a:command . "\n")
+  endfunction
+else
+  function! R(buf, command)
+    " call jobsend(g:repl_terminal_job, a:command . "\n")
+    call term_sendkeys(a:buf, a:command . "\<CR>")
+  endfunction
+end
 
 function! Repl()
-  e term://fish
+  term
+  " e term://fish
   let g:repl_terminal_job = b:terminal_job_id
 endfunction
 
@@ -157,6 +165,8 @@ let g:scratch_autohide = 1
 nnoremap <silent> <leader>q gwip
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_y = '#%{bufnr("%")}'
+let g:airline#extensions#tabline#enabled = 1
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✗",
@@ -206,4 +216,24 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep'
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
+endif
+
+" stop using escape"
+" inoremap <esc> <nop>
+
+if has("gui_macvim")
+  " disable all GUI scrollbars
+  set guioptions=
+  set macligatures
+end
+
+" set term=screen-256color
+set t_Co=256
+set background=dark
+let base16colorspace=256        " Access colors present in 256 colorspace
+" colorscheme base16-ocean
+"
+if has("persistent_undo")
+  set undodir=~/.undodir/
+  set undofile
 endif
