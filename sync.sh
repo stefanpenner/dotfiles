@@ -1,12 +1,10 @@
 #!/bin/sh
-backup=~/.dotfiles_backup/$(date +%m%d%H%M%Y%S)
-script="$0"
-basename="$(dirname $script)"
-mkdir -p $backup
-for file in $(ls -a $basename | grep '^\.\w')
+
+basename="$HOME/src/stefanpenner/dotfiles"
+
+for file in $(find $basename -maxdepth 1 -iname '.*' -not -path '*/.git')
 do
   mv ~/$file $backup 2>/dev/null
   echo " $basename/$file"
   ln -s $basename/$file ~
 done
-rm -rf ~/.git
