@@ -192,10 +192,10 @@ function tar-pipe
   tar cpf - $from_folder | pv | ssh $to_ssh "tar xpf - -C $to_folder"
 end
 
-if test -f /export/content/linkedin/etc/fish
+if test -d /export/content/linkedin/etc/fish
   set -g fish_complete_path /export/content/linkedin/etc/fish $fish_complete_path
 end
 
-if test -f /usr/local/linkedin/etc/fish
+if test -d /usr/local/linkedin/etc/fish
   set -g fish_complete_path /usr/local/linkedin/etc/fish $fish_complete_path
 end
