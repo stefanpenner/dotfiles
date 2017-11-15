@@ -1,8 +1,9 @@
 let mapleader = ','
 
 set noswapfile
-set backupdir=/private/tmp
-set dir=/private/tmp
+set nobackup
+set nowritebackup
+
 set clipboard=unnamed
 
 call plug#begin()
@@ -11,7 +12,7 @@ Plug 'mbbill/undotree'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
