@@ -40,6 +40,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
+Plug 'janko-m/vim-test'
+Plug 'kassio/neoterm'
+
 if has("unix")
   " this command seems slow..
   let s:uname = system("uname")
@@ -238,3 +241,8 @@ if has("persistent_undo")
   set undodir=~/.undodir/
   set undofile
 endif
+
+let test#strategy = "neoterm"
+let g:test#javascript#mocha#file_pattern = '.*.js$'
+
+
