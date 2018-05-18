@@ -18,12 +18,28 @@ if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
 end
 
+if test -d $HOME/.notion
+  set -gx NOTION_HOME $HOME/.notion
+  set -gx PATH $NOTION_HOME/bin $PATH
+  set -gx PATH $NOTION_HOME/shim $PATH
+end
+
 if test -d $HOME/.cargo/bin/
   set -gx PATH $HOME/.cargo/bin $PATH
 end
-
+if test -d $HOME/src/google/depot_tools/
+  set -gx CARP_DIR=$HOME/src/carp-lang/Carp/
+end
 if test -d $HOME/src/google/depot_tools/
   set -gx PATH $HOME/src/google/depot_tools/ $PATH
+end
+
+if test -d $HOME/.local/bin/
+  set -gx PATH $HOME/.local/bin $PATH
+end
+
+if test -d $HOME/src/carp-lang/Carp/
+  set -gx CARP_DIR $HOME/carp-lang/Carp/
 end
 
 function pwdc
