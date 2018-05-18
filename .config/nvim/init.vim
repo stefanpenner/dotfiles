@@ -8,11 +8,13 @@ set clipboard=unnamed
 
 call plug#begin()
 
+Plug 'kana/vim-textobj-user'
+Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim'
-" Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -42,6 +44,23 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'kassio/neoterm'
+Plug 'hellerve/carp-vim'
+Plug 'rizzatti/dash.vim'
+Plug 'racer-rust/vim-racer'
+Plug 'andyl/vim-textobj-elixir'
+Plug 'statox/vim-compare-lines'
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+" Plug 'roxma/ncm-github'
+
+" if has('nvim')
+"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+" endif
+
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
 
 if has("unix")
   " this command seems slow..
@@ -62,11 +81,6 @@ colorscheme base16-oceanicnext
 set iskeyword +=-
 set binary
 
-set tabstop     =2
-set softtabstop =2
-set shiftwidth  =2
-set expandtab
-
 au BufReadPost * set relativenumber
 
 " ensure truecolor on doesn't tricky nerdtree into always openning
@@ -76,6 +90,8 @@ set tabstop     =2
 set softtabstop =2
 set shiftwidth  =2
 set expandtab
+filetype plugin indent on
+
 function! StripWhitespace ()
   exec ':%s/ \+$//gc'
 endfunction
@@ -84,28 +100,6 @@ map <leader>s :call StripWhitespace ()<CR>
 map <leader>n :NERDTreeToggle<CR>
 
 set nu
-
-function! REPLSend(lines)
-  call jobsend(g:repl_terminal_job, add(a:lines, ''))
-endfunction
-
-" :map ,r :w \| call R("rustc -o out " . @% . " ;and ./out")
-if has('nvim')
-  function! R(command)
-    call jobsend(g:repl_terminal_job, a:command . "\n")
-  endfunction
-else
-  function! R(buf, command)
-    " call jobsend(g:repl_terminal_job, a:command . "\n")
-    call term_sendkeys(a:buf, a:command . "\<CR>")
-  endfunction
-end
-
-function! Repl()
-  term
-  " e term://fish
-  let g:repl_terminal_job = b:terminal_job_id
-endfunction
 
 nmap <Leader>ca <Plug>GitGutterStageHunk
 nmap <Leader>cu <Plug>GitGutterRevertHunk
@@ -245,4 +239,23 @@ endif
 let test#strategy = "neoterm"
 let g:test#javascript#mocha#file_pattern = '.*.js$'
 
+let g:deoplete#enable_at_startup = 1
+let g:nvim_typescript#javascript_support = 1
+let g:ale_fixers = {
+\ 'javascript': [
+\   'prettier',
+\   'eslint',
+\ ],
+\}
 
+let g:racer_experimental_completer = 1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+" Put the fzf window to the right to not interfere with terminals (which i
+" keep on the left)
+let g:fzf_layout = {
+\   'right': '~40%'
+\}
