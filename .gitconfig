@@ -26,4 +26,7 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [diff]
-	tool = vimdiff
+  tool = vimdiff
+
+[includeIf "gitdir:~/l/"]
+ path = .gitconfig-linkedin
