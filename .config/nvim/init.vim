@@ -9,8 +9,16 @@ set clipboard=unnamed
 call plug#begin()
 
 Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-entire'
+Plug 'glts/vim-textobj-comment'
+Plug 'fvictorio/vim-textobj-backticks'
+Plug 'thinca/vim-textobj-function-javascript'
+
 Plug 'mattn/webapi-vim'
-Plug 'mbbill/undotree'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim'
@@ -24,7 +32,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'mtth/scratch.vim'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -47,7 +54,6 @@ Plug 'kassio/neoterm'
 Plug 'hellerve/carp-vim'
 Plug 'rizzatti/dash.vim'
 Plug 'racer-rust/vim-racer'
-Plug 'andyl/vim-textobj-elixir'
 Plug 'statox/vim-compare-lines'
 " Plug 'roxma/nvim-completion-manager'
 " Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
@@ -259,3 +265,16 @@ au FileType rust nmap <leader>gd <Plug>(rust-doc)
 let g:fzf_layout = {
 \   'right': '~40%'
 \}
+
+let g:neoterm_autoinsert = 0
+let g:neoterm_autoscroll = 1
+let g:neoterm_default_mod = 'browse'
+nmap gx <Plug>(neoterm-repl-send)
+xmap gx <Plug>(neoterm-repl-send)
+
+" vim-test
+nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
+nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
+nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
+nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
+nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
