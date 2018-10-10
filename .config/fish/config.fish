@@ -27,9 +27,7 @@ end
 if test -d $HOME/.cargo/bin/
   set -gx PATH $HOME/.cargo/bin $PATH
 end
-if test -d $HOME/src/google/depot_tools/
-  set -gx CARP_DIR=$HOME/src/carp-lang/Carp/
-end
+
 if test -d $HOME/src/google/depot_tools/
   set -gx PATH $HOME/src/google/depot_tools/ $PATH
 end
