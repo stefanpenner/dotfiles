@@ -1,4 +1,6 @@
 # echo "You can do anything... as long as there's something more important your not doing"
+function fish_title
+end
 
 function reload
   set -l config (status -f)
