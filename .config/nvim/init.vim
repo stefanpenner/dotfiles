@@ -17,12 +17,13 @@ Plug 'kana/vim-textobj-entire'
 Plug 'glts/vim-textobj-comment'
 Plug 'fvictorio/vim-textobj-backticks'
 Plug 'thinca/vim-textobj-function-javascript'
+Plug 'Shirk/vim-gas'
 
 Plug 'mattn/webapi-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -55,6 +56,7 @@ Plug 'hellerve/carp-vim'
 Plug 'rizzatti/dash.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'statox/vim-compare-lines'
+Plug 'vitalk/vim-simple-todo'
 " Plug 'roxma/nvim-completion-manager'
 " Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
 " Plug 'roxma/ncm-github'
@@ -111,7 +113,7 @@ nmap <Leader>ca <Plug>GitGutterStageHunk
 nmap <Leader>cu <Plug>GitGutterRevertHunk
 
 map <C-P> :Ag<cr>
-map <C-F> :GFiles<cr>
+map <C-F> :FZF<cr>
 map <C-B> :Buffers <cr>
 
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
@@ -271,6 +273,8 @@ let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod = 'browse'
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
+" 3<leader>tl will clear neoterm-3.
+nnoremap <leader>tl :<c-u>exec v:count.'Tclear'<cr>
 
 " vim-test
 nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
@@ -278,3 +282,6 @@ nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
 nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
 nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
 nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
+
+
+let asmsyntax="nasm"
