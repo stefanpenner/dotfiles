@@ -20,6 +20,10 @@ if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
 end
 
+if test -d /usr/local/var/homebrew/linked/fish/share/fish/completions/
+	set -gx fish_complete_path /usr/local/var/homebrew/linked/fish/share/fish/completions/ $fish_complete_path
+end
+
 if test -d /Applications/Racket\ v7.1/bin/
   set -gx PATH /Applications/Racket\ v7.1/bin/ $PATH
 end
