@@ -3,11 +3,12 @@ let mapleader = ','
 set noswapfile
 set nobackup
 set nowritebackup
-
 set clipboard=unnamed
+set noendofline
 
 call plug#begin()
 
+Plug 'ervandew/supertab'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
