@@ -5,3 +5,10 @@ configstore
 nvim/plugged
 nvim/colors
 .mono
+devcert/
+fisher/
+mgba
+nvim/spell
+wireshark/recent
+wireshark/recent_common
+htop/htoprc

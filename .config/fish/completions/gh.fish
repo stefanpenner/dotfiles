@@ -1,0 +1,1 @@
+/Users/spenner/.config/fisherman/gh/completions/gh.fish

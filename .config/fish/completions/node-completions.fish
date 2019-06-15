@@ -1,0 +1,1 @@
+/Users/spenner/.config/fisherman/node/completions/node-completions.fish
