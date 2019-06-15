@@ -285,3 +285,31 @@ nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
 
 
 let asmsyntax="nasm"
+
+autocmd FileType typescript setlocal completeopt+=preview,menuone,longest
+
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
+augroup FileType typescript autocmd BufNewFile,BufRead *.ts set filetype=typescript
+   autocmd FileType typescript set tabstop=2 shiftwidth=2 expandtab
+   autocmd CursorMoved,CursorMovedI *.ts :call TSWriteToPreview(tsuquyomi#hint())
+
+  function TSWriteToPreview(content)
+    if a:content ==# "[Tsuquyomi] There is no hint at the cursor."
+      " pclose
+    else
+
+      set splitbelow
+      set previewheight=4 " strdisplaywidth(a:content)
+      silent pedit __TsuquyomiScratch__
+      silent wincmd P
+      setlocal modifiable noreadonly
+      setlocal nobuflisted buftype=nofile bufhidden=wipe ft=typescript
+      put =a:content
+      0d_
+      setlocal nomodifiable readonly
+      silent wincmd p
+    endif
+  endfunction
+augroup END
+
