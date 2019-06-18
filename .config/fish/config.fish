@@ -14,7 +14,6 @@ if not test -f $HOME/.config/fish/functions/fisher.fish
   curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
   fisher
 end
-
 set -x EDITOR nvim
 if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
@@ -25,7 +24,7 @@ if test -d $HOME/libs/nvim-osx64/bin
 end
 
 if test -d /usr/local/var/homebrew/linked/fish/share/fish/completions/
-	set -gx fish_complete_path /usr/local/var/homebrew/linked/fish/share/fish/completions/ $fish_complete_path
+  set -gx fish_complete_path /usr/local/var/homebrew/linked/fish/share/fish/completions/ $fish_complete_path
 end
 
 if test -d /Applications/Racket\ v7.1/bin/
