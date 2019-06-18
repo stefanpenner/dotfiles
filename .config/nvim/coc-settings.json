@@ -1,0 +1,7 @@
+{
+  "coc.preferences.hoverTarget": "float",
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.autoTrigger": "always",
+  "suggest.detailField": "preview"
+}

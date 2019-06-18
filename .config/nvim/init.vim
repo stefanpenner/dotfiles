@@ -5,10 +5,11 @@ set nobackup
 set nowritebackup
 set clipboard=unnamed
 set noendofline
+set hidden
 
+" Vim Plugins - {{{
 call plug#begin()
 
-Plug 'ervandew/supertab'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
@@ -20,11 +21,8 @@ Plug 'fvictorio/vim-textobj-backticks'
 Plug 'thinca/vim-textobj-function-javascript'
 Plug 'Shirk/vim-gas'
 
-Plug 'mattn/webapi-vim'
-Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
-Plug 'Shougo/vimproc.vim'
-" Plug 'Valloric/YouCompleteMe'
+" Plug 'Shougo/vimproc.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -35,17 +33,17 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'mileszs/ack.vim'
-Plug 'mtth/scratch.vim'
+" Plug 'mtth/scratch.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
@@ -53,23 +51,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'kassio/neoterm'
-Plug 'hellerve/carp-vim'
-Plug 'rizzatti/dash.vim'
-Plug 'racer-rust/vim-racer'
-Plug 'statox/vim-compare-lines'
-Plug 'vitalk/vim-simple-todo'
-" Plug 'roxma/nvim-completion-manager'
-" Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
-" Plug 'roxma/ncm-github'
-
-" if has('nvim')
-"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-" endif
-
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'Shougo/echodoc.vim'
 
 if has("unix")
   " this command seems slow..
@@ -80,19 +64,20 @@ if has("unix")
 endif
 
 call plug#end()
+" }}}
 
 let g:mustache_abbreviations = 1
 
 let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme base16-oceanicnext
 
-" groups of letters with dashes as words
+"" groups of letters with dashes as words
 set iskeyword +=-
 set binary
 
 au BufReadPost * set relativenumber
 
-" ensure truecolor on doesn't tricky nerdtree into always openning
+"" ensure truecolor on doesn't tricky nerdtree into always openning
 let g:nerdtree_tabs_open_on_gui_startup =0
 set rtp+=/usr/local/Cellar/fzf/HEAD
 set tabstop     =2
@@ -116,8 +101,6 @@ nmap <Leader>cu <Plug>GitGutterRevertHunk
 map <C-P> :Ag<cr>
 map <C-F> :FZF<cr>
 map <C-B> :Buffers <cr>
-
-autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 set foldlevelstart=0
 set foldnestmax=5
@@ -277,40 +260,50 @@ xmap gx <Plug>(neoterm-repl-send)
 " 3<leader>tl will clear neoterm-3.
 nnoremap <leader>tl :<c-u>exec v:count.'Tclear'<cr>
 
-" vim-test
 nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
 nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
 nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
 nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
 nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
 
-
 let asmsyntax="nasm"
 
-autocmd FileType typescript setlocal completeopt+=preview,menuone,longest
+"" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
 
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-augroup FileType typescript autocmd BufNewFile,BufRead *.ts set filetype=typescript
-   autocmd FileType typescript set tabstop=2 shiftwidth=2 expandtab
-   autocmd CursorMoved,CursorMovedI *.ts :call TSWriteToPreview(tsuquyomi#hint())
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#events = [ 'CursorMoved','CursorMovedI' ]
 
-  function TSWriteToPreview(content)
-    if a:content ==# "[Tsuquyomi] There is no hint at the cursor."
-      " pclose
-    else
-
-      set splitbelow
-      set previewheight=4 " strdisplaywidth(a:content)
-      silent pedit __TsuquyomiScratch__
-      silent wincmd P
-      setlocal modifiable noreadonly
-      setlocal nobuflisted buftype=nofile bufhidden=wipe ft=typescript
-      put =a:content
-      0d_
-      setlocal nomodifiable readonly
-      silent wincmd p
-    endif
-  endfunction
+" Vimscript file settings ---------------------- {{{
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
 augroup END
+" }}}
 
+" CoC config --- Use K to show documentation in preview window {{{
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+" }}}
