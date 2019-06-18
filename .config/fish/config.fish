@@ -20,6 +20,10 @@ if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
 end
 
+if test -d $HOME/libs/nvim-osx64/bin
+  set -gx PATH $HOME/libs/nvim-osx64/bin $PATH
+end
+
 if test -d /usr/local/var/homebrew/linked/fish/share/fish/completions/
 	set -gx fish_complete_path /usr/local/var/homebrew/linked/fish/share/fish/completions/ $fish_complete_path
 end
