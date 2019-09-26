@@ -4,8 +4,7 @@ end
 
 function reload
   set -l config (status -f)
-  echo "reloading: $config"
-  source $config
+  echo "reloading: $config" source $config
 end
 
 # Ensure fisherman and plugins are installed
@@ -14,6 +13,7 @@ if not test -f $HOME/.config/fish/functions/fisher.fish
   curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
   fisher
 end
+
 set -x EDITOR nvim
 if test -d $HOME/.src/google/depot_tools
   set -gx PATH $HOME/src/google/depot_tools $PATH
@@ -233,3 +233,7 @@ set -gx VOLTA_HOME "$HOME/.volta"
 test -s "$VOLTA_HOME/load.fish"; and source "$VOLTA_HOME/load.fish"
 
 string match -r ".volta" "$PATH" > /dev/null; or set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+function linux-box
+  ssh -L 4444:localhost:4444 spenner-ld2
+end
