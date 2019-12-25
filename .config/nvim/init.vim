@@ -65,6 +65,7 @@ Plug 'kassio/neoterm'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'Shougo/echodoc.vim'
+Plug 'othree/html5.vim'
 
 if has("unix")
   " this command seems slow..
