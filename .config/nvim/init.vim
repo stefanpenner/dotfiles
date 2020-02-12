@@ -30,10 +30,8 @@ Plug 'kana/vim-textobj-entire'
 Plug 'glts/vim-textobj-comment'
 Plug 'fvictorio/vim-textobj-backticks'
 Plug 'thinca/vim-textobj-function-javascript'
-Plug 'Shirk/vim-gas'
 
 Plug 'Raimondi/delimitMate'
-" Plug 'Shougo/vimproc.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -44,28 +42,25 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'mileszs/ack.vim'
-" Plug 'mtth/scratch.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'sbdchd/neoformat'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'kassio/neoterm'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'Shougo/echodoc.vim'
 Plug 'othree/html5.vim'
+Plug 'jparise/vim-graphql'
 
 if has("unix")
   " this command seems slow..
@@ -110,15 +105,15 @@ set nu
 nmap <Leader>ca <Plug>GitGutterStageHunk
 nmap <Leader>cu <Plug>GitGutterRevertHunk
 
-map <C-P> :Ag<cr>
+map <C-P> :Rg<cr>
 map <C-F> :FZF<cr>
 map <C-B> :Buffers <cr>
 
 set foldlevelstart=0
 set foldnestmax=5
 
-setlocal foldmethod=syntax
-setlocal foldlevel=5
+" setlocal foldmethod=syntax
+" setlocal foldlevel=5
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=233
 
@@ -131,10 +126,10 @@ set wildmode=list:longest,full  " Command <Tab> completion, list matches, then l
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set scrolljump=5                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
-set foldenable                  " Auto fold code
-set foldmarker={,}
-set foldlevel=0
-set foldmethod=marker
+" set foldenable                  " Auto fold code
+" set foldmarker={,}
+" set foldlevel=0
+" set foldmethod=marker
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set smartindent
@@ -263,6 +258,8 @@ au FileType rust nmap <leader>gd <Plug>(rust-doc)
 let g:fzf_layout = {
 \   'right': '~40%'
 \}
+" git aware fzf
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 let g:neoterm_autoinsert = 0
 let g:neoterm_autoscroll = 1
@@ -271,23 +268,26 @@ nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 " 3<leader>tl will clear neoterm-3.
 nnoremap <leader>tl :<c-u>exec v:count.'Tclear'<cr>
-
+" vim-test ----{
 nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
 nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
 nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
 nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
 nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
 
-let asmsyntax="nasm"
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+let g:test#javascript#mocha#file_pattern = '\v.*.(ts|tsx)$'
+function! TypeScriptTransform(cmd) abort
+  return substitute(a:cmd, '\v(.*)mocha', 'env TS_NODE_FILES=true \1ts-mocha', '')
+endfunction
+let g:test#custom_transformations = {'typescript': function('TypeScriptTransform')}
+let g:test#transformation = 'typescript'
 
+" --- }}}
+let asmsyntax="nasm"
+
+" Use `[c` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#events = [ 'CursorMoved','CursorMovedI' ]
 
@@ -299,6 +299,17 @@ augroup END
 " }}}
 
 " CoC config --- Use K to show documentation in preview window {{{
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
@@ -308,4 +319,14 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
 " }}}
