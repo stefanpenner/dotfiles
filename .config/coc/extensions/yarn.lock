@@ -49,10 +49,10 @@ coc-tslint-plugin@^1.1.1:
   dependencies:
     typescript-tslint-plugin "0.5.4"
 
-coc-tsserver@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/coc-tsserver/-/coc-tsserver-1.4.1.tgz#f3b2933cd5498b51f43ce19e9ed704296cf1148d"
-  integrity sha512-WqDl49VTQC0d4y2dAXHNkgYqklWi2z8AWdbSgo/LBBodI1sn0uL2s1GsnGOSDcax0agEl2iNnt0z/hGr7KOIKw==
+coc-tsserver@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/coc-tsserver/-/coc-tsserver-1.4.4.tgz#3427892329d11acba93c3e33398195853b276cab"
+  integrity sha512-KFfPFDmRNnrnasbUX5SZAl4ZuwbvbBNmrPXX/PLDsIuQhlLvcscZUyEPUMG89GI8ADelkS2cFDW7421BuQ1J1Q==
   dependencies:
     typescript "3.6.2"
 

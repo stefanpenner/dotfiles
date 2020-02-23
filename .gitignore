@@ -8,3 +8,4 @@
 .config/yarn/link/*
 .config/yarn/global/*
 .config/asciinema/config
+.config/gh/config.yml
