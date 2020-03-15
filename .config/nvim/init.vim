@@ -74,14 +74,13 @@ let g:mustache_abbreviations = 1
 
 let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme base16-oceanicnext
-
 "" groups of letters with dashes as words
 set iskeyword +=-
 set binary
 
 au BufReadPost * set relativenumber
 
-"" ensure truecolor on doesn't tricky nerdtree into always openning
+"" ensure truecolor on doesn't tricky nerdtree into always opening
 let g:nerdtree_tabs_open_on_gui_startup =0
 set rtp+=/usr/local/Cellar/fzf/HEAD
 set tabstop     =2
@@ -143,12 +142,7 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 let g:gitgutter_async = 1
-let g:tsuquyomi_tsserver_debug = 1
-
-let g:tsuquyomi_completion_detail = 1
 set completeopt+=preview
-
-autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 let g:auto_complete_start_length = 0
 let g:goyo_width = "85%"
@@ -200,7 +194,7 @@ let g:neoformat_basic_format_align = 1
 " Enable tab to spaces conversion
 let g:neoformat_basic_format_retab = 1
 
-" Enable trimmming of trailing whitespace
+" Enable trimming of trailing whitespace
 let g:neoformat_basic_format_trim = 1
 let g:ale_linters = {
 \   'javascript': ['eslint'],
@@ -308,6 +302,22 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)

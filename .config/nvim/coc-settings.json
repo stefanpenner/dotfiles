@@ -4,20 +4,68 @@
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.autoTrigger": "always",
   "suggest.detailField": "preview",
+  "suggest.enablePreview": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextPrefix": "◄ ",
   "diagnostic.refreshOnInsertMode": true,
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        },
-        "clang": {
-          "resourceDir": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/"
-        }
-      }
-    }
-  }
+
+  },
+  "cSpell.userWords": [
+    "API's",
+    "BUGFIX",
+    "Brocfile",
+    "Dir's",
+    "Eran",
+    "Liss",
+    "Memoization",
+    "POJO",
+    "autogen",
+    "braden",
+    "concated",
+    "copyfiles",
+    "debouncing",
+    "dtslint",
+    "execa",
+    "filepath",
+    "filesize",
+    "findup",
+    "fixturify",
+    "gitkeep",
+    "goyo",
+    "greenkeeper",
+    "heimdalljs",
+    "htmlbars",
+    "isbinaryfile",
+    "ldap",
+    "linkedin",
+    "longjohn",
+    "mentee",
+    "mkdirs",
+    "msapplication",
+    "multidep",
+    "multiproduct",
+    "octokit",
+    "platformized",
+    "pluggable",
+    "portfinder",
+    "productionalize",
+    "promisify",
+    "rsvp's",
+    "rwjblue",
+    "slugify",
+    "spenner",
+    "stefanpenner",
+    "subdir",
+    "tabindex",
+    "testdouble",
+    "testem",
+    "thenables",
+    "thennables",
+    "transpiler",
+    "unminified",
+    "wasm",
+    "yuidoc",
+    "yuidocjs"
+  ]
 }

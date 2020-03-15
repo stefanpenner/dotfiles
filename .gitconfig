@@ -30,3 +30,5 @@
 
 [includeIf "gitdir:~/l/"]
  path = .gitconfig-linkedin
+[core]
+	excludesfile = /Users/spenner/.config/git/ignore
