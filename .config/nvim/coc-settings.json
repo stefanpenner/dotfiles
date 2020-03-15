@@ -8,6 +8,8 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": "◄ ",
   "diagnostic.refreshOnInsertMode": true,
+  "tsserver.enable": true,
+  "tsserver.enableJavascript": true,
   "languageserver": {
 
   },
