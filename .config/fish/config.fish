@@ -229,11 +229,10 @@ if test -d $HOME/.cargo/
   set -g fish_user_paths $HOME/.cargo/bin $fish_user_paths
 end
 
-set -gx VOLTA_HOME "$HOME/.volta"
-test -s "$VOLTA_HOME/load.fish"; and source "$VOLTA_HOME/load.fish"
 
-string match -r ".volta" "$PATH" > /dev/null; or set -gx PATH "$VOLTA_HOME/bin" $PATH
 
 function linux-box
   ssh -L 4444:localhost:4444 spenner-ld2
 end
+set -gx VOLTA_HOME "/Users/stefan/.volta"
+string match -r ".volta" "$PATH" > /dev/null; or set -gx PATH "$VOLTA_HOME/bin" $PATH

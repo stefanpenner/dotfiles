@@ -9,3 +9,4 @@
 .config/yarn/global/*
 .config/asciinema/config
 .config/gh/config.yml
+.config/coc/extensions/node_modules/

@@ -111,3 +111,5 @@ export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export VOLTA_HOME="/Users/stefan/.volta"
+grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"

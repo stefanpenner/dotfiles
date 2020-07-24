@@ -11,7 +11,27 @@
   "tsserver.enable": true,
   "tsserver.enableJavascript": true,
   "languageserver": {
-
+    "ccls": {
+      "command": "ccls",
+      "filetypes": [
+        "c",
+        "cpp",
+        "objc",
+        "objcpp"
+      ],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        }
+      }
+    }
   },
   "cSpell.userWords": [
     "API's",
@@ -24,6 +44,7 @@
     "POJO",
     "autogen",
     "braden",
+    "ccls",
     "concated",
     "copyfiles",
     "debouncing",
@@ -47,6 +68,8 @@
     "msapplication",
     "multidep",
     "multiproduct",
+    "objc",
+    "objcpp",
     "octokit",
     "platformized",
     "pluggable",

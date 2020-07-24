@@ -1,1 +1,11 @@
-{}
+{
+  "services": {
+    "%2FUsers%2Fstefan%2Fsrc%2Fstefanpenner%2Fpromise": {
+      "hash": {
+        "helper": [
+          ":C"
+        ]
+      }
+    }
+  }
+}
