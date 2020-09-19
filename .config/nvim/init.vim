@@ -158,7 +158,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_y = '#%{bufnr("%")}'
 let g:airline#extensions#tabline#enabled = 1
 
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "✗",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
