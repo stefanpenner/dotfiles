@@ -124,5 +124,6 @@ build_ps1
 
 export NVM_DIR="/Users/stefanpenner/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-export VOLTA_HOME="/Users/stefan/.volta"
-grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

@@ -269,5 +269,5 @@ end
 
 set -g fish_user_paths "/usr/local/opt/opencv@2/bin" $fish_user_paths
 set -gx ANDROID_HOME "$HOME/Library/Android/sdk/"
-set -gx VOLTA_HOME "/Users/stefan/.volta"
-string match -r ".volta" "$PATH" > /dev/null; or set -gx PATH "$VOLTA_HOME/bin" $PATH
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
