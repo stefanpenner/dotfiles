@@ -158,7 +158,7 @@ function release
   end
 
   if test -f package.json
-    npm publish
+    npm publish --access public
   end
 
   echo "released as v$tag 🎉" | pbcopy
@@ -229,10 +229,45 @@ if test -d $HOME/.cargo/
   set -g fish_user_paths $HOME/.cargo/bin $fish_user_paths
 end
 
-
-
 function linux-box
   ssh -L 4444:localhost:4444 spenner-ld2
 end
+
+function rb_repos_by_user
+  set -l username $argv[1]
+  curl "https://rb.corp.linkedin.com/api/review-requests/?from-user=$username&status=submitted" | jq -r '.review_requests[] .links.repository.title' | sort | uniq
+end
+
+function rb_diff
+  set -l id $argv[1]
+  curl "https://rb.corp.linkedin.com/r/$id/diff/2/raw/"
+end
+
+function rb_open_all
+  set -l username $argv[1]
+  for id in (curl "https://rb.corp.linkedin.com/api/review-requests/?from-user=$username&status=submitted" | jq '.review_requests[].id')
+     open "https://rb.corp.linkedin.com/r/$id"
+  end
+end
+
+function rb_diff_all
+  set -l username $argv[1]
+  for id in (curl "https://rb.corp.linkedin.com/api/review-requests/?from-user=$username&status=submitted" | jq '.review_requests[].id')
+     echo "https://rb.corp.linkedin.com/r/$id/diff/raw/"
+  end
+end
+
+function git_turbo
+  time git status --porcelain=2
+  git remote prune origin
+  git gc --prune --aggressive
+  cp .git/hooks/fsmonitor-watchman.sample .git/hooks/query-watchman
+  git config core.fsmonitor .git/hooks/query-watchman
+  git update-index --untracked-cache --fsmonitor
+  time git status --porcelain=2
+end
+
+set -g fish_user_paths "/usr/local/opt/opencv@2/bin" $fish_user_paths
+set -gx ANDROID_HOME "$HOME/Library/Android/sdk/"
 set -gx VOLTA_HOME "/Users/stefan/.volta"
 string match -r ".volta" "$PATH" > /dev/null; or set -gx PATH "$VOLTA_HOME/bin" $PATH

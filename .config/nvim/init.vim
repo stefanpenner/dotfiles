@@ -19,8 +19,7 @@ set signcolumn=yes
 "}}}
 
 " Vim Plugins - {{{
-call plug#begin()
-
+call plug#begin() 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
@@ -58,7 +57,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'othree/html5.vim'
 Plug 'jparise/vim-graphql'
-
+Plug 'sudar/vim-arduino-syntax'
+Plug 'powerman/vim-plugin-AnsiEsc'
+Plug 'darfink/vim-plist'
 if has("unix")
   " this command seems slow..
   let s:uname = system("uname")
@@ -186,20 +187,9 @@ if has('nvim')
   au TermOpen * setlocal nonumber norelativenumber
 endif
 
-autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5
-let g:neoformat_try_formatprg = 1
-
-" Enable alignment
-let g:neoformat_basic_format_align = 1
-
-" Enable tab to spaces conversion
-let g:neoformat_basic_format_retab = 1
-
-" Enable trimming of trailing whitespace
-let g:neoformat_basic_format_trim = 1
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\}
+" rely on local prettierrc for decent options like single quote, print width
+" set formatprg = \"prettier --stdin --stdin-filepath \" . expand('%')
+" autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --stdin-filepath expand('%')
 
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
@@ -267,12 +257,12 @@ nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
 nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
 nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
 
-let g:test#javascript#mocha#file_pattern = '\v.*.(ts|tsx)$'
-function! TypeScriptTransform(cmd) abort
-  return substitute(a:cmd, '\v(.*)mocha', 'env TS_NODE_FILES=true \1ts-mocha', '')
-endfunction
-let g:test#custom_transformations = {'typescript': function('TypeScriptTransform')}
-let g:test#transformation = 'typescript'
+" let g:test#javascript#mocha#file_pattern = '\v.*.(ts|tsx)$'
+" function! TypeScriptTransform(cmd) abort
+"   return substitute(a:cmd, '\v(.*)mocha', 'env TS_NODE_FILES=true \1ts-mocha', '')
+" endfunction
+" let g:test#custom_transformations = {'typescript': function('TypeScriptTransform')}
+" let g:test#transformation = 'typescript'
 
 " --- }}}
 let asmsyntax="nasm"
