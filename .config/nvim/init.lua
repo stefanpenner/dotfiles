@@ -16,6 +16,7 @@ opt('o', 'completeopt', 'menuone,noinsert,noselect')  -- Completion options (for
 opt('o', 'completeopt', "menuone,noselect");
 opt('o', 'hidden', true)                              -- Enable modified buffers in background
 opt('o', 'clipboard', 'unnamedplus')
+opt('o', 'directory', os.getenv('TMPDIR'))
 
 opt('o', 'ignorecase', true)                          -- Ignore case
 opt('o', 'joinspaces', false)                         -- No double spaces with join after a dot
@@ -32,10 +33,8 @@ opt('w', 'number', true)                              -- Print line number
 opt('w', 'relativenumber', true)                      -- Relative line numbers
 opt('w', 'wrap', false)                               -- Disable line wrap
 
-
 vim.g.nvim_tree_gitignore = 1;                        -- ignore files in tree that are ignored by git
 vim.opt.mouse = 'a'
-
 
 vim.cmd 'packadd paq-nvim'         -- Load package
 local paq = require'paq-nvim'.paq  -- Import module and bind `paq` function
@@ -69,10 +68,7 @@ paq{'nvim-telescope/telescope.nvim'}
 paq {'junegunn/fzf', run = vim.fn['fzf#install']}
 paq {'junegunn/fzf.vim'}
 
-
-local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
-  if opts then options = vim.tbl_extend('force', options, opts) end
+local function map(mode, lhs, rhs, opts) local options = {noremap = true} if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
@@ -125,8 +121,6 @@ local servers = require'lspinstall'.installed_servers()
 for _, server in pairs(servers) do
   require'lspconfig'[server].setup{}
 end
-
-
 
 require'compe'.setup {
   enabled = true;
