@@ -54,6 +54,7 @@ paq{'tpope/vim-unimpaired'}
 paq{'tpope/vim-repeat'}
 paq{'tpope/vim-fugitive'}
 paq{'mg979/vim-visual-multi'}
+paq{'bfredl/nvim-luadev'}
 local ts = require 'nvim-treesitter.configs'
 ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
 
@@ -89,7 +90,7 @@ local lspfuzzy = require 'lspfuzzy'
 -- For ccls we use the default settings
 lsp.ccls.setup {}
 -- root_dir is where the LSP server will start: here at the project root otherwise in current folder
-lsp.pyls.setup {root_dir = lsp.util.root_pattern('.git', vim.fn.getcwd())}
+-- lsp.pyls.setup {root_dir = lsp.util.root_pattern('.git', vim.fn.getcwd())}
 lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
 
 map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
