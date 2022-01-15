@@ -7,7 +7,6 @@ end
 
 vim.g.mapleader = ","
 local indent = 2
-vim.cmd 'colorscheme onedark'                         -- Put your favorite colorscheme here
 opt('b', 'expandtab', true)                           -- Use spaces instead of tabs
 opt('b', 'shiftwidth', indent)                        -- Size of an indent
 opt('b', 'smartindent', true)                         -- Insert indents automatically
@@ -32,44 +31,53 @@ opt('w', 'number', true)                              -- Print line number
 opt('w', 'relativenumber', true)                      -- Relative line numbers
 opt('w', 'wrap', false)                               -- Disable line wrap
 
-
 vim.g.nvim_tree_gitignore = 1;                        -- ignore files in tree that are ignored by git
 vim.opt.mouse = 'a'
 
+require "paq" {
+  "savq/paq-nvim";                  -- Let Paq manage itself
 
-vim.cmd 'packadd paq-nvim'         -- Load package
-local paq = require'paq-nvim'.paq  -- Import module and bind `paq` function
-paq{'tpope/vim-commentary'}
-paq{'tpope/vim-surround'}
-paq{'savq/paq-nvim', opt=true}     -- Let Paq manage itself
-paq{'nvim-treesitter/nvim-treesitter'}
-paq{'nvim-treesitter/playground'}
-paq{'ojroques/nvim-lspfuzzy'}
-paq{'kassio/neoterm'}
-paq{'yamatsum/nvim-nonicons'}
-paq{'kyazdani42/nvim-tree.lua'}
-paq{'kyazdani42/nvim-web-devicons'}
-paq{'joshdick/onedark.vim'}
-paq{'pineapplegiant/spaceduck'}
-paq{'tpope/vim-unimpaired'}
-paq{'tpope/vim-repeat'}
-paq{'tpope/vim-fugitive'}
-paq{'mg979/vim-visual-multi'}
+  -- "neovim/nvim-lspconfig";          -- Mind the semi-colons
+  "hrsh7th/nvim-compe";
+
+  {"lervag/vimtex", opt=true};      -- Use braces when passing options
+
+  'tpope/vim-commentary';
+  'tpope/vim-surround';
+  {'savq/paq-nvim', opt=true};     -- Let Paq manage itself
+  'nvim-treesitter/nvim-treesitter';
+  'nvim-treesitter/playground';
+  -- 'ojroques/nvim-lspfuzzy';
+  'kassio/neoterm';
+  'yamatsum/nvim-nonicons';
+  'kyazdani42/nvim-tree.lua';
+  'kyazdani42/nvim-web-devicons';
+
+  'joshdick/onedark.vim';
+  'pineapplegiant/spaceduck';
+  'tpope/vim-unimpaired';
+  'tpope/vim-repeat';
+  'tpope/vim-fugitive';
+  'mg979/vim-visual-multi';
+
+
+  -- 'neovim/nvim-lspconfig';
+  -- 'kabouzeid/nvim-lspinstall';
+  'hrsh7th/nvim-compe';
+
+  --Deps for telescope
+  'nvim-lua/popup.nvim';
+  'nvim-lua/plenary.nvim';
+  'nvim-telescope/telescope.nvim';
+  'mfussenegger/nvim-dap';
+  'rcarriga/nvim-dap-ui';
+  {'junegunn/fzf', run = vim.fn['fzf#install']};
+  'neomake/neomake';
+}
+require'nvim-tree'.setup {} 
 local ts = require 'nvim-treesitter.configs'
 ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
-
-paq{'neovim/nvim-lspconfig'}
-paq{'kabouzeid/nvim-lspinstall'}
-paq{'hrsh7th/nvim-compe'}
-
--- Deps for telescope
-paq{'nvim-lua/popup.nvim'}
-paq{'nvim-lua/plenary.nvim'}
-paq{'nvim-telescope/telescope.nvim'}
-paq {'junegunn/fzf', run = vim.fn['fzf#install']}
-paq {'junegunn/fzf.vim'}
-
-
+require("dapui").setup()
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
@@ -87,14 +95,14 @@ map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
 map('n', '<C-l>', '<cmd>noh<CR>')    -- Clear highlights
 map('n', '<leader>o', 'm`o<Esc>``')  -- Insert a newline in normal mode
 
-local lsp = require 'lspconfig'
-local lspfuzzy = require 'lspfuzzy'
+-- local lsp = require 'lspconfig'
+-- local lspfuzzy = require 'lspfuzzy'
+-- local lspInstall = require 'lspInstall'
 
--- For ccls we use the default settings
-lsp.ccls.setup {}
--- root_dir is where the LSP server will start: here at the project root otherwise in current folder
-lsp.pyls.setup {root_dir = lsp.util.root_pattern('.git', vim.fn.getcwd())}
-lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
+-- -- For ccls we use the default settings
+-- lsp.ccls.setup {}
+-- -- root_dir is where the LSP server will start: here at the project root otherwise in current folder
+-- lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
 
 map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
@@ -119,14 +127,19 @@ map('n', '<leader>r', ':NvimTreeRefresh<CR>')
 
 map('n', '<C-k>', '[[<cmd>lua vim.lsp.buf.type_definition()<CR>]]')
 
-require'lspinstall'.setup() -- important
+-- require'lspconfig'.rust_analyzer.setup{}
 
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{}
-end
+-- require'lspconfig'.sourcekit.setup{
+--   cmd = { "xcrun", "sourcekit-lsp" };
+--   filetypes = { "swift" };
+-- }
 
+-- lspInstall.setup() -- important
 
+-- local servers = lspInstall.installed_servers()
+-- for _, server in pairs(servers) do
+--   require'lspconfig'[server].setup{}
+-- end
 
 require'compe'.setup {
   enabled = true;
@@ -152,3 +165,25 @@ require'compe'.setup {
     ultisnips = true;
   };
 }
+
+local dap = require('dap')
+
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/src/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    type = 'node2',
+    request = 'launch',
+    program = '${workspaceFolder}/${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+}
+
+
+vim.cmd 'colorscheme onedark'                         -- Put your favorite colorscheme here
