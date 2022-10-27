@@ -36,18 +36,18 @@ vim.opt.mouse = 'a'
 
 require "paq" {
   "savq/paq-nvim";                  -- Let Paq manage itself
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
 
-  -- "neovim/nvim-lspconfig";          -- Mind the semi-colons
   "hrsh7th/nvim-compe";
-
-  {"lervag/vimtex", opt=true};      -- Use braces when passing options
 
   'tpope/vim-commentary';
   'tpope/vim-surround';
-  {'savq/paq-nvim', opt=true};     -- Let Paq manage itself
-  'nvim-treesitter/nvim-treesitter';
-  'nvim-treesitter/playground';
-  -- 'ojroques/nvim-lspfuzzy';
+  -- 'nvim-treesitter/nvim-treesitter';
+  -- 'nvim-treesitter/playground';
+  'ojroques/nvim-lspfuzzy';
+  'williamboman/mason.nvim';
   'kassio/neoterm';
   'yamatsum/nvim-nonicons';
   'kyazdani42/nvim-tree.lua';
@@ -61,8 +61,6 @@ require "paq" {
   'mg979/vim-visual-multi';
 
 
-  -- 'neovim/nvim-lspconfig';
-  -- 'kabouzeid/nvim-lspinstall';
   'hrsh7th/nvim-compe';
 
   --Deps for telescope
@@ -74,15 +72,23 @@ require "paq" {
   {'junegunn/fzf', run = vim.fn['fzf#install']};
   'neomake/neomake';
 }
+
+require("mason").setup()
+require("mason-lspconfig").setup()
 require'nvim-tree'.setup {} 
-local ts = require 'nvim-treesitter.configs'
-ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
+-- local ts = require 'nvim-treesitter.configs'
+-- ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
 require("dapui").setup()
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
+
+-- require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.tsserver.setup{}
+-- require'lspconfig'.jdtls.setup{}
+
 
 map('', '<leader>c', '"+y')       -- Copy to clipboard in normal, visual, select and operator modes
 map('i', '<C-u>', '<C-g>u<C-u>')  -- Make <C-u> undo-friendly
@@ -104,15 +110,15 @@ map('n', '<leader>o', 'm`o<Esc>``')  -- Insert a newline in normal mode
 -- -- root_dir is where the LSP server will start: here at the project root otherwise in current folder
 -- lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
 
-map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-map('n', '<space>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-map('n', '<space>h', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>')
-map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+-- map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+-- map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+-- map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- map('n', '<space>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
+-- map('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+-- map('n', '<space>h', '<cmd>lua vim.lsp.buf.hover()<CR>')
+-- map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
+-- map('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>')
+-- map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 
 map('n', '<Leader>g',  [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
 map('n', '<Leader>f',  [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], { noremap = true, silent = true })
@@ -125,7 +131,7 @@ map('n', '<Leader>t',  [[<Cmd>lua require('telescope.builtin').git_commits()<CR>
 map('n', '<leader>n', ':NvimTreeToggle<CR>')
 map('n', '<leader>r', ':NvimTreeRefresh<CR>')
 
-map('n', '<C-k>', '[[<cmd>lua vim.lsp.buf.type_definition()<CR>]]')
+-- map('n', '<C-k>', '[[<cmd>lua vim.lsp.buf.type_definition()<CR>]]')
 
 -- require'lspconfig'.rust_analyzer.setup{}
 
@@ -187,3 +193,6 @@ dap.configurations.javascript = {
 
 
 vim.cmd 'colorscheme onedark'                         -- Put your favorite colorscheme here
+
+require("mason").setup()
+

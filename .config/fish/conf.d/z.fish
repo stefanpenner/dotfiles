@@ -40,8 +40,9 @@ else if contains $HOME $Z_EXCLUDE
 end
 
 # Setup completions once first
-__z_complete
-
+# __z_complete
+function __z_add
+end
 function __z_on_variable_pwd --on-variable PWD
   __z_add
 end

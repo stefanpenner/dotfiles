@@ -267,6 +267,10 @@ function git_turbo
   time git status --porcelain=2
 end
 
+function mc
+  mint clone --depth=1 $argv[1]
+end
+
 set -g fish_user_paths "/usr/local/opt/opencv@2/bin" $fish_user_paths
 set -gx ANDROID_HOME "$HOME/Library/Android/sdk/"
 set -gx VOLTA_HOME "$HOME/.volta"
