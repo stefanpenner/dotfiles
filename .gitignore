@@ -8,5 +8,8 @@
 .config/yarn/link/*
 .config/yarn/global/*
 .config/asciinema/config
-.config/gh/config.yml
+.config/gh/
 .config/coc/extensions/node_modules/
+.config/code-server/
+.config/tmux/plugins
+.config/iterm2/AppSupport
