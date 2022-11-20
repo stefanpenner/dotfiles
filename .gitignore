@@ -13,3 +13,5 @@
 .config/code-server/
 .config/tmux/plugins
 .config/iterm2/AppSupport
+.config/mozilla/vpn.moz
+.DS_Store

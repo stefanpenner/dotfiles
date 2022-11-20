@@ -36,9 +36,9 @@ vim.opt.mouse = 'a'
 
 require "paq" {
   "savq/paq-nvim";                  -- Let Paq manage itself
-  "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-  "neovim/nvim-lspconfig",
+  "neovim/nvim-lspconfig";
+
+  "hkupty/iron.nvim";
 
   "hrsh7th/nvim-compe";
 
@@ -47,7 +47,6 @@ require "paq" {
   -- 'nvim-treesitter/nvim-treesitter';
   -- 'nvim-treesitter/playground';
   'ojroques/nvim-lspfuzzy';
-  'williamboman/mason.nvim';
   'kassio/neoterm';
   'yamatsum/nvim-nonicons';
   'kyazdani42/nvim-tree.lua';
@@ -73,8 +72,6 @@ require "paq" {
   'neomake/neomake';
 }
 
-require("mason").setup()
-require("mason-lspconfig").setup()
 require'nvim-tree'.setup {} 
 -- local ts = require 'nvim-treesitter.configs'
 -- ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
@@ -101,24 +98,17 @@ map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
 map('n', '<C-l>', '<cmd>noh<CR>')    -- Clear highlights
 map('n', '<leader>o', 'm`o<Esc>``')  -- Insert a newline in normal mode
 
--- local lsp = require 'lspconfig'
--- local lspfuzzy = require 'lspfuzzy'
--- local lspInstall = require 'lspInstall'
+local lsp = require 'lspconfig'
 
--- -- For ccls we use the default settings
--- lsp.ccls.setup {}
--- -- root_dir is where the LSP server will start: here at the project root otherwise in current folder
--- lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
-
--- map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
--- map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
--- map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
--- map('n', '<space>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
--- map('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
--- map('n', '<space>h', '<cmd>lua vim.lsp.buf.hover()<CR>')
--- map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
--- map('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>')
--- map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+map('n', '<space>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
+map('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('n', '<space>h', '<cmd>lua vim.lsp.buf.hover()<CR>')
+map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
+map('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>')
+map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 
 map('n', '<Leader>g',  [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
 map('n', '<Leader>f',  [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], { noremap = true, silent = true })
@@ -131,21 +121,7 @@ map('n', '<Leader>t',  [[<Cmd>lua require('telescope.builtin').git_commits()<CR>
 map('n', '<leader>n', ':NvimTreeToggle<CR>')
 map('n', '<leader>r', ':NvimTreeRefresh<CR>')
 
--- map('n', '<C-k>', '[[<cmd>lua vim.lsp.buf.type_definition()<CR>]]')
-
--- require'lspconfig'.rust_analyzer.setup{}
-
--- require'lspconfig'.sourcekit.setup{
---   cmd = { "xcrun", "sourcekit-lsp" };
---   filetypes = { "swift" };
--- }
-
--- lspInstall.setup() -- important
-
--- local servers = lspInstall.installed_servers()
--- for _, server in pairs(servers) do
---   require'lspconfig'[server].setup{}
--- end
+map('n', '<C-k>', '[[<cmd>lua vim.lsp.buf.type_definition()<CR>]]')
 
 require'compe'.setup {
   enabled = true;
@@ -194,5 +170,50 @@ dap.configurations.javascript = {
 
 vim.cmd 'colorscheme onedark'                         -- Put your favorite colorscheme here
 
-require("mason").setup()
+local iron = require("iron.core")
 
+iron.setup {
+  config = {
+    -- Whether a repl should be discarded or not
+    scratch_repl = true,
+    -- Your repl definitions come here
+    repl_definition = {
+      sh = {
+        -- Can be a table or a function that
+        -- returns a table (see below)
+        command = {"zsh"}
+      }
+    },
+    -- How the repl window will be displayed
+    -- See below for more information
+    repl_open_cmd = require('iron.view').bottom(40),
+  },
+  -- Iron doesn't set keymaps by default anymore.
+  -- You can set them here or manually add keymaps to the functions in iron.core
+  keymaps = {
+    send_motion = "<space>sc",
+    visual_send = "<space>sc",
+    send_file = "<space>sf",
+    send_line = "<space>sl",
+    send_mark = "<space>sm",
+    mark_motion = "<space>mc",
+    mark_visual = "<space>mc",
+    remove_mark = "<space>md",
+    cr = "<space>s<cr>",
+    interrupt = "<space>s<space>",
+    exit = "<space>sq",
+    clear = "<space>cl",
+  },
+  -- If the highlight is on, you can change how it looks
+  -- For the available options, check nvim_set_hl
+  highlight = {
+    italic = true
+  },
+  ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
+}
+
+-- iron also has a list of commands, see :h iron-commands for all available commands
+vim.keymap.set('n', '<space>rs', '<cmd>IronRepl<cr>')
+vim.keymap.set('n', '<space>rr', '<cmd>IronRestart<cr>')
+vim.keymap.set('n', '<space>rf', '<cmd>IronFocus<cr>')
+vim.keymap.set('n', '<space>rh', '<cmd>IronHide<cr>')
