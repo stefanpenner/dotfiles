@@ -15,3 +15,4 @@
 .config/iterm2/AppSupport
 .config/mozilla/vpn.moz
 .DS_Store
+.config/github-copilot/hosts.json
