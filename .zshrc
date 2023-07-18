@@ -132,3 +132,11 @@ function pwdc() {
 function mc() {
   mint clone --depth=1 $@
 }
+
+# bun completions
+[ -s "/Users/stefanpenner/.bun/_bun" ] && source "/Users/stefanpenner/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+bindkey '^X' create_completion
