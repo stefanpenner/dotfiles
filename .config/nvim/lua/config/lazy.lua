@@ -11,6 +11,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+vim.opt.updatetime = 200 -- Faster completion (default is 4000ms)
+vim.opt.scrolloff = 8 -- Keep cursor away from screen edges
+
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
   ensure_installed = { "lua" }, -- Ensures "lua" is always installed
@@ -33,6 +36,7 @@ require("lazy").setup({
   install = { colorscheme = { "tokyonight" } },
   checker = { enabled = true }, -- Automatically check for plugin updates
   performance = {
+    filetypes = { exclude = { "markdown", "text" } },
     rtp = {
       disabled_plugins = {
         "gzip",
