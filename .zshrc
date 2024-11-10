@@ -83,6 +83,7 @@ plugins=(
   git
   # zsh-autosuggestions
   fzf
+  zsh_codex
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -140,3 +141,36 @@ function mc() {
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 bindkey '^X' create_completion
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+
+# pnpm
+export PNPM_HOME="/Users/stefanpenner/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/stefanpenner/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/stefanpenner/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/stefanpenner/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/stefanpenner/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
