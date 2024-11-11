@@ -1,49 +1,93 @@
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-
--- Check if lazy.nvim is already installed; if not, bootstrap it
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
+    "--single-branch",
+    "--depth=1",
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable",
     lazypath,
   })
 end
-vim.opt.updatetime = 200 -- Faster completion (default is 4000ms)
-vim.opt.scrolloff = 8 -- Keep cursor away from screen edges
-
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+
+-- -- Set essential options
+-- vim.opt.updatetime = 200 -- Faster completion (default is 4000ms)
+-- vim.opt.scrolloff = 8 -- Keep cursor away from screen edges
+-- vim.opt.laststatus = 3 -- Global statusline
+-- vim.opt.timeoutlen = 500 -- Time to wait for mapped sequence to complete
+-- vim.opt.redrawtime = 1500 -- Time for syntax highlighting
+
+-- Initialize lazy.nvim
 require("lazy").setup({
-  ensure_installed = { "lua" }, -- Ensures "lua" is always installed
-  highlight = { enable = true },
+  -- Core specs
   spec = {
-    -- LazyVim core plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "lazyvim.plugins.extras.coding.copilot" },
-    -- Additional language support and UI enhancements
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    -- Custom plugins
-    { import = "plugins" },
+    -- LazyVim core
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+    },
+    {
+      "folke/tokyonight.nvim",
+      lazy = false,
+      priority = 1000,
+      config = function()
+        vim.cmd([[colorscheme tokyonight-night]])
+      end,
+    },
+
+    -- -- Development tools
+    -- { import = "lazyvim.plugins.extras.coding.copilot" },
+    --
+    -- -- Language support
+    -- -- Uncomment to enable
+    -- -- { import = "lazyvim.plugins.extras.lang.typescript" },
+    -- -- { import = "lazyvim.plugins.extras.lang.json" },
+    --
+    -- -- UI enhancements
+    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    --
+    -- -- Custom plugins (load last)
+    -- { import = "plugins" },
   },
+
+  -- Default configuration
   defaults = {
-    lazy = false, -- Load custom plugins on startup by default
-    version = false, -- Always use the latest commit for plugins
+    lazy = true, -- Load plugins on demand
+    version = "*", -- Use latest stable versions
+    concurrency = 50, -- Max concurrent tasks
+    install_missing = true, -- Install missing plugins on startup
   },
-  install = { colorscheme = { "tokyonight" } },
-  checker = { enabled = true }, -- Automatically check for plugin updates
+
+  -- Update checker
+  checker = {
+    enabled = true, -- Auto check for updates
+    notify = true, -- Show notification on updates
+    frequency = 3600, -- Check every hour
+  },
+
+  -- Change detection
+  change_detection = {
+    enabled = true, -- Auto reload config on changes
+    notify = false, -- Don't show notification on config changes
+  },
+
+  -- Performance optimizations
   performance = {
-    filetypes = { exclude = { "markdown", "text" } },
+    -- cache = {
+    --   enabled = true,
+    -- },
+    -- reset_packpath = true,      -- Reset packpath
     rtp = {
+      reset = true, -- Reset rtp
       disabled_plugins = {
         "gzip",
-        -- Uncomment below to disable additional default plugins
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",
@@ -51,4 +95,12 @@ require("lazy").setup({
       },
     },
   },
+
+  -- UI customization
+  ui = {
+    size = { width = 0.8, height = 0.8 }, -- Popup window size
+    border = "rounded", -- Border style
+    -- wrap = true,                        -- Uncomment if you want wrapped lines
+  },
 })
+vim.cmd([[colorscheme tokyonight-night]])
