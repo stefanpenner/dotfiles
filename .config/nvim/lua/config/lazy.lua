@@ -39,19 +39,19 @@ require("lazy").setup({
       end,
     },
 
-    -- -- Development tools
-    -- { import = "lazyvim.plugins.extras.coding.copilot" },
-    --
-    -- -- Language support
-    -- -- Uncomment to enable
-    -- -- { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- -- { import = "lazyvim.plugins.extras.lang.json" },
-    --
-    -- -- UI enhancements
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    --
-    -- -- Custom plugins (load last)
-    -- { import = "plugins" },
+    -- Development tools
+    { import = "lazyvim.plugins.extras.coding.copilot" },
+
+    -- Language support
+    -- Uncomment to enable
+    -- { import = "lazyvim.plugins.extras.lang.typescript" },
+    -- { import = "lazyvim.plugins.extras.lang.json" },
+
+    -- UI enhancements
+    { import = "lazyvim.plugins.extras.ui.mini-animate" },
+
+    -- Custom plugins (load last)
+    { import = "plugins" },
   },
 
   -- Default configuration
