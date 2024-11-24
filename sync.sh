@@ -1,13 +1,21 @@
 #!/bin/sh
+set -euo pipefail
+
+trap 'echo "An error occurred. Exiting."; exit 1' ERR
 
 basename="$HOME/src/stefanpenner/dotfiles"
-backup=~/.dotfiles_backup/$(date +%m%d%H%M%Y%S)
+backup="$HOME/.dotfiles_backup/$(date +%Y%m%d%H%M%S)"
 
-for file in $(find $basename -maxdepth 1 -iname '.*' -not -path '*/.git')
-do
-  filename=$(basename $file)
-  mv "$HOME/$filename" "$backup" 2>/dev/null
+mkdir -p "$backup"
+
+find "$basename" -maxdepth 1 -iname '.*' -not -path '*/.git' | while read -r file; do
+  filename=$(basename "$file")
+
+  if [ -e "$HOME/$filename" ]; then
+    mv "$HOME/$filename" "$backup" || true
+  fi
+
   rm -rf "$HOME/$filename"
   echo " $file => ~/$filename"
-  ln -s "$file" ~
+  ln -s "$file" "$HOME/$filename"
 done

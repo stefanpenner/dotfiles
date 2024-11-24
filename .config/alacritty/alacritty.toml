@@ -1,39 +1,39 @@
 [colors]
-draw_bold_text_with_bright_colors = true
-
-[colors.bright]
-black = "0x666666"
-blue = "0x7aa6da"
-cyan = "0x70c0b1"
-green = "0xb9ca4a"
-magenta = "0xc397d8"
-red = "0xd54e53"
-white = "0xeaeaea"
-yellow = "0xe7c547"
+[colors.primary]
+background = "#1a1b26"  # Dark background
+foreground = "#c0caf5"  # Light blue foreground (text)
 
 [colors.normal]
-black = "0x1d1f21"
-blue = "0x81a2be"
-cyan = "0x8abeb7"
-green = "0xb5bd68"
-magenta = "0xb294bb"
-red = "0xcc6666"
-white = "0xc5c8c6"
-yellow = "0xf0c674"
+black   = "#32344a"  # Darker gray
+red     = "#f7768e"  # Soft red
+green   = "#9ece6a"  # Green
+yellow  = "#e0af68"  # Yellow
+blue    = "#7aa2f7"  # Blue
+magenta = "#bb9af7"  # Magenta
+cyan    = "#7dcfff"  # Cyan
+white   = "#a9b1d6"  # Light gray
 
-[colors.primary]
-background = "0x1e1e1e"
-foreground = "0xc5c8c6"
+[colors.bright]
+black   = "#545c7e"  # Gray
+red     = "#ff7a93"  # Brighter red
+green   = "#b9f27c"  # Bright green
+yellow  = "#ff9e64"  # Brighter yellow
+blue    = "#7aa2f7"  # Same blue as normal
+magenta = "#bb9af7"  # Same magenta as normal
+cyan    = "#7dcfff"  # Same cyan as normal
+white   = "#c0caf5"  # Bright white
 
-[cursor]
-style = "Block"
-unfocused_hollow = true
+[colors.cursor]
+text = "#1a1b26"     # Cursor text (contrasting background)
+cursor = "#c0caf5"   # Cursor color
 
-[font]
-size = 12.0
-[font.normal]
-  family = "Firacode Nerd Font"
+[colors.selection]
+text = "#c0caf5"        # Selected text color
+background = "#364a82"  # Selection background
 
-[window.dimensions]
-columns = 120
-lines = 30
+# Optional: Tab colors if using a terminal multiplexer like tmux
+# [colors.tabs]
+# active_background = "#3d59a1"   # Active tab background (deep blue)
+# active_foreground = "#c0caf5"   # Active tab text (light blue)
+# inactive_background = "#1a1b26" # Inactive tab background (dark)
+# inactive_foreground = "#545c7e" # Inactive tab text (gray)
