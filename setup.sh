@@ -30,7 +30,10 @@ echo "Installing oh-my-zsh..."
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 echo "oh-my-zsh installed successfully."
 
-sh ./scripts/fira-code.sh
+ls scripts | while read -r script; do
+  echo "Running scripts: scripts/$script ..."
+  sh "scripts/$script"
+done
 touch ~/.env
 
 echo "All installations completed successfully!"
