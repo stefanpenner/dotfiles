@@ -99,6 +99,10 @@ clone_if_missing "$HOME/.oh-my-zsh" "Oh My Zsh" 'sh -c "$(curl -fsSL https://raw
 P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 clone_if_missing "$P10K_DIR" "Powerlevel10k" 'git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"'
 
+# install zsh_codex
+CODEX_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh_codex"
+clone_if_missing "$CODEX_DIR" "zsh codex" '"git clone --depth=1https://github.com/tom-doerr/zsh_codex.git" "$CODEX_DIR"'
+
 # Install Nerd Fonts
 FONT_DIR="$HOME/Library/Fonts"
 FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
