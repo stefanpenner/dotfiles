@@ -48,7 +48,10 @@ text = "#c0caf5"        # Selected text color
 background = "#364a82"  # Selection background
 
 [window]
-decorations="Buttonless"
+# decorations="Buttonless"
+decorations="none"
+dynamic_padding = true
+
 # Optional: Tab colors if using a terminal multiplexer like tmux
 # [colors.tabs]
 # active_background = "#3d59a1"   # Active tab background (deep blue)
