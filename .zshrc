@@ -13,8 +13,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export EDITOR=nvim
 
 # Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
+# load a random theme each time oh-my-zsh is loaded, in which case, to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="zsh-tokyonight/tokyonight"
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -85,6 +84,8 @@ plugins=(
   fzf
   zsh_codex
 )
+
+bindkey '^X' create_completion
 
 source $ZSH/oh-my-zsh.sh
 
