@@ -111,4 +111,5 @@ source ~/.env
 source $HOME/.local/bin/env
 . "$HOME/.local/bin/env"
 
+fpath+=~/.zfunc; autoload -Uz compinit; compinit
 alias a=aerospace
