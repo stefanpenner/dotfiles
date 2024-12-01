@@ -105,3 +105,4 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 source ~/.env
+alias a=aerospace
