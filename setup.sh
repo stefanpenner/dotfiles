@@ -81,7 +81,7 @@ if [ ! -f "/Users/stef/.zprofile" ] || ! grep -q "brew shellenv" "/Users/stef/.z
 fi
 
 # Install Homebrew packages
-BREW_PACKAGES="fish thefuck htop tree nvim nmap rg jq bat lazygit lsd fzf"
+BREW_PACKAGES="fish thefuck htop tree nvim nmap rg jq bat lazygit lsd fzf aerospace"
 for package in $BREW_PACKAGES; do
   install_if_missing "$package" "$package" "brew install $package"
 done
