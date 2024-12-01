@@ -1,3 +1,5 @@
+export XDG_CONFIG_HOME=$HOME/.config/
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.G
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -105,4 +107,8 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 source ~/.env
+
+source $HOME/.local/bin/env
+. "$HOME/.local/bin/env"
+
 alias a=aerospace
