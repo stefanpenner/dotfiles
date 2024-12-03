@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# Shell safety flags
+set -euo pipefail
+IFS=$'\n\t'
+
+# Constants
+readonly RED=1
+readonly GREEN=2
+readonly PURPLE=141
+readonly YELLOW=178
+readonly PINK=212
+readonly GOLD=214
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") <organization-name>
+
+Clone or update all repositories from a GitHub organization.
+Requires: gh, jq, gum
+
+Arguments:
+    organization-name    Name of the GitHub organization
+EOF
+  exit 1
+}
+
+# Cleanup function
+cleanup() {
+  echo
+  gum style --foreground 1 "✗ Operation cancelled by user"
+  exit 1
+}
+
+# Set up trap for Ctrl-C (SIGINT)
+trap cleanup INT
+
+# Check if organization name was provided as first parameter
+if [[ -z "$1" ]]; then
+  echo "Error: Please provide the GitHub organization name as the first parameter"
+  echo "Usage: $0 <organization-name>"
+  exit 1
+fi
+
+# Set organization name from first parameter
+
+fetch_repos() {
+  local org_name="$1"
+  local title="Fetching repository list for $(gum style --foreground "$PINK" "$org_name") ..."
+  jq -r '.[].name' < <(gum spin --title "$title" -- gh repo list "$org_name" --json name --limit 1000)
+}
+
+update_repo() {
+  (
+    cd "$repo" &&
+      git fetch &&
+      git reset --hard "origin/$(git rev-parse --abbrev-ref HEAD)"
+  )
+}
+
+main() {
+  local org_name="$1"
+  local repos=($(fetch_repos $org_name))
+  local -r total_repos="${#repos[@]}"
+  local current=0
+
+  for repo in ${repos[@]}; do
+    current=$((current + 1))
+    local progress="[$(gum style --foreground "$PURPLE" "$current/$total_repos")]"
+
+    if [ -d "$repo" ]; then
+      local action="$(gum style --foreground "$YELLOW" "Updating")"
+      local head=$(cd $repo && git rev-parse --abbrev-ref HEAD)
+      local cmd="( cd \"$repo\" && git fetch && git reset --hard \"origin/$head\")"
+    else
+      local action="$(gum style --foreground "$GREEN" "Cloning")"
+      local cmd="git clone \"https://github.com/$org_name/$repo.git\""
+    fi
+
+    local title="$progress $action Repo: $(gum style --foreground "$PINK" "$org_name")/$(gum style --foreground "$GOLD" "$repo") ..."
+    # bash -c "$cmd"
+    gum spin --title "$title" -- bash -c "$cmd"
+  done
+
+  gum style --foreground "$GREEN" "✓ All repositories are local"
+
+  exit 0
+}
+
+main "$@"
