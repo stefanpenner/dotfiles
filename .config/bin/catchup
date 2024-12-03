@@ -1,0 +1,122 @@
+#!/bin/bash
+
+readonly RED=1
+readonly GREEN=2
+readonly YELLOW=3
+readonly BLUE=4
+readonly PURPLE=5
+readonly PINK=212
+
+cleanup() {
+  echo
+  gum style --foreground 1 "✗ Operation cancelled by user"
+  exit 1
+}
+
+trap cleanup INT
+
+if ! command -v gum &>/dev/null; then
+  echo "Error: gum is required. Install with: brew install gum"
+  exit 1
+fi
+
+XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+CHECKSUMS_DIR="$XDG_STATE_HOME/github_review/checksums"
+
+mkdir -p "$CHECKSUMS_DIR"
+
+get_last_commit() {
+  local progress=$1
+  local repo=$2
+  local title="$1 Fetching latest commit for $(gum style --foreground "$PINK" "$repo")..."
+  gum spin --title "$title" -- curl -s "https://api.github.com/repos/$repo/commits?per_page=1" | jq -r '.[0].sha' 2>/dev/null
+}
+
+get_start_point() {
+  local repo=$1
+  local checksum_file="$CHECKSUMS_DIR/${repo//\//_}"
+
+  if [[ -f "$checksum_file" ]]; then
+    cat "$checksum_file"
+  else
+    # If no checksum exists, return empty to indicate we should use 4 days
+    echo ""
+  fi
+}
+
+update_checksum() {
+  local repo=$1
+  local checksum=$2
+  local checksum_file="$CHECKSUMS_DIR/${repo//\//_}"
+  echo "$checksum" >"$checksum_file"
+}
+
+# Check for required dependencies
+for dep in jq curl gum; do
+  if ! command -v "$dep" &>/dev/null; then
+    gum style --foreground "$RED" "✘ Error: $dep is not installed"
+    gum style "Install on macOS with: brew install $dep"
+    exit 1
+  fi
+done
+
+get_default_branch() {
+  local progress=$1
+  local repo=$2
+  local title=" $progress Fetching default branch for $(gum style --foreground "$PINK" "$repo")..."
+  gum spin --title "$title" -- curl -s "https://api.github.com/repos/$repo" | jq -r .default_branch 2>/dev/null
+}
+
+main() {
+  local repos=("$@")
+  gum style --foreground "$BLUE" "🔍 Starting repository review..."
+
+  local urls=()
+  local total=${#repos[@]}
+  local current=0
+
+  for repo in "${repos[@]}"; do
+    ((current++))
+    local progress="[$(gum style --foreground "$PURPLE" "${#urls[@]}/$total")]"
+
+    local default_branch=$(get_default_branch $progress "$repo")
+    if [[ -z "$default_branch" || "$default_branch" == "null" ]]; then
+      gum style --foreground "$YELLOW" "$progress ⚠️  Skipping $repo - couldn't determine default branch"
+      continue
+    fi
+
+    local last_checksum=$(get_start_point "$repo")
+    local current_checksum=$(get_last_commit "$progress" "$repo")
+
+    if [[ -z "$current_checksum" || "$current_checksum" == "null" ]]; then
+      gum style --foreground "$YELLOW" "$progress ⚠️  Skipping $repo - couldn't fetch latest commit"
+      continue
+    fi
+
+    local url
+    if [[ -z "$last_checksum" ]]; then
+      gum style --foreground "$BLUE" "$progress 📅 First time checking $repo - showing last 4 days"
+      url="https://github.com/$repo/compare/$default_branch@{4day}...${default_branch}"
+    else
+      gum style --foreground "$BLUE" "$progress 🔄 Checking $repo changes since last view"
+      url="https://github.com/$repo/compare/$last_checksum...${default_branch}"
+    fi
+
+    urls+=("$url")
+    update_checksum "$repo" "$current_checksum"
+  done
+
+  if [[ ${#urls[@]} -gt 0 ]]; then
+    gum style --foreground "$GREEN" "🌐 Opening browser windows..."
+    aerospace workspace r
+    printf "%s\n" "${urls[@]}" | xargs -I {} open -na "Google Chrome" --args --new-window {}
+  fi
+
+  gum style --foreground "$GREEN" "✓ Review complete!"
+}
+
+if [[ $# -gt 0 ]]; then
+  main "$@"
+else
+  main neovim/neovim yetone/avante.nvim golang/go bazelbuild/bazel bazelbuild/bazel-gazelle
+fi
