@@ -17,3 +17,4 @@
 .DS_Store
 .config/github-copilot/hosts.json
 .config/aerospace/.webui_secret_key
+.config/rclone/rclone.conf
