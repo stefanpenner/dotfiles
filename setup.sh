@@ -74,9 +74,9 @@ fi
 install_if_missing "brew" "Homebrew" '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
 
 # Setup Homebrew environment
-if [ ! -f "/Users/stef/.zprofile" ] || ! grep -q "brew shellenv" "/Users/stef/.zprofile"; then
-  echo >>/Users/stef/.zprofile
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>/Users/stef/.zprofile
+if [ ! -f "$HOME/.zprofile" ] || ! grep -q "brew shellenv" "$HOME/.zprofile"; then
+  echo >>$HOME/.zprofile
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
