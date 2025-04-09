@@ -81,7 +81,7 @@ if [ ! -f "$HOME/.zprofile" ] || ! grep -q "brew shellenv" "$HOME/.zprofile"; th
 fi
 
 # Install Homebrew packages
-BREW_PACKAGES="fish thefuck htop tree nvim nmap rg jq bat lazygit lsd fzf aerospace fdr gum gh watch wgeut ast-grep viu chafa jstkdng/programs/ueberzugpp luarocks"
+BREW_PACKAGES="fish thefuck htop tree nvim nmap rg jq bat lazygit lsd fzf fd gum gh watch wget ast-grep viu chafa jstkdng/programs/ueberzugpp luarocks"
 for package in $BREW_PACKAGES; do
   install_if_missing "$package" "$package" "brew install $package"
 done
@@ -97,11 +97,13 @@ clone_if_missing "$HOME/.oh-my-zsh" "Oh My Zsh" 'sh -c "$(curl -fsSL https://raw
 
 # Install Powerlevel10k
 P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+mkdir -p "$P10K_DIR"
 clone_if_missing "$P10K_DIR" "Powerlevel10k" 'git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"'
 
 # install zsh_codex
 CODEX_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh_codex"
-clone_if_missing "$CODEX_DIR" "zsh codex" '"git clone --depth=1https://github.com/tom-doerr/zsh_codex.git" "$CODEX_DIR"'
+mkdir -p "$CODEX_DIR"
+clone_if_missing "$CODEX_DIR" "zsh codex" '"git clone --depth=1 https://github.com/tom-doerr/zsh_codex.git" "$CODEX_DIR"'
 
 # Install Nerd Fonts
 FONT_DIR="$HOME/Library/Fonts"
