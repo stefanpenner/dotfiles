@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "editor": {
+    "vimMode": false
+  },
+  "model": {
+    "modelId": "gpt-5",
+    "displayModelId": "gpt-5",
+    "displayName": "OpenAI GPT-5",
+    "displayNameShort": "GPT-5",
+    "aliases": []
+  },
+  "hasChangedDefaultModel": false,
+  "permissions": {
+    "allow": [
+      "Shell(ls)",
+      "Shell(/usr/bin/env)"
+    ],
+    "deny": []
+  },
+  "privacyCache": {
+    "ghostMode": false,
+    "privacyMode": 3,
+    "updatedAt": 1754614134559
+  }
+}

@@ -1,6 +1,6 @@
 [user]
   name = Stefan Penner
-	email = spenner@linkedin.com
+  email = stef@iamstef.net
   gpgsign = true
 [alias]
   last = log -1 HEAD
@@ -41,3 +41,11 @@
 	required = true
 [protocol "file"]
 	allow = always
+[user]
+    signingkey = /Users/stef/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/PublicKeys/fac20ea41ba81247b7fe0e5ad5fdd599.pub
+[commit]
+    gpgsign = true
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/.gitallowedsigners
