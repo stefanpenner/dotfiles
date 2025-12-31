@@ -1,5 +1,13 @@
 export XDG_CONFIG_HOME=$HOME/.config
 
+# Ghostty terminal optimizations
+if [[ "$TERM_PROGRAM" == "Ghostty" ]] || [[ -n "$GHOSTTY_VERSION" ]]; then
+  # Ghostty supports true color and modern terminal features
+  export COLORTERM=truecolor
+  # Optimize for Ghostty's GPU acceleration
+  export TERM=xterm-256color
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -46,12 +54,36 @@ setopt HIST_VERIFY            # Show command before executing
 setopt APPEND_HISTORY         # Append to history file
 setopt INC_APPEND_HISTORY     # Append immediately, not on exit
 
+# Modern zsh options for better UX
+setopt AUTO_CD                # cd by typing directory name if it's not a command
+setopt CORRECT                # Spelling correction for commands
+setopt CORRECT_ALL            # Spelling correction for arguments
+setopt GLOB_COMPLETE          # Complete globs
+setopt NUMERIC_GLOB_SORT      # Sort numeric filenames numerically
+setopt EXTENDED_GLOB          # Enable extended globbing patterns
+setopt GLOB_STAR_SHORT        # **/*.txt expands to all .txt files recursively
+
 # Completion improvements
 setopt COMPLETE_IN_WORD        # Complete from both ends
 setopt AUTO_MENU              # Show completion menu on tab
 setopt AUTO_LIST              # List choices on ambiguous completion
 setopt AUTO_PARAM_SLASH       # Add trailing slash to directories
 setopt COMPLETE_ALIASES       # Complete aliases
+setopt MENU_COMPLETE          # Insert first match immediately
+setopt LIST_PACKED            # Use compact completion lists
+setopt LIST_ROWS_FIRST        # Matches are sorted in rows
+
+# Modern completion system
+zstyle ':completion:*' menu select                              # Use menu selection
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case-insensitive matching
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colorize completions
+zstyle ':completion:*' group-name ''                            # Group completions
+zstyle ':completion:*' format ' %F{yellow}-- %d --%f'            # Format group headers
+zstyle ':completion:*' use-cache yes                            # Use completion cache
+zstyle ':completion:*' cache-path "$HOME/.cache/zsh-completion"  # Cache location
+zstyle ':completion:*' rehash true                              # Auto-rehash commands
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'         # Format descriptions
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case, to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -72,17 +104,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+# Oh My Zsh update configuration
+zstyle ':omz:update' mode reminder  # remind me to update when it's time
+zstyle ':omz:update' frequency 7    # check for updates weekly
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
-
+  
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
 
@@ -117,11 +145,16 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+# Modern essential plugins:
+#   - git: Git aliases and functions
+#   - zsh-autosuggestions: Command suggestions based on history (install: git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions)
+#   - zsh-syntax-highlighting: Syntax highlighting (install: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting)
+#   - fzf: Fuzzy finder integration
+#   - zsh_codex: AI code completion
 plugins=(
   git
-  # zsh-autosuggestions
+  zsh-autosuggestions
+  zsh-syntax-highlighting
   fzf
   zsh_codex
 )
@@ -129,6 +162,32 @@ plugins=(
 bindkey '^X' create_completion
 
 source $ZSH/oh-my-zsh.sh
+
+# Modern plugin configurations (load after oh-my-zsh)
+# zsh-autosuggestions configuration
+if [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+  ZSH_AUTOSUGGEST_STRATEGY=(history completion)  # Use both history and completion
+  ZSH_AUTOSUGGEST_USE_ASYNC=true                  # Async suggestions for better performance
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'          # Subtle highlight color
+  bindkey '^ ' autosuggest-accept                 # Accept suggestion with Ctrl+Space
+  bindkey '^f' autosuggest-accept                 # Accept suggestion with Ctrl+f
+fi
+
+# zsh-syntax-highlighting configuration (must be last)
+if [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+  # Load after all other plugins
+  source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  # Customize highlight styles
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_STYLES[default]='none'
+  ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold'
+  ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+  ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan'
+  ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
+  ZSH_HIGHLIGHT_STYLES[function]='fg=yellow'
+  ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
+  ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
+fi
 
 # User configuration
 # export VOLTA_HOME="$HOME/.volta"
@@ -160,15 +219,27 @@ alias lg=lazygit
 # Load local environment
 [[ -f $HOME/.local/bin/env ]] && source $HOME/.local/bin/env
 
-# Zsh completions - use cache for faster startup
+# Modern zsh completions - optimized for performance
 fpath+=~/.zfunc
+
+# Create cache directory if it doesn't exist
+[[ -d "$HOME/.cache/zsh-completion" ]] || mkdir -p "$HOME/.cache/zsh-completion"
+
 # Only run full compinit check if dump is older than 24 hours (faster startup)
+# This significantly speeds up shell initialization
 autoload -Uz compinit
 if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit -C  # skip check if dump is fresh (< 24h old)
+  compinit -C -d "$HOME/.cache/zsh-completion/.zcompdump"  # skip check if dump is fresh (< 24h old)
 else
-  compinit     # full check if dump is old or missing
+  compinit -d "$HOME/.cache/zsh-completion/.zcompdump"      # full check if dump is old or missing
 fi
+
+# Modern key bindings for better navigation
+bindkey '^[[1;5C' forward-word          # Ctrl+Right: forward word
+bindkey '^[[1;5D' backward-word         # Ctrl+Left: backward word
+bindkey '^H' backward-kill-word         # Ctrl+Backspace: kill word
+bindkey '^[[3;5~' kill-word             # Ctrl+Delete: kill word
+bindkey '^[[Z' reverse-menu-complete    # Shift+Tab: reverse menu complete
 
 # Functions
 owu() {
