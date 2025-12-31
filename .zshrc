@@ -1,23 +1,62 @@
-export XDG_CONFIG_HOME=$HOME/.config/
+export XDG_CONFIG_HOME=$HOME/.config
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.G
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-export PATH=/opt/homebrew/bin/:$HOME/bin:/usr/local/bin:$PATH
+# Helper function to add paths only if they don't already exist
+# Warns if a duplicate is detected to help catch configuration issues
+path_prepend() {
+  local dir caller_info path_index=0
+  caller_info="${funcfiletrace[1]:-unknown}"
+  for dir in "$@"; do
+    [[ -d "$dir" ]] || continue
+    case ":${PATH}:" in
+      *:"$dir":*)
+        # Find which position in PATH (1-indexed)
+        path_index=$(echo ":$PATH:" | tr ':' '\n' | grep -n "^$dir$" | head -1 | cut -d: -f1)
+        echo "⚠️  Warning: Duplicate PATH entry detected: $dir" >&2
+        echo "   Called from: $caller_info" >&2
+        echo "   Already exists at position $path_index in PATH" >&2
+        ;;
+      *)
+        export PATH="$dir:$PATH"
+        ;;
+    esac
+  done
+}
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export EDITOR=nvim
 
+# History configuration
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY          # Share history between sessions
+setopt HIST_IGNORE_DUPS       # Don't record duplicates
+setopt HIST_IGNORE_ALL_DUPS   # Remove older duplicates
+setopt HIST_FIND_NO_DUPS      # Don't show duplicates in search
+setopt HIST_IGNORE_SPACE      # Ignore commands starting with space
+setopt HIST_VERIFY            # Show command before executing
+setopt APPEND_HISTORY         # Append to history file
+setopt INC_APPEND_HISTORY     # Append immediately, not on exit
+
+# Completion improvements
+setopt COMPLETE_IN_WORD        # Complete from both ends
+setopt AUTO_MENU              # Show completion menu on tab
+setopt AUTO_LIST              # List choices on ambiguous completion
+setopt AUTO_PARAM_SLASH       # Add trailing slash to directories
+setopt COMPLETE_ALIASES       # Complete aliases
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case, to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="zsh-tokyonight/tokyonight"
+# ZSH_THEME="zsh-tokyonight/tokyonight"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
@@ -92,24 +131,57 @@ bindkey '^X' create_completion
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-export PATH="$HOME/.config/bin:$PATH"
+# export VOLTA_HOME="$HOME/.volta"
+# export PATH="$VOLTA_HOME/bin:$PATH"
+# export PATH="$HOME/.config/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export FLYCTL_INSTALL="/Users/stefanpenner/.fly"
+
+# PATH configuration - using helper to avoid duplicates
+path_prepend \
+  "$HOME/bin" \
+  "$HOME/go/bin" \
+  "$HOME/.fly/bin" \
+  "$HOME/.bun/bin" \
+  "$HOME/.local/bin"
+
+# Tool-specific configurations
 export FLYCTL_INSTALL="$HOME/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
+export BUN_INSTALL="$HOME/.bun"
 
+# Aliases
 [[ -f /opt/homebrew/bin/lsd ]] && alias ls=/opt/homebrew/bin/lsd
+alias lg=lazygit
 
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-source ~/.env
+# Load environment variables (API keys, etc.)
+[[ -f ~/.env ]] && source ~/.env
 
-source $HOME/.local/bin/env
-. "$HOME/.local/bin/env"
+# Load local environment
+[[ -f $HOME/.local/bin/env ]] && source $HOME/.local/bin/env
 
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
-alias a=aerospace
+# Zsh completions - use cache for faster startup
+fpath+=~/.zfunc
+# Only run full compinit check if dump is older than 24 hours (faster startup)
+autoload -Uz compinit
+if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit -C  # skip check if dump is fresh (< 24h old)
+else
+  compinit     # full check if dump is old or missing
+fi
+
+# Functions
+owu() {
+  DATA_DIR=~/.open-webui uvx --python 3.11 open-webui@latest serve
+}
+
+# Doppler shortcuts
+alias drun='doppler run --'
+alias dsh='doppler run --project aiur --config=workstation -- $SHELL'
+alias denv='doppler secrets download --no-file --format env'
+
+# SSH agent socket
+export SSH_AUTH_SOCK=$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+
+# Bun completions
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
