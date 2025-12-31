@@ -15,6 +15,9 @@
   la = "!git config -l | grep alias | cut -c 7-"
   pr  = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
   pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+  l = log --color --graph \
+  --pretty=format:'%Cred%h%Creset %C(cyan)%G?%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)%an%Creset %C(magenta)<%GS %GK>%Creset' \
+  --abbrev-commit
   quick-stats = ! /usr/local/bin/git-quick-stats
 [push]
 	default = simple
