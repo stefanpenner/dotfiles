@@ -18,3 +18,11 @@
 .config/github-copilot/hosts.json
 .config/aerospace/.webui_secret_key
 .config/rclone/rclone.conf
+.config/.android/cache
+.config/.android
+.config/cursor/chats
+.config/cursor/cli-config.json
+.config/dlv
+.config/lazygit
+.config/ngrok
+.config/swiftpm
