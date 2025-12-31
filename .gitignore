@@ -26,3 +26,6 @@
 .config/lazygit
 .config/ngrok
 .config/swiftpm
+.config/uv
+.config/sketchybar
+.config/avante.nvim/config.json
