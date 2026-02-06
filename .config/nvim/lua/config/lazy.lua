@@ -40,15 +40,12 @@ require("lazy").setup({
     },
 
     -- Development tools
-    { import = "lazyvim.plugins.extras.coding.copilot" },
+    { import = "lazyvim.plugins.extras.ai.copilot" },
 
     -- Language support
     -- Uncomment to enable
     -- { import = "lazyvim.plugins.extras.lang.typescript" },
     -- { import = "lazyvim.plugins.extras.lang.json" },
-
-    -- UI enhancements
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
 
     -- Custom plugins (load last)
     { import = "plugins" },
@@ -64,9 +61,7 @@ require("lazy").setup({
 
   -- Update checker
   checker = {
-    enabled = true, -- Auto check for updates
-    notify = true, -- Show notification on updates
-    frequency = 3600, -- Check every hour
+    enabled = false, -- Disabled for faster startup; run :Lazy check manually
   },
 
   -- Change detection
@@ -103,4 +98,3 @@ require("lazy").setup({
     -- wrap = true,                        -- Uncomment if you want wrapped lines
   },
 })
-vim.cmd([[colorscheme tokyonight-night]])
