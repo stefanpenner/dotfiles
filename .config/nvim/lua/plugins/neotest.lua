@@ -3,17 +3,17 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-neotest/nvim-nio",
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      { "fredrikaverpil/neotest-golang", version = "*" }, -- Installation
+      -- plenary and treesitter are provided by LazyVim
+      { "fredrikaverpil/neotest-golang", version = "*" },
     },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-golang"), -- Registration
-        },
-      })
+    opts = {
+      adapters = {},
+    },
+    config = function(_, opts)
+      opts.adapters = {
+        require("neotest-golang"),
+      }
+      require("neotest").setup(opts)
     end,
   },
 }

@@ -190,8 +190,6 @@ if [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; 
 fi
 
 # User configuration
-# export VOLTA_HOME="$HOME/.volta"
-# export PATH="$VOLTA_HOME/bin:$PATH"
 # export PATH="$HOME/.config/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -200,10 +198,11 @@ fi
 # PATH configuration - using helper to avoid duplicates
 path_prepend \
   "$HOME/bin" \
-  "$HOME/go/bin" \
   "$HOME/.fly/bin" \
   "$HOME/.bun/bin" \
-  "$HOME/.local/bin"
+  "$HOME/.local/bin" \
+  "$HOME/sdk/go1.25.0/bin" \
+  "$HOME/go/bin" 
 
 # Tool-specific configurations
 export FLYCTL_INSTALL="$HOME/.fly"

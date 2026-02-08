@@ -14,70 +14,58 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
--- -- Set essential options
--- vim.opt.updatetime = 200 -- Faster completion (default is 4000ms)
--- vim.opt.scrolloff = 8 -- Keep cursor away from screen edges
--- vim.opt.laststatus = 3 -- Global statusline
--- vim.opt.timeoutlen = 500 -- Time to wait for mapped sequence to complete
--- vim.opt.redrawtime = 1500 -- Time for syntax highlighting
-
 -- Initialize lazy.nvim
 require("lazy").setup({
-  -- Core specs
   spec = {
     -- LazyVim core
     {
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
     },
+    -- Colorscheme
     {
       "folke/tokyonight.nvim",
       lazy = false,
       priority = 1000,
-      config = function()
-        vim.cmd([[colorscheme tokyonight-night]])
+      opts = {
+        style = "night",
+      },
+      init = function()
+        vim.cmd.colorscheme("tokyonight-night")
       end,
     },
 
     -- Development tools
     { import = "lazyvim.plugins.extras.ai.copilot" },
 
-    -- Language support
-    -- Uncomment to enable
-    -- { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
+    -- UI enhancements
+    { import = "lazyvim.plugins.extras.ui.mini-animate" },
 
     -- Custom plugins (load last)
     { import = "plugins" },
   },
 
-  -- Default configuration
   defaults = {
-    lazy = true, -- Load plugins on demand
-    version = "*", -- Use latest stable versions
-    concurrency = 50, -- Max concurrent tasks
-    install_missing = true, -- Install missing plugins on startup
+    lazy = true,
+    version = "*",
   },
 
-  -- Update checker
+  concurrency = 50,
+
   checker = {
-    enabled = false, -- Disabled for faster startup; run :Lazy check manually
+    enabled = true,
+    notify = true,
+    frequency = 3600,
   },
 
-  -- Change detection
   change_detection = {
-    enabled = true, -- Auto reload config on changes
-    notify = false, -- Don't show notification on config changes
+    enabled = true,
+    notify = false,
   },
 
-  -- Performance optimizations
   performance = {
-    -- cache = {
-    --   enabled = true,
-    -- },
-    -- reset_packpath = true,      -- Reset packpath
     rtp = {
-      reset = true, -- Reset rtp
+      reset = true,
       disabled_plugins = {
         "gzip",
         "matchit",
@@ -91,10 +79,8 @@ require("lazy").setup({
     },
   },
 
-  -- UI customization
   ui = {
-    size = { width = 0.8, height = 0.8 }, -- Popup window size
-    border = "rounded", -- Border style
-    -- wrap = true,                        -- Uncomment if you want wrapped lines
+    size = { width = 0.8, height = 0.8 },
+    border = "rounded",
   },
 })
