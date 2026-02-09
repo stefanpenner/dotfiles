@@ -15,24 +15,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Helper function to add paths only if they don't already exist
-# Warns if a duplicate is detected to help catch configuration issues
+# Helper function to prepend paths, skipping duplicates
 path_prepend() {
-  local dir caller_info path_index=0
-  caller_info="${funcfiletrace[1]:-unknown}"
+  local dir
   for dir in "$@"; do
     [[ -d "$dir" ]] || continue
     case ":${PATH}:" in
-      *:"$dir":*)
-        # Find which position in PATH (1-indexed)
-        path_index=$(echo ":$PATH:" | tr ':' '\n' | grep -n "^$dir$" | head -1 | cut -d: -f1)
-        echo "⚠️  Warning: Duplicate PATH entry detected: $dir" >&2
-        echo "   Called from: $caller_info" >&2
-        echo "   Already exists at position $path_index in PATH" >&2
-        ;;
-      *)
-        export PATH="$dir:$PATH"
-        ;;
+      *:"$dir":*) ;;  # already in PATH, skip
+      *) export PATH="$dir:$PATH" ;;
     esac
   done
 }
@@ -43,9 +33,10 @@ export EDITOR=nvim
 
 # History configuration
 HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt SHARE_HISTORY          # Share history between sessions
+HISTSIZE=50000
+SAVEHIST=50000
+unsetopt SHARE_HISTORY        # Don't auto-import other sessions' history
+setopt EXTENDED_HISTORY       # Save timestamps and duration
 setopt HIST_IGNORE_DUPS       # Don't record duplicates
 setopt HIST_IGNORE_ALL_DUPS   # Remove older duplicates
 setopt HIST_FIND_NO_DUPS      # Don't show duplicates in search
