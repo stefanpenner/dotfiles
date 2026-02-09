@@ -48,7 +48,6 @@ setopt INC_APPEND_HISTORY     # Append immediately, not on exit
 # Modern zsh options for better UX
 setopt AUTO_CD                # cd by typing directory name if it's not a command
 setopt CORRECT                # Spelling correction for commands
-setopt CORRECT_ALL            # Spelling correction for arguments
 setopt GLOB_COMPLETE          # Complete globs
 setopt NUMERIC_GLOB_SORT      # Sort numeric filenames numerically
 setopt EXTENDED_GLOB          # Enable extended globbing patterns
@@ -59,8 +58,6 @@ setopt COMPLETE_IN_WORD        # Complete from both ends
 setopt AUTO_MENU              # Show completion menu on tab
 setopt AUTO_LIST              # List choices on ambiguous completion
 setopt AUTO_PARAM_SLASH       # Add trailing slash to directories
-setopt COMPLETE_ALIASES       # Complete aliases
-setopt MENU_COMPLETE          # Insert first match immediately
 setopt LIST_PACKED            # Use compact completion lists
 setopt LIST_ROWS_FIRST        # Matches are sorted in rows
 
@@ -82,56 +79,9 @@ zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 # ZSH_THEME="zsh-tokyonight/tokyonight"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
 # Oh My Zsh update configuration
 zstyle ':omz:update' mode reminder  # remind me to update when it's time
 zstyle ':omz:update' frequency 7    # check for updates weekly
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-  
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -166,9 +116,7 @@ fi
 
 # zsh-syntax-highlighting configuration (must be last)
 if [[ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
-  # Load after all other plugins
-  source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  # Customize highlight styles
+  # Customize highlight styles (plugin is loaded via oh-my-zsh plugins array)
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
   ZSH_HIGHLIGHT_STYLES[default]='none'
   ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold'
@@ -192,7 +140,7 @@ path_prepend \
   "$HOME/.fly/bin" \
   "$HOME/.bun/bin" \
   "$HOME/.local/bin" \
-  "$HOME/sdk/go1.25.0/bin" \
+  "$HOME/sdk/go/bin" \
   "$HOME/go/bin" 
 
 # Tool-specific configurations
@@ -204,7 +152,11 @@ export BUN_INSTALL="$HOME/.bun"
 alias lg=lazygit
 
 # Load environment variables (API keys, etc.)
-[[ -f ~/.env ]] && source ~/.env
+if [[ -f ~/.env ]]; then
+  set -a
+  source ~/.env
+  set +a
+fi
 
 # Load local environment
 [[ -f $HOME/.local/bin/env ]] && source $HOME/.local/bin/env
@@ -219,9 +171,9 @@ fpath+=~/.zfunc
 # This significantly speeds up shell initialization
 autoload -Uz compinit
 if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit -C -d "$HOME/.cache/zsh-completion/.zcompdump"  # skip check if dump is fresh (< 24h old)
-else
   compinit -d "$HOME/.cache/zsh-completion/.zcompdump"      # full check if dump is old or missing
+else
+  compinit -C -d "$HOME/.cache/zsh-completion/.zcompdump"   # skip check if dump is fresh (< 24h old)
 fi
 
 # Modern key bindings for better navigation
