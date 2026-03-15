@@ -1,6 +1,6 @@
 # Shared zsh config — sourced by ~/.zshrc
 # Dependencies:
-#   brew install fzf fd bat lsd direnv zsh-autosuggestions zsh-fast-syntax-highlighting
+#   brew install fzf fd bat bat-extras lsd direnv zsh-autosuggestions zsh-fast-syntax-highlighting zsh-history-substring-search
 #   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zsh/plugins/powerlevel10k
 
 # --- Helpers ---
@@ -92,6 +92,7 @@ source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 # --- Aliases ---
 [[ -f /opt/homebrew/bin/lsd ]] && alias ls=/opt/homebrew/bin/lsd
 alias lg=lazygit
+alias man=/opt/homebrew/bin/batman
 
 # --- fzf ---
 eval "$(fzf --zsh)"
@@ -118,6 +119,11 @@ eval "$(direnv hook zsh)"
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
+
+# --- zsh-history-substring-search ---
+source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # --- zsh-fast-syntax-highlighting (must be last plugin) ---
 source /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
