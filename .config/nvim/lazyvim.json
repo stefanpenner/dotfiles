@@ -8,7 +8,7 @@
     "lazyvim.plugins.extras.lang.markdown",
     "lazyvim.plugins.extras.test.core"
   ],
-  "install_version": 7,
+  "install_version": 8,
   "news": {
     "NEWS.md": "11866"
   },
