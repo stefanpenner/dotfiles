@@ -1,7 +1,34 @@
 # Shared zsh config — sourced by ~/.zshrc
 # Dependencies:
 #   brew install fzf fd bat bat-extras lsd direnv zsh-autosuggestions zsh-fast-syntax-highlighting zsh-history-substring-search
+#   — or equivalent packages via apt/dnf/pacman
 #   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zsh/plugins/powerlevel10k
+
+# --- Platform detection (run once) ---
+if (( $+commands[brew] )); then
+  _zsh_brew_prefix="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+else
+  _zsh_brew_prefix=""
+fi
+
+# Candidate directories for zsh plugin/share files
+_zsh_share_dirs=(
+  ${_zsh_brew_prefix:+$_zsh_brew_prefix/share}
+  /usr/share
+  /usr/local/share
+)
+
+# Source the first existing file from a list of candidates
+_source_first() {
+  local f
+  for f in "$@"; do
+    if [[ -f "$f" ]]; then
+      source "$f"
+      return 0
+    fi
+  done
+  return 1
+}
 
 # --- Helpers ---
 path_prepend() {
@@ -17,54 +44,51 @@ path_prepend() {
 
 # --- Auto-install missing dependencies ---
 _zsh_ensure_deps() {
-  # package → quick check (command or file)
-  local -A brew_checks=(
-    fzf                          fzf
-    fd                           fd
-    bat                          bat
-    bat-extras                   batman
-    lsd                          lsd
-    direnv                       direnv
-    zsh-autosuggestions          /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    zsh-fast-syntax-highlighting /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-    zsh-history-substring-search /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-  )
-  local missing_brew=()
-  local missing_git=false
+  local missing=()
   local p10k_dir="$HOME/.config/zsh/plugins/powerlevel10k"
 
-  for pkg check in "${(@kv)brew_checks}"; do
-    if [[ "$check" == /* ]]; then
-      [[ -f "$check" ]] || missing_brew+=("$pkg")
-    else
-      (( $+commands[$check] )) || missing_brew+=("$pkg")
-    fi
+  # Commands
+  local -A cmd_checks=(fzf fzf fd fd bat bat bat-extras batman lsd lsd direnv direnv)
+  local pkg cmd
+  for pkg cmd in "${(@kv)cmd_checks}"; do
+    (( $+commands[$cmd] )) || missing+=("$pkg")
   done
 
-  [[ ! -d "$p10k_dir" ]] && missing_git=true
-
-  # Nothing missing — bail early
-  if (( ! ${#missing_brew} )) && ! $missing_git; then
-    return 0
-  fi
-
-  echo "zsh: the following dependencies are missing:"
-  for pkg in "${missing_brew[@]}"; do
-    echo "  brew: $pkg"
+  # Plugins — check across all share dirs
+  local -A plugin_files=(
+    zsh-autosuggestions          zsh-autosuggestions/zsh-autosuggestions.zsh
+    zsh-fast-syntax-highlighting zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+    zsh-history-substring-search zsh-history-substring-search/zsh-history-substring-search.zsh
+  )
+  local subpath found d
+  for pkg subpath in "${(@kv)plugin_files}"; do
+    found=false
+    for d in $_zsh_share_dirs; do
+      [[ -f "$d/$subpath" ]] && { found=true; break; }
+    done
+    $found || missing+=("$pkg")
   done
-  $missing_git && echo "  git:  powerlevel10k (→ $p10k_dir)"
-  echo
 
-  read -q "reply?Install now? [y/N] " || { echo; return 0; }
-  echo
+  local missing_p10k=false
+  [[ ! -d "$p10k_dir" ]] && missing_p10k=true
 
-  if (( ${#missing_brew} )); then
-    echo "zsh: brew install ${missing_brew[*]}"
-    brew install "${missing_brew[@]}"
+  (( ${#missing} )) || $missing_p10k || return 0
+
+  echo "zsh: missing dependencies:"
+  printf '  %s\n' "${missing[@]}"
+  $missing_p10k && echo "  powerlevel10k (git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $p10k_dir)"
+
+  # Only auto-install via brew — package names vary too much across distros
+  if (( ${#missing} )) && (( $+commands[brew] )); then
+    read -q "reply?Install with brew now? [y/N] " || { echo; return 0; }
+    echo
+    echo "zsh: brew install ${missing[*]}"
+    brew install "${missing[@]}"
   fi
 
-  if $missing_git; then
-    echo "zsh: cloning powerlevel10k…"
+  if $missing_p10k; then
+    read -q "reply?Clone powerlevel10k now? [y/N] " || { echo; return 0; }
+    echo
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
   fi
 }
@@ -127,7 +151,12 @@ _zsh_setup_options() {
 }
 
 _zsh_setup_completion() {
-  fpath=(/opt/homebrew/share/zsh/site-functions ~/.zfunc $fpath)
+  local d
+  for d in $_zsh_share_dirs; do
+    [[ -d "$d/zsh/site-functions" ]] && fpath=("$d/zsh/site-functions" $fpath)
+    [[ -d "$d/zsh/vendor-completions" ]] && fpath=("$d/zsh/vendor-completions" $fpath)
+  done
+  fpath=(~/.zfunc $fpath)
 
   zstyle ':completion:*' menu select
   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -181,9 +210,22 @@ _zsh_setup_aliases() {
 }
 
 _zsh_setup_fzf() {
-  # Static source instead of eval "$(fzf --zsh)" — avoids subprocess on every startup
-  [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]] && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
-  [[ -f /opt/homebrew/opt/fzf/shell/completion.zsh ]] && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  local fzf_base=""
+  local candidate
+  for candidate in \
+    ${_zsh_brew_prefix:+$_zsh_brew_prefix/opt/fzf/shell} \
+    /usr/share/fzf \
+    /usr/share/doc/fzf/examples; do
+    if [[ -d "$candidate" ]]; then
+      fzf_base="$candidate"
+      break
+    fi
+  done
+
+  if [[ -n "$fzf_base" ]]; then
+    [[ -f "$fzf_base/key-bindings.zsh" ]] && source "$fzf_base/key-bindings.zsh"
+    [[ -f "$fzf_base/completion.zsh" ]]   && source "$fzf_base/completion.zsh"
+  fi
 
   export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
   export FZF_DEFAULT_OPTS=" \
@@ -207,20 +249,17 @@ _zsh_setup_direnv() {
 
 _zsh_setup_plugins() {
   # zsh-autosuggestions
-  [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
-    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  _source_first ${_zsh_share_dirs/%//zsh-autosuggestions/zsh-autosuggestions.zsh}
   ZSH_AUTOSUGGEST_STRATEGY=(history completion)
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
 
   # zsh-history-substring-search
-  [[ -f /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh ]] && \
-    source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+  _source_first ${_zsh_share_dirs/%//zsh-history-substring-search/zsh-history-substring-search.zsh}
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
 
   # zsh-fast-syntax-highlighting (must be last plugin)
-  [[ -f /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]] && \
-    source /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+  _source_first ${_zsh_share_dirs/%//zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh}
 }
 
 # --- Init ---
