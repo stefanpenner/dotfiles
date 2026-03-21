@@ -14,6 +14,7 @@ fi
 # Candidate directories for zsh plugin/share files
 # Local plugins dir first (for hermetic bundles), then system paths
 _zsh_share_dirs=(
+  $HOME/.local/share
   $HOME/.config/zsh/plugins
   ${_zsh_brew_prefix:+$_zsh_brew_prefix/share}
   /usr/share
@@ -72,7 +73,7 @@ _zsh_ensure_deps() {
   done
 
   local missing_p10k=false
-  [[ ! -d "$p10k_dir" ]] && missing_p10k=true
+  [[ ! -d "$p10k_dir" ]] && [[ ! -d "$HOME/.local/share/powerlevel10k" ]] && missing_p10k=true
 
   (( ${#missing} )) || $missing_p10k || return 0
 
@@ -200,8 +201,9 @@ _zsh_setup_terminal_title() {
 }
 
 _zsh_setup_prompt() {
-  [[ -f ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme ]] && \
-    source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+  _source_first \
+    ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme \
+    ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 }
 
@@ -233,6 +235,7 @@ _zsh_setup_fzf() {
   local fzf_base=""
   local candidate
   for candidate in \
+    $HOME/.local/share/fzf \
     $HOME/.config/zsh/plugins/fzf \
     ${_zsh_brew_prefix:+$_zsh_brew_prefix/opt/fzf/shell} \
     /usr/share/fzf \
