@@ -34,7 +34,7 @@ check "_source_first defined"  zrc "typeset -f _source_first >/dev/null"
 
 echo "Functions defined"
 for fn in path_prepend extract _zsh_ensure_deps \
-          _zsh_setup_history _zsh_setup_options _zsh_setup_completion \
+          _zsh_setup_paths _zsh_setup_history _zsh_setup_options _zsh_setup_completion \
           _zsh_setup_keybindings _zsh_setup_terminal_title _zsh_setup_prompt \
           _zsh_setup_aliases _zsh_setup_fzf _zsh_setup_direnv _zsh_setup_plugins \
           _zsh_init; do
@@ -74,8 +74,8 @@ check "no hardcoded /opt/homebrew in functions" \
   bash -c '! grep -n "/opt/homebrew" "$1" | grep -v "^#"' _ "$DIR/rc.zsh"
 
 echo "Startup time"
-elapsed=$(zsh -ic 'echo $SECONDS; exit' 2>/dev/null || echo 999)
-ms=$(printf '%.0f' "$(echo "$elapsed * 1000" | bc)")
+# Use fd 3 to isolate our output from any shell startup messages
+ms=$(zsh -ic 'printf "%d\n" $((SECONDS * 1000)) >&3; exit' 3>&1 1>/dev/null 2>/dev/null || echo 999)
 if [ "$ms" -lt 200 ]; then
   echo "  ✓ interactive startup ${ms}ms (< 200ms)"
   pass=$((pass + 1))

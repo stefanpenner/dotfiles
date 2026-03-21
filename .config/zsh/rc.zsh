@@ -12,7 +12,9 @@ else
 fi
 
 # Candidate directories for zsh plugin/share files
+# Local plugins dir first (for hermetic bundles), then system paths
 _zsh_share_dirs=(
+  $HOME/.config/zsh/plugins
   ${_zsh_brew_prefix:+$_zsh_brew_prefix/share}
   /usr/share
   /usr/local/share
@@ -207,12 +209,31 @@ _zsh_setup_aliases() {
   (( $+commands[lsd] )) && alias ls=lsd
   alias lg=lazygit
   (( $+commands[batman] )) && alias man=batman
+  (( $+commands[nvim] )) && alias vim=nvim
+}
+
+_zsh_setup_paths() {
+  path_prepend "$HOME/.local/bin"
+  path_prepend "$HOME/.local/go/bin"
+  path_prepend "$HOME/.local/git/bin"
+  [[ -d "$HOME/.local/git/libexec/git-core" ]] && \
+    export GIT_EXEC_PATH="$HOME/.local/git/libexec/git-core"
+  path_prepend "$HOME/.local/zsh/bin"
+
+  # Add zsh functions from dotpack (static zsh needs fpath override)
+  local d
+  for d in "$HOME/.local/zsh/share/zsh"/*/functions(N); do
+    fpath=("$d" $fpath)
+  done
+  [[ -d "$HOME/.local/zsh/share/zsh/site-functions" ]] && \
+    fpath=("$HOME/.local/zsh/share/zsh/site-functions" $fpath)
 }
 
 _zsh_setup_fzf() {
   local fzf_base=""
   local candidate
   for candidate in \
+    $HOME/.config/zsh/plugins/fzf \
     ${_zsh_brew_prefix:+$_zsh_brew_prefix/opt/fzf/shell} \
     /usr/share/fzf \
     /usr/share/doc/fzf/examples; do
@@ -268,6 +289,7 @@ _zsh_init() {
     _zsh_ensure_deps
   fi
 
+  _zsh_setup_paths
   _zsh_setup_history
   _zsh_setup_options
   _zsh_setup_completion
