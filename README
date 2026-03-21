@@ -13,7 +13,7 @@ Or step by step:
 
 ```sh
 # 1. Install tools
-curl -fsSL https://github.com/stefanpenner/dotpack/releases/latest/download/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/stefanpenner/dotpack/master/scripts/install.sh | bash
 source ~/.profile
 
 # 2. Clone and link config
