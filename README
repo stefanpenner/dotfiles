@@ -1,1 +1,55 @@
-Just My Stuff!
+# dotfiles
+
+Personal shell, editor, and tool configuration.
+Tools are provided by [dotpack](https://github.com/stefanpenner/dotpack) — a hermetic, statically-linked bundle.
+
+## Bootstrap (new machine)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/stefanpenner/dotfiles/master/bootstrap.sh | sh
+```
+
+Or step by step:
+
+```sh
+# 1. Install tools
+curl -fsSL https://github.com/stefanpenner/dotpack/releases/latest/download/install.sh | bash
+source ~/.profile
+
+# 2. Clone and link config
+git clone https://github.com/stefanpenner/dotfiles.git ~/src/stefanpenner/dotfiles
+~/src/stefanpenner/dotfiles/sync.sh
+```
+
+## What's included
+
+### Tools (via dotpack → `~/.local/`)
+zsh, git, nvim, go, fzf, fd, bat, batman, rg, lsd, delta, jq, direnv, lazygit, htop,
+plus zsh plugins (autosuggestions, fast-syntax-highlighting, history-substring-search, powerlevel10k).
+
+### Config (this repo → symlinked to `~/`)
+- `.zshrc` — machine-specific shell config, sources shared config from `.config/zsh/rc.zsh`
+- `.config/zsh/rc.zsh` — portable zsh config (works with dotpack or brew)
+- `.config/nvim/` — Neovim (LazyVim)
+- `.gitconfig` — git config with delta pager
+- `.p10k.zsh` — Powerlevel10k prompt theme
+- `.tmux.conf` — tmux
+
+## Updating
+
+```sh
+dotpack upgrade        # update tools
+cd ~/src/stefanpenner/dotfiles && git pull && ./sync.sh   # update config
+```
+
+## Structure
+
+```
+~/.local/              ← dotpack (tools, plugins, binaries)
+~/src/.../dotfiles/    ← this repo (config files)
+  .zshrc              ← machine-specific
+  .config/zsh/rc.zsh  ← shared/portable
+  .config/nvim/       ← editor
+  sync.sh             ← symlinks dotfiles to ~/
+  bootstrap.sh        ← full setup from scratch
+```

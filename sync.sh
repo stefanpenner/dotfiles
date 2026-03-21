@@ -3,12 +3,12 @@ set -euo pipefail
 
 trap 'echo "An error occurred. Exiting."; exit 1' ERR
 
-basename="$HOME/src/stefanpenner/dotfiles"
+dotfiles="$(cd "$(dirname "$0")" && pwd)"
 backup="$HOME/.dotfiles_backup/$(date +%Y%m%d%H%M%S)"
 
 mkdir -p "$backup"
 
-find "$basename" -maxdepth 1 -iname '.*' -not -path '*/.git' | while read -r file; do
+find "$dotfiles" -maxdepth 1 -iname '.*' -not -path '*/.git' | while read -r file; do
   filename=$(basename "$file")
 
   if [ -e "$HOME/$filename" ]; then
