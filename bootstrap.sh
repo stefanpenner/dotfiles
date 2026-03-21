@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
 DOTFILES_REPO="stefanpenner/dotfiles"
@@ -10,7 +10,7 @@ log() { printf '==> %s\n' "$1"; }
 if ! command -v dotpack >/dev/null 2>&1; then
   log "Installing dotpack..."
   curl -fsSL "https://raw.githubusercontent.com/stefanpenner/dotpack/master/scripts/install.sh" | bash
-  # shellcheck disable=SC1090
+  # shellcheck disable=SC1091
   . "$HOME/.profile"
 else
   log "dotpack already installed ($(dotpack version))"
