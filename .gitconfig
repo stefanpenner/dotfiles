@@ -18,7 +18,7 @@
   l = log --color --graph \
   --pretty=format:'%Cred%h%Creset %C(cyan)%G?%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)%an%Creset %C(magenta)<%GS %GK>%Creset' \
   --abbrev-commit
-  quick-stats = ! /usr/local/bin/git-quick-stats
+  quick-stats = !git-quick-stats
 [push]
 	default = simple
 [mergetool "sourcetree"]
@@ -36,7 +36,7 @@
 [includeIf "gitdir:~/tmp/"]
  path = .gitconfig-linkedin
 [core]
-	excludesfile = /Users/spenner/.config/git/ignore
+	excludesfile = ~/.config/git/ignore
 	pager = delta
 [interactive]
 	diffFilter = delta --color-only
