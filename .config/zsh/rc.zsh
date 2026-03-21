@@ -1,10 +1,11 @@
 # Shared zsh config — sourced by ~/.zshrc
-# Dependencies:
-#   brew install fzf fd bat bat-extras lsd direnv zsh-autosuggestions zsh-fast-syntax-highlighting zsh-history-substring-search
-#   — or equivalent packages via apt/dnf/pacman
-#   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zsh/plugins/powerlevel10k
+# Dependencies provided by dotpack (github.com/stefanpenner/dotpack)
+# or: brew install fzf fd bat bat-extras lsd direnv zsh-autosuggestions zsh-fast-syntax-highlighting zsh-history-substring-search
 
 # --- Platform detection (run once) ---
+_dotpack_prefix="${DOTPACK_PREFIX:-$HOME/.local}"
+_xdg_data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
+
 if (( $+commands[brew] )); then
   _zsh_brew_prefix="${HOMEBREW_PREFIX:-$(brew --prefix)}"
 else
@@ -12,14 +13,16 @@ else
 fi
 
 # Candidate directories for zsh plugin/share files
-# Local plugins dir first (for hermetic bundles), then system paths
+# dotpack share first, then XDG (if different), then system paths
 _zsh_share_dirs=(
-  $HOME/.local/share
+  $_xdg_data_home
   $HOME/.config/zsh/plugins
   ${_zsh_brew_prefix:+$_zsh_brew_prefix/share}
   /usr/share
   /usr/local/share
 )
+[[ "$_dotpack_prefix/share" != "$_xdg_data_home" ]] && \
+  _zsh_share_dirs=("$_dotpack_prefix/share" $_zsh_share_dirs)
 
 # Source the first existing file from a list of candidates
 _source_first() {
@@ -73,7 +76,7 @@ _zsh_ensure_deps() {
   done
 
   local missing_p10k=false
-  [[ ! -d "$p10k_dir" ]] && [[ ! -d "$HOME/.local/share/powerlevel10k" ]] && missing_p10k=true
+  [[ ! -d "$p10k_dir" ]] && [[ ! -d "$_xdg_data_home/powerlevel10k" ]] && missing_p10k=true
 
   (( ${#missing} )) || $missing_p10k || return 0
 
@@ -202,7 +205,7 @@ _zsh_setup_terminal_title() {
 
 _zsh_setup_prompt() {
   _source_first \
-    ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme \
+    $_xdg_data_home/powerlevel10k/powerlevel10k.zsh-theme \
     ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 }
@@ -215,27 +218,27 @@ _zsh_setup_aliases() {
 }
 
 _zsh_setup_paths() {
-  path_prepend "$HOME/.local/bin"
-  path_prepend "$HOME/.local/go/bin"
-  path_prepend "$HOME/.local/git/bin"
-  [[ -d "$HOME/.local/git/libexec/git-core" ]] && \
-    export GIT_EXEC_PATH="$HOME/.local/git/libexec/git-core"
-  path_prepend "$HOME/.local/zsh/bin"
+  path_prepend "$_dotpack_prefix/bin"
+  path_prepend "$_dotpack_prefix/go/bin"
+  path_prepend "$_dotpack_prefix/git/bin"
+  [[ -d "$_dotpack_prefix/git/libexec/git-core" ]] && \
+    export GIT_EXEC_PATH="$_dotpack_prefix/git/libexec/git-core"
+  path_prepend "$_dotpack_prefix/zsh/bin"
 
   # Add zsh functions from dotpack (static zsh needs fpath override)
   local d
-  for d in "$HOME/.local/zsh/share/zsh"/*/functions(N); do
+  for d in "$_dotpack_prefix/zsh/share/zsh"/*/functions(N); do
     fpath=("$d" $fpath)
   done
-  [[ -d "$HOME/.local/zsh/share/zsh/site-functions" ]] && \
-    fpath=("$HOME/.local/zsh/share/zsh/site-functions" $fpath)
+  [[ -d "$_dotpack_prefix/zsh/share/zsh/site-functions" ]] && \
+    fpath=("$_dotpack_prefix/zsh/share/zsh/site-functions" $fpath)
 }
 
 _zsh_setup_fzf() {
   local fzf_base=""
   local candidate
   for candidate in \
-    $HOME/.local/share/fzf \
+    $_xdg_data_home/fzf \
     $HOME/.config/zsh/plugins/fzf \
     ${_zsh_brew_prefix:+$_zsh_brew_prefix/opt/fzf/shell} \
     /usr/share/fzf \
