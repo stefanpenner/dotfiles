@@ -232,6 +232,11 @@ _zsh_setup_paths() {
   done
   [[ -d "$_dotpack_prefix/zsh/share/zsh/site-functions" ]] && \
     fpath=("$_dotpack_prefix/zsh/share/zsh/site-functions" $fpath)
+
+  # GH_TOKEN for dotpack upgrade (private repo)
+  if (( $+commands[gh] )) && [[ -z "$GH_TOKEN" ]]; then
+    export GH_TOKEN="$(gh auth token 2>/dev/null)"
+  fi
 }
 
 _zsh_setup_fzf() {
